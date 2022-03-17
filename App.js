@@ -18,9 +18,7 @@ const App = () => {
   return (
     <SafeAreaView>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView>
-        <Home />
-      </ScrollView>
+      <Home />
     </SafeAreaView>
   );
 };
