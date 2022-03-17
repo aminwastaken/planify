@@ -2,6 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Carousel from '../components/Carousel';
+import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import Tabs from '../components/Tabs';
 import Text from '../components/Text';
@@ -11,7 +12,8 @@ const Home = ({children}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [entries, setEntries] = useState(0);
   return (
-    <View>
+    <View style={styles.mainContainer}>
+      <Header style={styles.header} />
       <View style={styles.titleArea}>
         <Text style={styles.title}>Discover</Text>
         <Text style={styles.description}>Explore places, hotels and more </Text>
@@ -32,6 +34,13 @@ const Home = ({children}) => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    marginLeft: 25,
+    marginTop: 35,
+  },
+
+  header: {marginBottom: 15},
+
   title: {
     fontSize: 30,
     fontWeight: '700',
