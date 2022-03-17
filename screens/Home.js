@@ -5,6 +5,7 @@ import Carousel from '../components/Carousel';
 import SearchBar from '../components/SearchBar';
 import Tabs from '../components/Tabs';
 import Text from '../components/Text';
+import {destinations, moreDestinations} from '../data/destinations';
 
 const Home = ({children}) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -21,11 +22,11 @@ const Home = ({children}) => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-      <Carousel style={styles.carousel} />
+      <Carousel style={styles.carousel} data={destinations} />
       <View style={styles.subTitleArea}>
         <Text style={styles.subTitle}>More to explore</Text>
       </View>
-      <Carousel style={styles.carousel} mini={true} />
+      <Carousel style={styles.carousel} mini={true} data={moreDestinations} />
     </View>
   );
 };
