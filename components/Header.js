@@ -1,11 +1,16 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {View, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 const Header = ({style}) => {
   return (
     <View style={style}>
-      <Icon name="menu" color="#000" size={33} />
+      <TouchableOpacity
+        onPress={() => {
+          console.log('test');
+        }}>
+        <Icon name="menu" color="#000" size={33} />
+      </TouchableOpacity>
       <Image
         source={{
           uri: 'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg',
