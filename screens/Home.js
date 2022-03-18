@@ -9,13 +9,13 @@ import Tabs from '../components/Tabs';
 import Text from '../components/Text';
 import {destinations, moreDestinations} from '../data/destinations';
 
-const Home = ({children}) => {
+const Home = ({navigation, children}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [entries, setEntries] = useState(0);
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
-        <Header style={styles.header} />
+        <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
           <Text style={styles.title}>Discover</Text>
           <Text style={styles.description}>

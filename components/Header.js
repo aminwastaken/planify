@@ -2,12 +2,12 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-const Header = ({style}) => {
+const Header = ({navigation, style}) => {
   return (
     <View style={style}>
       <TouchableOpacity
         onPress={() => {
-          console.log('test');
+          navigation.openDrawer();
         }}>
         <Icon name="menu" color="#000" size={33} />
       </TouchableOpacity>
