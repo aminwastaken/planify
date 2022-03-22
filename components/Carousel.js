@@ -16,11 +16,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const {width: windowWidth} = Dimensions.get('window');
 
-const CustomCarousel = ({style, mini, data}) => {
+const CustomCarousel = ({style, mini, data, navigation}) => {
   const carouselRef = useRef(null);
 
   function renderItem({item, index}) {
-    const {image, title, url, subtitle} = item;
+    const {image, title, url, subtitle, id} = item;
     let moreStyles = {};
     if (mini) {
       moreStyles = {width: 150};
@@ -30,12 +30,13 @@ const CustomCarousel = ({style, mini, data}) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            console.log('test');
+            navigation.navigate('destination', {
+              id: id,
+            });
           }}>
           <Image source={{uri: image}} style={styles.image} />
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
-        {/* <Text style={styles.subtitle}>Paris</Text> */}
         <View style={styles.subtitle}>
           {subtitle.icon && (
             <Icon

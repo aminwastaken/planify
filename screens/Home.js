@@ -8,6 +8,7 @@ import SearchBar from '../components/SearchBar';
 import Tabs from '../components/Tabs';
 import Text from '../components/Text';
 import {destinations, moreDestinations} from '../data/destinations';
+import {Button} from 'react-native-paper';
 
 const Home = ({navigation, children}) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -37,9 +38,11 @@ const Home = ({navigation, children}) => {
             style={styles.carousel}
             mini={true}
             data={moreDestinations}
+            navigation={navigation}
           />
         </View>
       </ScrollView>
+
       <BottomTabs
         tabs={[
           {icon: 'home'},
