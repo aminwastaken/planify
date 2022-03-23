@@ -1,0 +1,71 @@
+import React from 'react';
+import LinearGradient from 'react-native-linear-gradient';
+import {View, StyleSheet, Image} from 'react-native';
+import Text from './Text';
+import Rating from './Rating';
+
+const PageCover = ({image, title, price}) => {
+  return (
+    <View>
+      <Image
+        source={{
+          uri: image?.imageUrl,
+        }}
+        style={{
+          minWidth: '100%',
+          height: 500,
+        }}
+      />
+      <LinearGradient
+        colors={['rgba(0,0,0,0.00)', 'rgba(0,0,0,0.60)']}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '70%',
+          bottom: 0,
+        }}></LinearGradient>
+      <Text style={styles.title}>{title}</Text>
+      <View style={styles.priceContainer}>
+        <Text style={styles.priceText}>
+          €{price}
+          <Text style={styles.priceSecondaryText}> /person</Text>
+        </Text>
+      </View>
+
+      <Rating style={styles.ratings} rating="4.5" />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  title: {
+    position: 'absolute',
+    bottom: 60,
+    left: 20,
+    color: '#FFF',
+    fontSize: 36,
+    fontWeight: 'bold',
+  },
+
+  priceText: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  priceSecondaryText: {
+    bottom: 40,
+    left: 20,
+    color: '#FFF',
+    fontSize: 13,
+  },
+
+  priceContainer: {
+    position: 'absolute',
+    bottom: 35,
+    left: 20,
+  },
+
+  ratings: {position: 'absolute', bottom: 68, right: 20},
+});
+
+export default PageCover;

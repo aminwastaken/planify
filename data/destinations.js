@@ -55,4 +55,27 @@ const moreDestinations = [
   },
 ];
 
-export {destinations, moreDestinations};
+const notreDamePhotos = [
+  {
+    id: 'item2',
+    image:
+      'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20887_ed41a037b7621b84228d673e7edec896.jpg?ver=1477298047',
+  },
+  {
+    id: 'item3',
+    image:
+      'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20905_208cfcc257a889002227594b5fd7a9ae.jpg?ver=1477298085',
+  },
+  {
+    id: 'item1',
+    image:
+      'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20896_0863c5af95f18a8cb78a34a2e00977a8.jpg?ver=1477298063',
+  },
+];
+
+const notreDame = {
+  imageUrl: 'https://cdn.pariscityvision.com/library/image/5542.jpg',
+  title: 'Notre Dame',
+};
+
+export {destinations, moreDestinations, notreDame, notreDamePhotos};
