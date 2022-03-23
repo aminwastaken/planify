@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     bottom: 35,
     left: 20,
   },
-
   ratings: {position: 'absolute', bottom: 68, right: 20},
 });
 

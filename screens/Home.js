@@ -42,15 +42,6 @@ const Home = ({navigation, children}) => {
           />
         </View>
       </ScrollView>
-
-      <BottomTabs
-        tabs={[
-          {icon: 'home'},
-          {icon: 'document-text-outline'},
-          {icon: 'heart'},
-        ]}
-        style={styles.bottomTabs}
-      />
     </View>
   );
 };

@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import {Button} from 'react-native-paper';
 import {useEffect, useState} from 'react';
 import {notreDame, notreDamePhotos} from '../data/destinations';
 import PageCover from '../components/PageCover';
 import Text from '../components/Text';
 import PhotosCarousel from '../components/PhotosCarousel';
+import BottomTabs from '../components/BottomTabs';
 
 const Destination = ({navigation, route}) => {
   const [image, setImage] = useState();
@@ -19,17 +20,25 @@ const Destination = ({navigation, route}) => {
   });
 
   return (
-    <View>
-      <PageCover image={image} title={title} price={price} />
-      <View style={styles.infoContainer}>
-        <Text style={styles.subTitle}>Photos</Text>
-        <PhotosCarousel data={notreDamePhotos} />
-      </View>
+    <View style={styles.mainContainer}>
+      <ScrollView style={styles.scrollView}>
+        <PageCover image={image} title={title} price={price} />
+        <View style={styles.infoContainer}>
+          <Text style={styles.subTitle}>Photos</Text>
+          <PhotosCarousel data={notreDamePhotos} />
+        </View>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    height: '100%',
+  },
+  scrollView: {
+    height: '100%',
+  },
   destinationPhoto: {},
   subTitle: {
     fontSize: 20,
@@ -39,6 +48,11 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginLeft: 20,
     marginTop: 25,
+  },
+
+  bottomTabs: {
+    position: 'absolute',
+    bottom: 0,
   },
 });
 
