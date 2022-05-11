@@ -5,6 +5,7 @@ import {View, screen} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Button} from 'react-native-paper';
 import Destination from './screens/Destination';
+import Profile from './screens/Profile';
 
 const Stack = createStackNavigator();
 
@@ -37,17 +38,17 @@ function HomeScreenStack({navigation}) {
   );
 }
 
-function SecondScreenStack({navigation}) {
+function ProfileStack({navigation}) {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Profile"
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="home page" component={First} />
-      <Stack.Screen name="another page" component={Second} />
+      <Stack.Screen name="Profile" component={Profile} />
+      {/* <Stack.Screen name="another page" component={Second} /> */}
     </Stack.Navigator>
   );
 }
 
-export {HomeScreenStack, SecondScreenStack};
+export {HomeScreenStack, ProfileStack};

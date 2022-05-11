@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
-import {HomeScreenStack, SecondScreenStack} from './stacks';
+import {HomeScreenStack, ProfileStack} from './stacks';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Text from './components/Text';
@@ -30,11 +30,8 @@ const App = () => {
           screenOptions={{
             headerShown: false,
           }}>
-          <Drawer.Screen name="HomeStack" component={HomeScreenStack} />
-          <Drawer.Screen
-            name="SecondScreenStack"
-            component={SecondScreenStack}
-          />
+          <Drawer.Screen name="Home" component={HomeScreenStack} />
+          <Drawer.Screen name="Profile" component={ProfileStack} />
         </Drawer.Navigator>
       </NavigationContainer>
 
