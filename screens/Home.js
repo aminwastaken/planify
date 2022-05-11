@@ -29,7 +29,11 @@ const Home = ({navigation, children}) => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <Carousel style={styles.carousel} data={destinations} />
+        <Carousel
+          style={styles.carousel}
+          data={destinations}
+          navigation={navigation}
+        />
         <View style={styles.subTitleArea}>
           <Text style={styles.subTitle}>More to explore</Text>
         </View>
