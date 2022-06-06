@@ -9,7 +9,8 @@ const Tabs = ({data, activeTab, setActiveTab}) => {
         <TouchableOpacity
           onPress={() => {
             setActiveTab(index);
-          }}>
+          }}
+          key={item}>
           <Text style={index === activeTab ? styles.selected : styles.text}>
             {item}
           </Text>

@@ -9,6 +9,7 @@ import Tabs from '../components/Tabs';
 import Text from '../components/Text';
 import {destinations, moreDestinations} from '../data/destinations';
 import {Button} from 'react-native-paper';
+import ProfileView from '../components/ProfileView';
 
 const Profile = ({navigation, children}) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -19,6 +20,7 @@ const Profile = ({navigation, children}) => {
         <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
           <Text style={styles.title}>Profile</Text>
+          <ProfileView />
         </View>
       </ScrollView>
     </View>

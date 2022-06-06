@@ -37,9 +37,9 @@ const App = () => {
 
       <BottomTabs
         tabs={[
-          {icon: 'home'},
-          {icon: 'document-text-outline'},
-          {icon: 'heart'},
+          {id: 'home', icon: 'home'},
+          {id: 'test', icon: 'document-text-outline'},
+          {id: 'favorites', icon: 'heart'},
         ]}
       />
     </>
