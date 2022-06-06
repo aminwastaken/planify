@@ -10,6 +10,7 @@ import Text from '../components/Text';
 import {destinations, moreDestinations} from '../data/destinations';
 import {Button} from 'react-native-paper';
 import ProfileView from '../components/ProfileView';
+import ProfileMenu from '../components/ProfileMenu';
 
 const Profile = ({navigation, children}) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -20,7 +21,12 @@ const Profile = ({navigation, children}) => {
         <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
           <Text style={styles.title}>Profile</Text>
-          <ProfileView />
+          <ProfileView
+            firstname="John"
+            lastname="Doe"
+            email="john.doe@example.com"
+          />
+          <ProfileMenu style={styles.profileMenu} />
         </View>
       </ScrollView>
     </View>
@@ -38,6 +44,10 @@ const styles = StyleSheet.create({
 
   titleArea: {
     marginBottom: 20,
+  },
+
+  profileMenu: {
+    marginTop: 50,
   },
 });
 
