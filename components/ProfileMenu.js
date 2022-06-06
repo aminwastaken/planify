@@ -3,25 +3,25 @@ import {View, StyleSheet} from 'react-native';
 import Text from './Text';
 import ProfileMenuItem from './ProfileMenuItem';
 
-const ProfileMenu = ({style}) => {
+const ProfileMenu = ({style, navigation}) => {
   const menuItems = [
     {
       id: 'settings',
       icon: 'settings',
       text: 'Settings',
-      link: '',
+      screen: 'settings',
     },
     {
       id: 'edit',
       icon: 'edit',
       text: 'Edit profile',
-      link: '',
+      screen: '',
     },
     {
       id: 'logout',
       icon: 'logout',
       text: 'Logout',
-      link: '',
+      screen: '',
     },
   ];
   return (
@@ -32,7 +32,8 @@ const ProfileMenu = ({style}) => {
             key={item.id}
             icon={item.icon}
             text={item.text}
-            link={item.link}
+            screen={item.screen}
+            navigation={navigation}
           />
         );
       })}

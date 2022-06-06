@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
-import {HomeScreenStack, ProfileStack} from './stacks';
+import {HomeScreenStack, ProfileStack, ActivitiesStack} from './stacks';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Text from './components/Text';
@@ -32,6 +32,7 @@ const App = () => {
           }}>
           <Drawer.Screen name="Home" component={HomeScreenStack} />
           <Drawer.Screen name="Profile" component={ProfileStack} />
+          <Drawer.Screen name="Activities" component={ActivitiesStack} />
         </Drawer.Navigator>
       </NavigationContainer>
 

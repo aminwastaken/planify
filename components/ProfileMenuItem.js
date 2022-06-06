@@ -4,12 +4,13 @@ import Text from './Text';
 // import Ionicon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const ProfileMenu = ({icon, text, link}) => {
+const ProfileMenu = ({icon, text, navigation, screen}) => {
   return (
     <TouchableOpacity
       style={styles.mainContainer}
       onPress={() => {
         console.log('test');
+        navigation.navigate(screen);
       }}>
       <View style={styles.iconTextContainer}>
         <View style={styles.iconContainer}>

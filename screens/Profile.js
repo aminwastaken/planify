@@ -26,7 +26,7 @@ const Profile = ({navigation, children}) => {
             lastname="Doe"
             email="john.doe@example.com"
           />
-          <ProfileMenu style={styles.profileMenu} />
+          <ProfileMenu style={styles.profileMenu} navigation={navigation} />
         </View>
       </ScrollView>
     </View>

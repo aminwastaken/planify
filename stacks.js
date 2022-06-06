@@ -6,26 +6,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Button} from 'react-native-paper';
 import Destination from './screens/Destination';
 import Profile from './screens/Profile';
+import Settings from './screens/Settings';
+import Activities from './screens/Activities';
 
 const Stack = createStackNavigator();
 
-const First = () => {
-  return (
-    <View>
-      <Text>first screen of second stack</Text>
-    </View>
-  );
-};
-
-const Second = () => {
-  return (
-    <View>
-      <Text>second screen of second stack</Text>
-    </View>
-  );
-};
-
-function HomeScreenStack({navigation}) {
+const HomeScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator
       initialRouteName="Home"
@@ -36,19 +22,32 @@ function HomeScreenStack({navigation}) {
       <Stack.Screen name="destination" component={Destination} />
     </Stack.Navigator>
   );
-}
+};
 
-function ProfileStack({navigation}) {
+const ProfileStack = ({navigation}) => {
   return (
     <Stack.Navigator
       initialRouteName="Profile"
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Profile" component={Profile} />
-      {/* <Stack.Screen name="another page" component={Second} /> */}
+      <Stack.Screen name="profile" component={Profile} />
+      <Stack.Screen name="settings" component={Settings} />
     </Stack.Navigator>
   );
-}
+};
 
-export {HomeScreenStack, ProfileStack};
+const ActivitiesStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Activities"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="activities" component={Activities} />
+      <Stack.Screen name="settings" component={Settings} />
+    </Stack.Navigator>
+  );
+};
+
+export {HomeScreenStack, ProfileStack, ActivitiesStack};
