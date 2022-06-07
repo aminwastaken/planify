@@ -1,7 +1,24 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-const EventCard = ({imageLink, title, startDate, location, style}) => {
+const EventCard = ({
+  imageLink,
+  title,
+  startDate,
+  startTime,
+  location,
+  style,
+}) => {
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const formattedStartDate = new Date(startDate).toLocaleDateString(
+    'en-US',
+    options,
+  );
   return (
     <TouchableOpacity style={[style, styles.mainContainer]}>
       <Image style={styles.image} source={{uri: imageLink}} />
@@ -9,7 +26,10 @@ const EventCard = ({imageLink, title, startDate, location, style}) => {
       <View style={styles.textContainer}>
         <View>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.date}>{startDate}</Text>
+          <Text style={styles.text}>{formattedStartDate}</Text>
+          <Text style={styles.text}>
+            at {startTime.time} {startTime.ampm}
+          </Text>
         </View>
         <Text style={styles.location}>{location}</Text>
       </View>
@@ -39,7 +59,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
-  date: {
+  text: {
     color: '#000',
   },
 });

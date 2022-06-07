@@ -41,6 +41,10 @@ const upcomingActivities = [
     },
     startDate: '2020-01-01',
     endDate: null,
+    startTime: {
+      time: '10:00',
+      ampm: 'AM',
+    },
   },
   {
     id: 'item2',
@@ -55,6 +59,10 @@ const upcomingActivities = [
     },
     startDate: '2020-02-07',
     endDate: null,
+    startTime: {
+      time: '11:00',
+      ampm: 'AM',
+    },
   },
   {
     id: 'item3',
@@ -69,6 +77,67 @@ const upcomingActivities = [
     },
     startDate: '2020-02-07',
     endDate: '2020-02-08',
+    startTime: {
+      time: '12:00',
+      ampm: 'PM',
+    },
+  },
+];
+
+const pastActivities = [
+  {
+    id: 'item2',
+    activity: {
+      id: 'item2',
+      image:
+        'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20887_ed41a037b7621b84228d673e7edec896.jpg?ver=1477298047',
+      title: 'Luxembourg park',
+      url: 'https://github.com/lehoangnam97/react-native-anchor-carousel',
+      subtitle: {icon: 'location-outline', text: 'Paris'},
+      location: 'Paris',
+    },
+    startDate: '2020-02-07',
+    endDate: '2020-02-08',
+    startTime: {
+      time: '10:00',
+      ampm: 'AM',
+    },
+  },
+  {
+    id: 'item3',
+    activity: {
+      id: 'item3',
+      image:
+        'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20905_208cfcc257a889002227594b5fd7a9ae.jpg?ver=1477298085',
+      title: 'Disneyland Paris',
+      url: 'https://www.npmjs.com/package/react-native-anchor-carousel',
+      subtitle: {icon: 'location-outline', text: 'Paris'},
+      location: 'Paris',
+    },
+    startDate: '2019-03-03',
+    endDate: '2019-04-04',
+    startTime: {
+      time: '10:00',
+      ampm: 'AM',
+    },
+  },
+  {
+    id: 'item4',
+    activity: {
+      id: 'item4',
+      image:
+        'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20896_0863c5af95f18a8cb78a34a2e00977a8.jpg?ver=1477298063',
+      title: 'Moulin Rouge',
+      url: 'https://www.npmjs.com/package/react-native-anchor-carousel',
+      subtitle: {icon: 'location-outline', text: 'Paris'},
+      location: 'Paris',
+    },
+    startDate: '2019-05-06',
+    endDate: '2019-06-06',
+    startTime: {
+      time: '10:00',
+      ampm: 'AM',
+    },
   },
 ];
 
@@ -90,7 +159,7 @@ const moreDestinations = [
     subtitle: {icon: 'location-outline', text: 'Paris'},
   },
   {
-    id: 'item1',
+    id: 'item4',
     image:
       'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20896_0863c5af95f18a8cb78a34a2e00977a8.jpg?ver=1477298063',
     title: 'Moulin Rouge',
@@ -128,4 +197,5 @@ export {
   notreDame,
   notreDamePhotos,
   upcomingActivities,
+  pastActivities,
 };

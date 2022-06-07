@@ -15,6 +15,8 @@ const UpcomingActivities = () => {
           title={item.activity.title}
           startDate={item.startDate}
           endDate={item.endDate}
+          startTime={item.startTime}
+          endTime={item.endTime}
           location={item.activity.location}
           style={styles.eventCard}
         />
