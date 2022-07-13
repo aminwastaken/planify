@@ -8,6 +8,7 @@ import Destination from './screens/Destination';
 import Profile from './screens/Profile';
 import Settings from './screens/Settings';
 import Activities from './screens/Activities';
+import EditProfile from './screens/EditProfile';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const ProfileStack = ({navigation}) => {
         headerShown: false,
       }}>
       <Stack.Screen name="profile" component={Profile} />
+      <Stack.Screen name="editProfile" component={EditProfile} />
       <Stack.Screen name="settings" component={Settings} />
     </Stack.Navigator>
   );

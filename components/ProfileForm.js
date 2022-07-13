@@ -1,0 +1,129 @@
+import React, {useState} from 'react';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {TextInput} from 'react-native-paper';
+import {Button} from 'react-native-paper';
+import DatePicker from 'react-native-date-picker';
+
+const ProfileForm = () => {
+  const [date, setDate] = useState(new Date('09-10-2000'));
+  const [day, setDay] = useState('');
+  const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
+  const [open, setOpen] = useState(false);
+  return (
+    <View style={styles.mainContainer}>
+      <TextInput
+        style={styles.input}
+        // onChangeText={onChangeText}
+        type="flat"
+        underlineColor="#707070"
+        activeUnderlineColor="#707070"
+        label="First Name"
+      />
+      <TextInput
+        style={styles.input}
+        // onChangeText={onChangeText}
+        type="flat"
+        underlineColor="#707070"
+        activeUnderlineColor="#707070"
+        label="Last Name"
+      />
+      <TextInput
+        style={styles.input}
+        // onChangeText={onChangeText}
+        type="flat"
+        underlineColor="#707070"
+        activeUnderlineColor="#707070"
+        label="Email Address"
+      />
+      <TextInput
+        style={styles.input}
+        // onChangeText={onChangeText}
+        type="flat"
+        underlineColor="#707070"
+        activeUnderlineColor="#707070"
+        label="Username"
+      />
+      <TextInput
+        style={styles.input}
+        // onChangeText={onChangeText}
+        type="flat"
+        underlineColor="#707070"
+        activeUnderlineColor="#707070"
+        label="Password"
+      />
+      <TouchableOpacity onPress={() => setOpen(true)}>
+        <View style={styles.birthdayInput}>
+          <Text style={styles.birthdayInputText}>
+            {day && month && year
+              ? `${day} / ${month} / ${year}`
+              : 'DD / MM / YYYY'}
+          </Text>
+        </View>
+      </TouchableOpacity>
+
+      {/* <Button
+        mode="contained"
+        style={styles.submitButton}
+        onPress={() => console.log('Pressed')}>
+        Save
+      </Button> */}
+
+      <DatePicker
+        modal
+        mode="date"
+        open={open}
+        date={date}
+        value={date}
+        maximumDate={new Date('2010-12-31')}
+        minimumDate={new Date('1910-01-01')}
+        onConfirm={date => {
+          setOpen(false);
+          let day = date.getDate().toString();
+          let month = date.getMonth().toString();
+          const year = date.getFullYear().toString();
+          if (day.length === 1) {
+            day = '0' + day;
+          }
+          if (month.length === 1) {
+            month = '0' + month;
+          }
+          setDay(day);
+          setMonth(month);
+          setYear(year);
+          setDate(date);
+        }}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    marginRight: 40,
+    marginLeft: 10,
+  },
+  input: {
+    backgroundColor: 'transparent',
+  },
+  submitButton: {
+    marginTop: 40,
+    backgroundColor: '#007AFF',
+  },
+  birthdayInput: {
+    borderBottomColor: '#707070',
+    borderBottomWidth: 1,
+    paddingTop: 20,
+    paddingLeft: 11,
+    paddingBottom: 15,
+  },
+  birthdayInputText: {
+    fontSize: 16,
+    color: '#707070',
+  },
+});
+
+export default ProfileForm;

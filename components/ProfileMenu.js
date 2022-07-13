@@ -15,7 +15,7 @@ const ProfileMenu = ({style, navigation}) => {
       id: 'edit',
       icon: 'edit',
       text: 'Edit profile',
-      screen: '',
+      screen: 'editProfile',
     },
     {
       id: 'logout',
