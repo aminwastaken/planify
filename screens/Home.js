@@ -46,6 +46,13 @@ const Home = ({navigation, children}) => {
           />
         </View>
       </ScrollView>
+      <BottomTabs
+        tabs={[
+          {id: 'home', icon: 'home'},
+          {id: 'test', icon: 'document-text-outline'},
+          {id: 'favorites', icon: 'heart'},
+        ]}
+      />
     </View>
   );
 };

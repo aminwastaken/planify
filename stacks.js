@@ -3,28 +3,17 @@ import Text from './components/Text';
 import Home from './screens/Home';
 import {View, screen} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Button} from 'react-native-paper';
 import Destination from './screens/Destination';
+import Profile from './screens/Profile';
+import Settings from './screens/Settings';
+import Activities from './screens/Activities';
+import EditProfile from './screens/EditProfile';
+import PickTrip from './screens/PickTrip';
+import ActivityBooked from './screens/ActivityBooked';
 
 const Stack = createStackNavigator();
 
-const First = () => {
-  return (
-    <View>
-      <Text>first screen of second stack</Text>
-    </View>
-  );
-};
-
-const Second = () => {
-  return (
-    <View>
-      <Text>second screen of second stack</Text>
-    </View>
-  );
-};
-
-function HomeScreenStack({navigation}) {
+const HomeScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator
       initialRouteName="Home"
@@ -33,21 +22,37 @@ function HomeScreenStack({navigation}) {
       }}>
       <Stack.Screen name="home" component={Home} />
       <Stack.Screen name="destination" component={Destination} />
+      <Stack.Screen name="pickTrip" component={PickTrip} />
+      <Stack.Screen name="ActivityBooked" component={ActivityBooked} />
     </Stack.Navigator>
   );
-}
+};
 
-function SecondScreenStack({navigation}) {
+const ProfileStack = ({navigation}) => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Profile"
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="home page" component={First} />
-      <Stack.Screen name="another page" component={Second} />
+      <Stack.Screen name="profile" component={Profile} />
+      <Stack.Screen name="editProfile" component={EditProfile} />
+      <Stack.Screen name="settings" component={Settings} />
     </Stack.Navigator>
   );
-}
+};
 
-export {HomeScreenStack, SecondScreenStack};
+const ActivitiesStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Activities"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="activities" component={Activities} />
+      <Stack.Screen name="settings" component={Settings} />
+    </Stack.Navigator>
+  );
+};
+
+export {HomeScreenStack, ProfileStack, ActivitiesStack};
