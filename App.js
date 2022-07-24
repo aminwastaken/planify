@@ -35,14 +35,6 @@ const App = () => {
           <Drawer.Screen name="Activities" component={ActivitiesStack} />
         </Drawer.Navigator>
       </NavigationContainer>
-
-      <BottomTabs
-        tabs={[
-          {id: 'home', icon: 'home'},
-          {id: 'test', icon: 'document-text-outline'},
-          {id: 'favorites', icon: 'heart'},
-        ]}
-      />
     </>
   );
 };

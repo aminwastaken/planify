@@ -3,12 +3,13 @@ import Text from './components/Text';
 import Home from './screens/Home';
 import {View, screen} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Button} from 'react-native-paper';
 import Destination from './screens/Destination';
 import Profile from './screens/Profile';
 import Settings from './screens/Settings';
 import Activities from './screens/Activities';
 import EditProfile from './screens/EditProfile';
+import PickTrip from './screens/PickTrip';
+import ActivityBooked from './screens/ActivityBooked';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,8 @@ const HomeScreenStack = ({navigation}) => {
       }}>
       <Stack.Screen name="home" component={Home} />
       <Stack.Screen name="destination" component={Destination} />
+      <Stack.Screen name="pickTrip" component={PickTrip} />
+      <Stack.Screen name="ActivityBooked" component={ActivityBooked} />
     </Stack.Navigator>
   );
 };
