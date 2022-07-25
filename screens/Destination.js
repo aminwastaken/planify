@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import {useEffect, useState} from 'react';
 import {notreDame, notreDamePhotos} from '../data/destinations';
 import PageCover from '../components/PageCover';
 import Text from '../components/Text';
 import PhotosCarousel from '../components/PhotosCarousel';
 import BottomTabs from '../components/BottomTabs';
-import {TouchableOpacity} from 'react-native';
 import Button from '../components/Button';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const Destination = ({navigation, route}) => {
   const [image, setImage] = useState();
@@ -23,6 +23,11 @@ const Destination = ({navigation, route}) => {
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
+        <View style={styles.backIconContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="arrow-left" size={20} color="#FFF" />
+          </TouchableOpacity>
+        </View>
         <PageCover image={image} title={title} price={price} />
         <View style={styles.infoContainer}>
           <Text style={styles.subTitle}>Photos</Text>
@@ -58,6 +63,21 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     height: '100%',
+  },
+  backIconContainer: {
+    position: 'absolute',
+    top: 35,
+    left: 25,
+    zIndex: 1,
+    // blury background
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    // circular shape
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   destinationPhoto: {},
   subTitle: {

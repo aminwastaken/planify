@@ -4,14 +4,14 @@ import {TextInput} from 'react-native-paper';
 import {Button} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 
-const ProfileForm = () => {
+const ProfileForm = ({style}) => {
   const [date, setDate] = useState(new Date('09-10-2000'));
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [open, setOpen] = useState(false);
   return (
-    <View style={styles.mainContainer}>
+    <View style={{...styles.mainContainer, ...style}}>
       <TextInput
         style={styles.input}
         // onChangeText={onChangeText}

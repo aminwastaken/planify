@@ -15,6 +15,8 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Text from './components/Text';
 import Home from './screens/Home';
 import BottomTabs from './components/BottomTabs';
+import Signup from './screens/Signup';
+import Login from './screens/Login';
 const Drawer = createDrawerNavigator();
 const Test = () => {
   return <View></View>;
@@ -24,7 +26,7 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <>
-      <NavigationContainer>
+      {/* <NavigationContainer>
         <Drawer.Navigator
           initialRouteName="Home"
           screenOptions={{
@@ -34,7 +36,9 @@ const App = () => {
           <Drawer.Screen name="Profile" component={ProfileStack} />
           <Drawer.Screen name="Activities" component={ActivitiesStack} />
         </Drawer.Navigator>
-      </NavigationContainer>
+      </NavigationContainer> */}
+      {/* <Signup /> */}
+      <Login />
     </>
   );
 };
