@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -22,23 +22,73 @@ const Test = () => {
   return <View></View>;
 };
 
+const Logout = props => {
+  const {setToken} = props.route.params;
+  setToken('');
+  return <View></View>;
+};
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [token, setToken] = React.useState('');
+  useEffect(() => {}, [global.token]);
+
+  const changeToken = token => {
+    setToken(token);
+    global.token = token;
+  };
+
   return (
     <>
-      {/* <NavigationContainer>
-        <Drawer.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Drawer.Screen name="Home" component={HomeScreenStack} />
-          <Drawer.Screen name="Profile" component={ProfileStack} />
-          <Drawer.Screen name="Activities" component={ActivitiesStack} />
-        </Drawer.Navigator>
-      </NavigationContainer> */}
-      {/* <Signup /> */}
-      <Login />
+      {token ? (
+        <NavigationContainer>
+          <Drawer.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+              headerShown: false,
+            }}
+            initialParams={{token: token, setToken: changeToken}}
+            options={{
+              token: token,
+              setToken: setToken,
+            }}>
+            <Drawer.Screen name="Home" component={HomeScreenStack} />
+            <Drawer.Screen name="Profile" component={ProfileStack} />
+            <Drawer.Screen name="Activities" component={ActivitiesStack} />
+            <Drawer.Screen
+              name="Logout"
+              component={Logout}
+              initialParams={{setToken: setToken}}
+            />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      ) : (
+        <NavigationContainer>
+          {/* should pass on token as a parameter */}
+          <Drawer.Navigator
+            initialRouteName="Login"
+            // pass on token as a parameter
+
+            screenOptions={{
+              headerShown: false,
+            }}
+            params={{token: token, setToken: setToken}}>
+            <Drawer.Screen
+              name="Login"
+              component={Login}
+              // component={() => <Login token={token} setToken={setToken} />}
+              options={{
+                token: token,
+                setToken: setToken,
+              }}
+              // params={{token: token, setToken: setToken}}
+              initialParams={{token: token, setToken: changeToken}}
+              // pass on token as a parameter
+            />
+            <Drawer.Screen name="Signup" component={Signup} />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      )}
     </>
   );
 };

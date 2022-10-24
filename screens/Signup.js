@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import ProfileForm from '../components/ProfileForm';
 import Button from '../components/Button';
-const Signup = () => {
+const Signup = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.titleContainer}>
@@ -18,6 +18,12 @@ const Signup = () => {
         }}>
         Sign up
       </Button>
+      <View style={styles.loginMessage}>
+        <Text style={styles.subTitle}>Already have an account? </Text>
+        <Text style={styles.link} onPress={() => navigation.navigate('Login')}>
+          Login
+        </Text>
+      </View>
     </View>
   );
 };
@@ -42,6 +48,18 @@ const styles = StyleSheet.create({
   profileForm: {
     marginTop: 20,
     marginBottom: 40,
+  },
+
+  link: {
+    color: '#007AFF',
+    fontWeight: '600',
+    fontSize: 15,
+  },
+  loginMessage: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
   },
 });
 export default Signup;

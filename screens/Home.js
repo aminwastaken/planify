@@ -10,12 +10,13 @@ import Text from '../components/Text';
 import {destinations, moreDestinations} from '../data/destinations';
 import {Button} from 'react-native-paper';
 
-const Home = ({navigation, children}) => {
+const Home = ({navigation, children, ...rest}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [entries, setEntries] = useState(0);
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
+        <Text style={styles.title}>token : {global.token}</Text>
         <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
           <Text style={styles.title}>Discover</Text>
