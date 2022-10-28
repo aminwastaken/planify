@@ -22,6 +22,7 @@ const Test = () => {
   return <View></View>;
 };
 
+global.apiUrl = 'http://51.15.219.3:5000/';
 const Logout = props => {
   const {setToken} = props.route.params;
   setToken('');

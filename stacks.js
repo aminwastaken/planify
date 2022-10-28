@@ -10,7 +10,7 @@ import Activities from './screens/Activities';
 import EditProfile from './screens/EditProfile';
 import PickTrip from './screens/PickTrip';
 import ActivityBooked from './screens/ActivityBooked';
-
+import NewTrip from './components/NewTrip';
 const Stack = createStackNavigator();
 
 const HomeScreenStack = ({navigation}) => {
@@ -23,6 +23,7 @@ const HomeScreenStack = ({navigation}) => {
       <Stack.Screen name="home" component={Home} />
       <Stack.Screen name="destination" component={Destination} />
       <Stack.Screen name="pickTrip" component={PickTrip} />
+      <Stack.Screen name="newTrip" component={NewTrip} />
       <Stack.Screen name="ActivityBooked" component={ActivityBooked} />
     </Stack.Navigator>
   );

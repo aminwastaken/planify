@@ -5,6 +5,24 @@ import Button from '../components/Button';
 
 const Login = ({navigation, ...props}) => {
   const {token, setToken} = props.route.params;
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const login = async () => {
+    const response = await fetch(global.apiUrl + 'login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    global.token = data.accessToken;
+    setToken(data.accessToken);
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -13,14 +31,15 @@ const Login = ({navigation, ...props}) => {
         <Text style={styles.title}>Account</Text>
         <Text style={styles.subTitle}>Token is : {global.token}</Text>
       </View>
-      <LoginForm style={styles.loginForm} />
+      <LoginForm
+        style={styles.loginForm}
+        email={email}
+        password={password}
+        setEmail={setEmail}
+        setPassword={setPassword}
+      />
 
-      <Button
-        style={styles.button}
-        onPress={() => {
-          // navigation.navigate('Signup');
-          setToken('mfthisisatoken');
-        }}>
+      <Button style={styles.button} onPress={() => login()}>
         Login
       </Button>
       <View style={styles.signupMessage}>

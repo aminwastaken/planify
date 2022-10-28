@@ -4,7 +4,7 @@ import {TextInput} from 'react-native-paper';
 import {Button} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 
-const ProfileForm = ({style}) => {
+const ProfileForm = ({style, email, password, setEmail, setPassword}) => {
   const [date, setDate] = useState(new Date('09-10-2000'));
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
@@ -15,10 +15,12 @@ const ProfileForm = ({style}) => {
       <TextInput
         style={styles.input}
         // onChangeText={onChangeText}
+        value={email}
+        label="Email"
         type="flat"
         underlineColor="#707070"
         activeUnderlineColor="#707070"
-        label="Email Address"
+        onChangeText={text => setEmail(text)}
       />
       <TextInput
         style={styles.input}
@@ -27,6 +29,8 @@ const ProfileForm = ({style}) => {
         underlineColor="#707070"
         activeUnderlineColor="#707070"
         label="Password"
+        value={password}
+        onChangeText={text => setPassword(text)}
       />
     </View>
   );

@@ -38,7 +38,11 @@ const PickTrip = ({navigation}) => {
         <View style={styles.body}>
           <Text style={styles.title}>Pick a trip</Text>
           <View style={styles.buttonContainer}>
-            <Button style={styles.button} onPress={() => {}}>
+            <Button
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate('newTrip');
+              }}>
               New Trip
             </Button>
           </View>
