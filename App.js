@@ -41,7 +41,7 @@ const App = () => {
 
   return (
     <>
-      {token ? (
+      {global.token ? (
         <NavigationContainer>
           <Drawer.Navigator
             initialRouteName="Home"

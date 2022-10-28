@@ -19,7 +19,7 @@ const Login = ({navigation, ...props}) => {
       }),
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     global.token = data.accessToken;
     setToken(data.accessToken);
   };
