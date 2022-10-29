@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import BottomTabs from '../components/BottomTabs';
@@ -9,20 +9,20 @@ import Tabs from '../components/Tabs';
 import Text from '../components/Text';
 import {destinations, moreDestinations} from '../data/destinations';
 import {Button} from 'react-native-paper';
+import GlobalContext from '../GlobalContext';
 
 const Home = ({navigation, children, ...rest}) => {
+  const {token, setToken} = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
   const [entries, setEntries] = useState(0);
   useEffect(async () => {
     const response = await fetch(global.apiUrl + 'places');
     const data = await response.json();
-    console.log(data);
   }, []);
 
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
-        {/* <Text style={styles.title}>token : {global.token}</Text> */}
         <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
           <Text style={styles.title}>Discover</Text>

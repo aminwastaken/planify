@@ -1,27 +1,31 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import LoginForm from '../components/LoginForm';
 import Button from '../components/Button';
+import GlobalContext from '../GlobalContext';
 
 const Login = ({navigation, ...props}) => {
-  const {token, setToken} = props.route.params;
+  const {token, setToken} = useContext(GlobalContext);
+  // const {token, setToken} = props.route.params;
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const login = async () => {
-    const response = await fetch(global.apiUrl + 'login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
-    const data = await response.json();
-    // console.log(data);
-    global.token = data.accessToken;
-    setToken(data.accessToken);
+    try {
+      const response = await fetch(global.apiUrl + 'login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      const data = await response.json();
+      setToken(data.accessToken);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -29,7 +33,6 @@ const Login = ({navigation, ...props}) => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Login to your</Text>
         <Text style={styles.title}>Account</Text>
-        <Text style={styles.subTitle}>Token is : {global.token}</Text>
       </View>
       <LoginForm
         style={styles.loginForm}
