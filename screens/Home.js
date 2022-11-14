@@ -14,10 +14,34 @@ import GlobalContext from '../GlobalContext';
 const Home = ({navigation, children, ...rest}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
+  const [allDestinations, setAllDestinations] = useState([]);
   const [entries, setEntries] = useState(0);
   useEffect(async () => {
-    const response = await fetch(global.apiUrl + 'places');
-    const data = await response.json();
+    try {
+      const response = await fetch(global.apiUrl + 'places', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      const destinations = await response.json();
+      console.log('all destinations', destinations);
+      // if it's too bugy, git restore
+      setAllDestinations(
+        destinations.map(destination => {
+          return {
+            id: destination.id,
+            image: destination.image,
+            title: destination.name,
+            url: destination.website,
+            subtitle: {icon: 'location-outline', text: destination.city},
+          };
+        }),
+      );
+    } catch (error) {
+      console.log('error', error);
+    }
   }, []);
 
   return (
@@ -32,7 +56,7 @@ const Home = ({navigation, children, ...rest}) => {
         </View>
         <SearchBar style={styles.searchBar} />
         <Tabs
-          data={['Destinations', 'Hotels', 'Restaurants', 'More']}
+          data={['All destinations', 'Hotels', 'Restaurants', 'More']}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />

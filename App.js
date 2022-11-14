@@ -16,7 +16,9 @@ const Logout = () => {
 };
 
 const App = () => {
-  const [token, setToken] = React.useState('');
+  const [token, setToken] = React.useState(
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjY3MDYxNjU3LCJleHAiOjE2NjcxNDgwNTd9.OzSaJuTIxgD4hJ3GwhFCbajFFQ2MqNpDQIlTJIQ46-0',
+  );
   return (
     <GlobalContext.Provider
       value={{
