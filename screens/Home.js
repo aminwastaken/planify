@@ -16,7 +16,8 @@ const Home = ({navigation, children, ...rest}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [allDestinations, setAllDestinations] = useState([]);
   const [entries, setEntries] = useState(0);
-  useEffect(async () => {
+
+  const getDestinations = async () => {
     try {
       const response = await fetch(global.apiUrl + 'places', {
         method: 'GET',
@@ -26,22 +27,34 @@ const Home = ({navigation, children, ...rest}) => {
         },
       });
       const destinations = await response.json();
-      console.log('all destinations', destinations);
+      // console.log('all destinations', destinations);
       // if it's too bugy, git restore
       setAllDestinations(
         destinations.map(destination => {
+          console.log('---------------------------------------------------');
+
           return {
             id: destination.id,
-            image: destination.image,
+            image:
+              destination.medias !== undefined && destination.medias.length > 0
+                ? destination.medias[0].url
+                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
             title: destination.name,
             url: destination.website,
-            subtitle: {icon: 'location-outline', text: destination.city},
+            subtitle: {
+              icon: 'location-outline',
+              text: destination.address.city,
+            },
           };
         }),
       );
     } catch (error) {
-      console.log('error', error);
+      console.log('the error is', error);
     }
+  };
+
+  useEffect(() => {
+    getDestinations();
   }, []);
 
   return (
@@ -56,13 +69,15 @@ const Home = ({navigation, children, ...rest}) => {
         </View>
         <SearchBar style={styles.searchBar} />
         <Tabs
-          data={['All destinations', 'Hotels', 'Restaurants', 'More']}
+          tabs={['All destinations', 'Hotels', 'Restaurants', 'More']}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
+          allDestinations={allDestinations}
         />
+        <Text>{activeTab}</Text>
         <Carousel
           style={styles.carousel}
-          data={destinations}
+          data={activeTab === 0 && allDestinations}
           navigation={navigation}
         />
         <View style={styles.subTitleArea}>

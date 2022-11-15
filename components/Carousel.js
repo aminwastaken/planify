@@ -97,8 +97,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   image: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 20,
-    width: '90%',
+    width: '100%',
     height: '100%',
     aspectRatio: 1,
     backgroundColor: '#EBEBEB',
