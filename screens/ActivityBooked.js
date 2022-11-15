@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Button from '../components/Button';
 
 const ActivityBooked = ({navigation}) => {
   return (
@@ -21,6 +22,11 @@ const ActivityBooked = ({navigation}) => {
             source={require('../assets/images/success-icon.png')}
             style={styles.image}
           />
+        </View>
+        <View>
+          <Button style={styles.button} onPress={() => navigation.goBack()}>
+            Go to the trip
+          </Button>
         </View>
       </View>
     </View>

@@ -23,7 +23,7 @@ const NewTrip = ({navigation}) => {
         <Button
           style={styles.button}
           onPress={() => {
-            navigation.goBack();
+            navigation.navigate('ActivityBooked');
           }}>
           Save
         </Button>
