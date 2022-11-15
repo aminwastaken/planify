@@ -1,10 +1,25 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-paper';
-import {Button} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 
-const ProfileForm = ({style}) => {
+const ProfileForm = ({
+  style,
+  email,
+  setEmail,
+  password,
+  setPassword,
+  firstName,
+  setFirstName,
+  lastName,
+  setLastName,
+  phone,
+  setPhone,
+  error,
+  setError,
+  loading,
+  setLoading,
+}) => {
   const [date, setDate] = useState(new Date('09-10-2000'));
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
@@ -19,6 +34,8 @@ const ProfileForm = ({style}) => {
         underlineColor="#707070"
         activeUnderlineColor="#707070"
         label="First Name"
+        value={firstName}
+        onChangeText={text => setFirstName(text)}
       />
       <TextInput
         style={styles.input}
@@ -27,6 +44,8 @@ const ProfileForm = ({style}) => {
         underlineColor="#707070"
         activeUnderlineColor="#707070"
         label="Last Name"
+        value={lastName}
+        onChangeText={text => setLastName(text)}
       />
       <TextInput
         style={styles.input}
@@ -35,14 +54,8 @@ const ProfileForm = ({style}) => {
         underlineColor="#707070"
         activeUnderlineColor="#707070"
         label="Email Address"
-      />
-      <TextInput
-        style={styles.input}
-        // onChangeText={onChangeText}
-        type="flat"
-        underlineColor="#707070"
-        activeUnderlineColor="#707070"
-        label="Username"
+        value={email}
+        onChangeText={text => setEmail(text)}
       />
       <TextInput
         style={styles.input}
@@ -51,8 +64,10 @@ const ProfileForm = ({style}) => {
         underlineColor="#707070"
         activeUnderlineColor="#707070"
         label="Password"
+        value={password}
+        onChangeText={text => setPassword(text)}
       />
-      <TouchableOpacity onPress={() => setOpen(true)}>
+      {/* <TouchableOpacity onPress={() => setOpen(true)}>
         <View style={styles.birthdayInput}>
           <Text style={styles.birthdayInputText}>
             {day && month && year
@@ -60,7 +75,7 @@ const ProfileForm = ({style}) => {
               : 'DD / MM / YYYY'}
           </Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* <Button
         mode="contained"
@@ -97,6 +112,7 @@ const ProfileForm = ({style}) => {
           setOpen(false);
         }}
       />
+      <Text> {error}</Text>
     </View>
   );
 };

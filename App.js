@@ -25,7 +25,7 @@ const App = () => {
         token: token,
         setToken: setToken,
       }}>
-      {token ? (
+      {token && token != '' ? (
         <NavigationContainer>
           <Drawer.Navigator
             initialRouteName="Home"
