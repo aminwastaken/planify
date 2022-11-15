@@ -6,7 +6,6 @@ import GlobalContext from '../GlobalContext';
 
 const Login = ({navigation, ...props}) => {
   const {token, setToken} = useContext(GlobalContext);
-  // const {token, setToken} = props.route.params;
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const login = async () => {
@@ -22,7 +21,8 @@ const Login = ({navigation, ...props}) => {
         }),
       });
       const data = await response.json();
-      setToken(data.accessToken);
+      console.log('this is the login data', data);
+      setToken(data.access_token);
     } catch (e) {
       console.log(e);
     }

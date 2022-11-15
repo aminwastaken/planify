@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import ProfileForm from '../components/ProfileForm';
 import Button from '../components/Button';
 import {set} from 'react-native-reanimated';
+import GlobalContext from '../GlobalContext';
+
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +14,7 @@ const Signup = ({navigation}) => {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const {token, setToken} = useContext(GlobalContext);
 
   const handleSignup = async () => {
     console.log('signup');
@@ -27,18 +30,18 @@ const Signup = ({navigation}) => {
           password: password,
           firstName: firstName,
           lastName: lastName,
-          phoneNumber: phone,
         }),
       });
+
+      console.log({
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+      });
       const data = await response.json();
-      if (data.error) {
-        setError(data.error);
-        console.log(data.error);
-        setLoading(false);
-      } else {
-        console.log(data);
-        navigation.navigate('Login');
-      }
+      console.log('this is the signup data', data);
+      setToken(data.access_token);
     } catch (error) {
       console.log(error);
       setError(error);
