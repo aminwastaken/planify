@@ -9,7 +9,7 @@ const PageCover = ({image, title, price}) => {
     <View>
       <Image
         source={{
-          uri: image?.imageUrl,
+          uri: image,
         }}
         style={{
           minWidth: '100%',
@@ -32,7 +32,7 @@ const PageCover = ({image, title, price}) => {
         </Text>
       </View>
 
-      <Rating style={styles.ratings} rating="4.5" />
+      {/* <Rating style={styles.ratings} rating="4.5" /> */}
     </View>
   );
 };
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     bottom: 60,
     left: 20,
     color: '#FFF',
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: 'bold',
   },
 

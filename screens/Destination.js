@@ -1,24 +1,60 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useContext} from 'react';
 import {notreDame, notreDamePhotos} from '../data/destinations';
 import PageCover from '../components/PageCover';
 import Text from '../components/Text';
 import PhotosCarousel from '../components/PhotosCarousel';
-import BottomTabs from '../components/BottomTabs';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import GlobalContext from '../GlobalContext';
 
-const Destination = ({navigation, route}) => {
+const Destination = ({navigation, route, id}) => {
+  const {token, setToken} = useContext(GlobalContext);
   const [image, setImage] = useState();
+  const [images, setImages] = useState([]);
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
+  const [description, setDescription] = useState();
+
+  const getDestination = async () => {
+    try {
+      const response = await fetch(
+        global.apiUrl + 'places/' + route.params.id,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        },
+      );
+      const destination = await response.json();
+
+      setImage(
+        destination.medias !== undefined && destination.medias.length > 0
+          ? destination.medias[0].url
+          : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+      );
+      if (destination.medias !== undefined && destination.medias.length > 1) {
+        setImages(
+          destination.medias.slice(1).map(image => ({
+            id: image.id,
+            image: image.url,
+          })),
+        );
+      }
+      setTitle(destination.name);
+      setDescription(destination.description);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   useEffect(() => {
-    setImage(notreDame);
-    setTitle('Notre Dame');
+    getDestination();
     setPrice(20);
-  });
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
@@ -31,17 +67,9 @@ const Destination = ({navigation, route}) => {
         <PageCover image={image} title={title} price={price} />
         <View style={styles.infoContainer}>
           <Text style={styles.subTitle}>Photos</Text>
-          <PhotosCarousel data={notreDamePhotos} style={styles.photoCarousel} />
+          <PhotosCarousel data={images} style={styles.photoCarousel} />
           <Text style={styles.subTitle}>Description</Text>
-          <Text style={styles.descriptionText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Pellentesque ultrices arcu in neque euismod, ac pharetra quam
-            egestas. Nunc arcu ante, gravida in neque ac, cursus lacinia purus.
-            In vitae rutrum urna. Nam ultricies turpis non turpis lobortis
-            cursus. Cras consequat nunc quis lorem sollicitudin, eu hendrerit
-            neque euismod. Duis ipsum nulla, feugiat id hendrerit quis,
-            consequat ac urna. Nam ultrices maximus egestas.
-          </Text>
+          <Text style={styles.descriptionText}>{description}</Text>
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>

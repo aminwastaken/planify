@@ -16,7 +16,7 @@ const Home = ({navigation, children, ...rest}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [allDestinations, setAllDestinations] = useState([]);
   const [entries, setEntries] = useState(0);
-
+  const [activities, setActivities] = useState([]);
   const getDestinations = async () => {
     try {
       const response = await fetch(global.apiUrl + 'places', {
@@ -27,12 +27,8 @@ const Home = ({navigation, children, ...rest}) => {
         },
       });
       const destinations = await response.json();
-      // console.log('all destinations', destinations);
-      // if it's too bugy, git restore
       setAllDestinations(
         destinations.map(destination => {
-          console.log('---------------------------------------------------');
-
           return {
             id: destination.id,
             image:
@@ -53,8 +49,43 @@ const Home = ({navigation, children, ...rest}) => {
     }
   };
 
+  const getActivities = async () => {
+    try {
+      const response = await fetch(global.apiUrl + 'activities', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      const activities = await response.json();
+      {
+        console.log('activities', activities);
+      }
+      setActivities(
+        activities.map(activity => {
+          return {
+            id: activity.id,
+            image:
+              activity.medias !== undefined && activity.medias.length > 0
+                ? activity.medias[0].url
+                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+            title: activity.name,
+            subtitle: {
+              icon: 'location-outline',
+              text: 'Paris',
+            },
+          };
+        }),
+      );
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   useEffect(() => {
     getDestinations();
+    getActivities();
   }, []);
 
   return (
@@ -74,7 +105,6 @@ const Home = ({navigation, children, ...rest}) => {
           setActiveTab={setActiveTab}
           allDestinations={allDestinations}
         />
-        <Text>{activeTab}</Text>
         <Carousel
           style={styles.carousel}
           data={activeTab === 0 && allDestinations}

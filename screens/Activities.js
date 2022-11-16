@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import Header from '../components/Header';
 import Text from '../components/Text';
 import ActivitiesView from '../components/ActivitiesView';
+import GlobalContext from '../GlobalContext';
 
 const Activities = ({navigation, children}) => {
+  const {token, setToken} = useContext(GlobalContext);
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.scrollView}>

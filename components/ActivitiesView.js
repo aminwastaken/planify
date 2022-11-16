@@ -18,7 +18,6 @@ const renderTabBar = props => (
     style={{
       backgroundColor: 'transparent',
       elevation: 0,
-      // shadowOpacity: 0,
       borderBottomWidth: 0,
     }}
     renderLabel={({route, focused, color}) => (

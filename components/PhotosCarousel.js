@@ -43,7 +43,7 @@ const PhotosCarousel = ({style, data, navigation}) => {
         ref={carouselRef}
         data={data}
         renderItem={renderItem}
-        itemWidth={120}
+        // itemWidth={120}
         separatorWidth={20}
         inActiveScale={1}
         inActiveOpacity={1}
