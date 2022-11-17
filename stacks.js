@@ -7,6 +7,7 @@ import Destination from './screens/Destination';
 import Profile from './screens/Profile';
 import Settings from './screens/Settings';
 import Activities from './screens/Activities';
+import Trips from './screens/Trips';
 import EditProfile from './screens/EditProfile';
 import PickTrip from './screens/PickTrip';
 import ActivityBooked from './screens/ActivityBooked';
@@ -56,4 +57,16 @@ const ActivitiesStack = ({navigation}) => {
   );
 };
 
-export {HomeScreenStack, ProfileStack, ActivitiesStack};
+const TripsStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Trips"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Trips" component={Trips} />
+    </Stack.Navigator>
+  );
+};
+
+export {HomeScreenStack, ProfileStack, ActivitiesStack, TripsStack};

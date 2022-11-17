@@ -1,14 +1,13 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import Text from '../components/Text';
+import Text from './Text';
 import {upcomingActivities} from '../data/destinations';
-import EventCard from '../components/EventCard';
+import EventCard from './EventCard';
 
-const UpcomingActivities = () => {
-  const data = upcomingActivities;
+const UpcomingActivities = ({data}) => {
   return (
     <View style={styles.tabContent}>
-      {data.map(item => (
+      {data?.map(item => (
         <EventCard
           key={item.id}
           imageLink={item.activity.image}

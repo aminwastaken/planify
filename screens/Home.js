@@ -8,7 +8,6 @@ import SearchBar from '../components/SearchBar';
 import Tabs from '../components/Tabs';
 import Text from '../components/Text';
 import {destinations, moreDestinations} from '../data/destinations';
-import {Button} from 'react-native-paper';
 import GlobalContext from '../GlobalContext';
 
 const Home = ({navigation, children, ...rest}) => {

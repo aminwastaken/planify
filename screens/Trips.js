@@ -1,31 +1,43 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import Header from '../components/Header';
 import Text from '../components/Text';
 import TabsView from '../components/TabsView';
 import GlobalContext from '../GlobalContext';
-import {upcomingActivities} from '../data/destinations';
-import {pastActivities} from '../data/destinations';
-import HorizontalCardList from '../components/HorizontalCardList';
+import {set} from 'react-native-reanimated';
 
-const Activities = ({navigation, children}) => {
+const Trips = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
+
+  const getTrips = async () => {
+    try {
+      const response = await fetch(global.apiUrl + 'trips', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+
+      const trips = await response.json();
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    getTrips();
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.scrollView}>
         <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
-          <Text style={styles.title}>Activities</Text>
+          <Text style={styles.title}>Trips</Text>
         </View>
-        <View style={styles.content}>
-          <TabsView
-            data={{
-              upcoming: () => <HorizontalCardList data={upcomingActivities} />,
-              past: () => <HorizontalCardList data={pastActivities} />,
-            }}
-          />
-        </View>
+        <View style={styles.content}>{/* <TabsView /> */}</View>
       </View>
     </View>
   );
@@ -52,4 +64,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Activities;
+export default Trips;

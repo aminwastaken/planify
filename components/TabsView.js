@@ -1,15 +1,12 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import Text from '../components/Text';
+import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
+import Text from './Text';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import EventCard from './EventCard';
-import UpcomingActivities from './UpcomingActivities';
-import PastActivities from './PastActivities';
+import HorizontalCardList from './HorizontalCardList';
 
-const renderScene = SceneMap({
-  upcoming: UpcomingActivities,
-  past: PastActivities,
-});
+const renderScene = data => {
+  return SceneMap(data);
+};
 
 const renderTabBar = props => (
   <TabBar
@@ -28,26 +25,21 @@ const renderTabBar = props => (
   />
 );
 
-const ActivitiesView = () => {
-  //   const layout = useWindowDimensions();
-
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
+const TabsView = ({data}) => {
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
     {key: 'upcoming', title: 'Upcoming'},
     {key: 'past', title: 'Past'},
   ]);
 
   return (
-    // <View style={styles.mainContainer}>
     <TabView
       navigationState={{index, routes}}
-      renderScene={renderScene}
+      renderScene={renderScene(data)}
       onIndexChange={setIndex}
-      // initialLayout={{height: 100, width: 100}}
       renderTabBar={renderTabBar}
       style={{minHeight: '100%'}}
     />
-    // </View>
   );
 };
 
@@ -55,8 +47,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     height: '100%',
-    // backgroundColor: 'yellow',
   },
   tabContent: {},
 });
-export default ActivitiesView;
+export default TabsView;

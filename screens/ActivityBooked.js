@@ -24,8 +24,10 @@ const ActivityBooked = ({navigation}) => {
           />
         </View>
         <View>
-          <Button style={styles.button} onPress={() => navigation.goBack()}>
-            Go to the trip
+          <Button
+            style={styles.button}
+            onPress={() => navigation.navigate('home')}>
+            Go to home
           </Button>
         </View>
       </View>

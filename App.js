@@ -2,7 +2,12 @@ import React, {useEffect, useContext} from 'react';
 import {useColorScheme, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
-import {HomeScreenStack, ProfileStack, ActivitiesStack} from './stacks';
+import {
+  HomeScreenStack,
+  ProfileStack,
+  ActivitiesStack,
+  TripsStack,
+} from './stacks';
 import GlobalContext from './GlobalContext';
 import Signup from './screens/Signup';
 import Login from './screens/Login';
@@ -35,6 +40,7 @@ const App = () => {
             <Drawer.Screen name="Home" component={HomeScreenStack} />
             <Drawer.Screen name="Profile" component={ProfileStack} />
             <Drawer.Screen name="Activities" component={ActivitiesStack} />
+            <Drawer.Screen name="Trips" component={TripsStack} />
             <Drawer.Screen name="Logout" component={Logout} />
           </Drawer.Navigator>
         </NavigationContainer>
