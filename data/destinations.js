@@ -31,56 +31,32 @@ const destinations = [
 const upcomingActivities = [
   {
     id: 'item1',
-    activity: {
-      id: 'item2',
-      image: 'https://cdn.pariscityvision.com/library/image/5542.jpg',
-      title: 'Notre Dame Cathedral',
-      url: 'https://github.com/lehoangnam97/react-native-anchor-carousel',
-      subtitle: {icon: 'location-outline', text: 'Paris'},
-      location: 'Paris',
-    },
-    startDate: '2020-01-01',
-    endDate: null,
-    startTime: {
-      time: '10:00',
-      ampm: 'AM',
-    },
+    image: 'https://cdn.pariscityvision.com/library/image/5542.jpg',
+    title: 'Notre Dame Cathedral',
+    url: 'https://github.com/lehoangnam97/react-native-anchor-carousel',
+    subtitle: 'Wednesday 12th May',
+    subtitle2: 'at 10:00 AM',
+    footerText: 'Paris',
   },
   {
     id: 'item2',
-    activity: {
-      id: 'item3',
-      image:
-        'https://cdn.getyourguide.com/img/location/5b06b2ad0949d.jpeg/88.webp',
-      title: 'Palace of Versailles',
-      url: 'https://www.npmjs.com/package/react-native-anchor-carousel',
-      subtitle: {icon: 'location-outline', text: 'Paris'},
-      location: 'Paris',
-    },
-    startDate: '2020-02-07',
-    endDate: null,
-    startTime: {
-      time: '11:00',
-      ampm: 'AM',
-    },
+    image:
+      'https://cdn.getyourguide.com/img/location/5b06b2ad0949d.jpeg/88.webp',
+    title: 'Palace of Versailles',
+    url: 'https://www.npmjs.com/package/react-native-anchor-carousel',
+    subtitle: 'Wednesday 12th May',
+    subtitle2: 'at 10:00 AM',
+    footerText: 'Paris',
   },
   {
     id: 'item3',
-    activity: {
-      id: 'item1',
-      image:
-        'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20842_e98a166f199a380b378efb6f017e3f03.jpg?ver=1477297873',
-      title: 'Louvre Museum',
-      url: 'https://www.npmjs.com/package/react-native-anchor-carousel',
-      subtitle: {icon: 'location-outline', text: 'Paris'},
-      location: 'Paris',
-    },
-    startDate: '2020-02-07',
-    endDate: '2020-02-08',
-    startTime: {
-      time: '12:00',
-      ampm: 'PM',
-    },
+    image:
+      'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20842_e98a166f199a380b378efb6f017e3f03.jpg?ver=1477297873',
+    title: 'Louvre Museum',
+    url: 'https://www.npmjs.com/package/react-native-anchor-carousel',
+    subtitle: 'Wednesday 12th May',
+    subtitle2: 'at 10:00 AM',
+    footerText: 'Paris',
   },
 ];
 
@@ -93,7 +69,8 @@ const pastActivities = [
         'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20887_ed41a037b7621b84228d673e7edec896.jpg?ver=1477298047',
       title: 'Luxembourg park',
       url: 'https://github.com/lehoangnam97/react-native-anchor-carousel',
-      subtitle: {icon: 'location-outline', text: 'Paris'},
+      subtitle: 'Wednesday 12th May',
+      subtitle2: 'at 10:00 AM',
       location: 'Paris',
     },
     startDate: '2020-02-07',

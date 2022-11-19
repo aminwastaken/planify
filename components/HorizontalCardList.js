@@ -1,22 +1,18 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import Text from './Text';
-import {upcomingActivities} from '../data/destinations';
 import EventCard from './EventCard';
 
-const UpcomingActivities = ({data}) => {
+const HorizontalCardList = ({data}) => {
   return (
     <View style={styles.tabContent}>
       {data?.map(item => (
         <EventCard
           key={item.id}
-          imageLink={item.activity.image}
-          title={item.activity.title}
-          startDate={item.startDate}
-          endDate={item.endDate}
-          startTime={item.startTime}
-          endTime={item.endTime}
-          location={item.activity.location}
+          imageLink={item.image}
+          title={item.title}
+          subtitle={item.subtitle}
+          subtitle2={item.subtitle2}
+          footerText={item.footerText}
           style={styles.eventCard}
         />
       ))}
@@ -28,4 +24,4 @@ const styles = StyleSheet.create({
   tabContent: {marginTop: 30},
   eventCard: {marginBottom: 15},
 });
-export default UpcomingActivities;
+export default HorizontalCardList;

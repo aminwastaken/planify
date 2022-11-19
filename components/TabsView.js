@@ -27,10 +27,7 @@ const renderTabBar = props => (
 
 const TabsView = ({data}) => {
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    {key: 'upcoming', title: 'Upcoming'},
-    {key: 'past', title: 'Past'},
-  ]);
+  const [routes] = useState(Object.keys(data).map(key => ({key, title: key})));
 
   return (
     <TabView

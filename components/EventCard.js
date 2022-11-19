@@ -4,9 +4,9 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 const EventCard = ({
   imageLink,
   title,
-  startDate,
-  startTime,
-  location,
+  subtitle,
+  subtitle2,
+  footerText,
   style,
 }) => {
   const options = {
@@ -15,10 +15,10 @@ const EventCard = ({
     month: 'long',
     day: 'numeric',
   };
-  const formattedStartDate = new Date(startDate).toLocaleDateString(
-    'en-US',
-    options,
-  );
+  // const formattedStartDate = new Date(startDate).toLocaleDateString(
+  //   'en-US',
+  //   options,
+  // );
   return (
     <TouchableOpacity style={[style, styles.mainContainer]}>
       <Image style={styles.image} source={{uri: imageLink}} />
@@ -26,12 +26,10 @@ const EventCard = ({
       <View style={styles.textContainer}>
         <View>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.text}>{formattedStartDate}</Text>
-          <Text style={styles.text}>
-            at {startTime.time} {startTime.ampm}
-          </Text>
+          <Text style={styles.text}>{subtitle}</Text>
+          <Text style={styles.text}>{subtitle2}</Text>
         </View>
-        <Text style={styles.location}>{location}</Text>
+        <Text style={styles.footerText}>{footerText}</Text>
       </View>
     </TouchableOpacity>
   );

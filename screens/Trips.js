@@ -2,9 +2,9 @@ import React, {useContext, useState, useEffect} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import Header from '../components/Header';
 import Text from '../components/Text';
-import TabsView from '../components/TabsView';
 import GlobalContext from '../GlobalContext';
-import {set} from 'react-native-reanimated';
+import HorizontalCardList from '../components/HorizontalCardList';
+import {upcomingActivities} from '../data/destinations';
 
 const Trips = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -37,7 +37,9 @@ const Trips = ({navigation, children}) => {
         <View style={styles.titleArea}>
           <Text style={styles.title}>Trips</Text>
         </View>
-        <View style={styles.content}>{/* <TabsView /> */}</View>
+        <View style={styles.content}>
+          <HorizontalCardList data={upcomingActivities} />
+        </View>
       </View>
     </View>
   );
