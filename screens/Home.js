@@ -116,7 +116,7 @@ const Home = ({navigation, children, ...rest}) => {
           <Carousel
             style={styles.carousel}
             mini={true}
-            data={moreDestinations}
+            data={activities}
             navigation={navigation}
           />
         </View>

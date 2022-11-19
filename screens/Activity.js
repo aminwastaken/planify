@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 1,
     elevation: 3,
+    // background color must be set
     backgroundColor: '#0000', // invisible colo
   },
 

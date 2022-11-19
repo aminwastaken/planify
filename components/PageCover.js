@@ -25,12 +25,14 @@ const PageCover = ({image, title, price}) => {
           bottom: 0,
         }}></LinearGradient>
       <Text style={styles.title}>{title}</Text>
-      <View style={styles.priceContainer}>
-        <Text style={styles.priceText}>
-          €{price}
-          <Text style={styles.priceSecondaryText}> /person</Text>
-        </Text>
-      </View>
+      {price && (
+        <View style={styles.priceContainer}>
+          <Text style={styles.priceText}>
+            €{price}
+            <Text style={styles.priceSecondaryText}> /person</Text>
+          </Text>
+        </View>
+      )}
 
       {/* <Rating style={styles.ratings} rating="4.5" /> */}
     </View>

@@ -17,6 +17,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const {width: windowWidth} = Dimensions.get('window');
 
 const CustomCarousel = ({style, mini, data, navigation}) => {
+  const itemWidth = mini ? 120 : 180;
+  console.log('window width', windowWidth);
   const carouselRef = useRef(null);
 
   function renderItem({item, index}) {
@@ -65,11 +67,15 @@ const CustomCarousel = ({style, mini, data, navigation}) => {
         ref={carouselRef}
         data={data}
         renderItem={renderItem}
-        itemWidth={mini ? 120 : 180}
+        itemWidth={itemWidth}
         separatorWidth={40}
         inActiveScale={1}
         inActiveOpacity={1}
-        containerWidth={windowWidth}
+        containerWidth={
+          data.length * itemWidth < windowWidth
+            ? data.length * itemWidth
+            : windowWidth
+        }
       />
     </View>
   );

@@ -8,6 +8,7 @@ import {upcomingActivities} from '../data/destinations';
 
 const Trips = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
+  const [trips, setTrips] = useState([]);
 
   const getTrips = async () => {
     try {
@@ -20,7 +21,27 @@ const Trips = ({navigation, children}) => {
         },
       });
 
-      const trips = await response.json();
+      const data = await response.json();
+      console.log('these are the trips', data);
+      setTrips(
+        data.map(trip => {
+          return {
+            id: trip.id,
+            title: trip.name,
+            image:
+              trip.activities && trip.activities.length > 0
+                ? trip.activities[0].image
+                  ? trip.activities[0].image
+                  : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
+                : '',
+            subtitle: trip.activities.length + ' activities',
+            footerText: 'footer', // total cost
+            onCLick: () => {
+              // navigation.navigate('Trip', {trip: trip});
+            },
+          };
+        }),
+      );
     } catch (error) {
       console.log('error', error);
     }
@@ -38,7 +59,7 @@ const Trips = ({navigation, children}) => {
           <Text style={styles.title}>Trips</Text>
         </View>
         <View style={styles.content}>
-          <HorizontalCardList data={upcomingActivities} />
+          <HorizontalCardList data={trips} />
         </View>
       </View>
     </View>
