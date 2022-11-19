@@ -108,6 +108,7 @@ const Home = ({navigation, children, ...rest}) => {
           style={styles.carousel}
           data={activeTab === 0 && allDestinations}
           navigation={navigation}
+          screen="destination"
         />
         <View style={styles.subTitleArea}>
           <Text style={styles.subTitle}>Activities</Text>
@@ -118,6 +119,7 @@ const Home = ({navigation, children, ...rest}) => {
             mini={true}
             data={activities}
             navigation={navigation}
+            screen="activity"
           />
         </View>
       </ScrollView>

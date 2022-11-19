@@ -53,7 +53,6 @@ const Destination = ({navigation, route, id}) => {
 
   useEffect(() => {
     getDestination();
-    setPrice(20);
   }, []);
 
   return (
@@ -79,15 +78,6 @@ const Destination = ({navigation, route, id}) => {
           <Text style={styles.descriptionText}>{description}</Text>
         </View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <Button
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate('pickTrip');
-          }}>
-          Add to trip
-        </Button>
-      </View>
     </View>
   );
 };
@@ -138,25 +128,6 @@ const styles = StyleSheet.create({
   descriptionText: {
     color: '#5E5F61',
     lineHeight: 18,
-  },
-
-  buttonContainer: {
-    marginTop: 20,
-
-    shadowOffset: {width: 10, height: 10},
-    shadowColor: 'black',
-    shadowOpacity: 1,
-    elevation: 3,
-    backgroundColor: '#0000', // invisible colo
-  },
-
-  button: {
-    backgroundColor: '#007AFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 40,
-    borderRadius: 7.56,
-    margin: 10,
   },
 });
 

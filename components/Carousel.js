@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const {width: windowWidth} = Dimensions.get('window');
 
-const CustomCarousel = ({style, mini, data, navigation}) => {
+const CustomCarousel = ({style, mini, data, navigation, screen}) => {
   const itemWidth = mini ? 120 : 180;
   console.log('window width', windowWidth);
   const carouselRef = useRef(null);
@@ -32,7 +32,7 @@ const CustomCarousel = ({style, mini, data, navigation}) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigation.navigate('destination', {
+            navigation.navigate(screen, {
               id: id,
             });
           }}>

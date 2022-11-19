@@ -12,6 +12,7 @@ import EditProfile from './screens/EditProfile';
 import PickTrip from './screens/PickTrip';
 import ActivityBooked from './screens/ActivityBooked';
 import NewTrip from './components/NewTrip';
+import Activity from './screens/Activity';
 const Stack = createStackNavigator();
 
 const HomeScreenStack = ({navigation}) => {
@@ -22,6 +23,10 @@ const HomeScreenStack = ({navigation}) => {
         headerShown: false,
       }}>
       <Stack.Screen name="home" component={Home} />
+
+      {/* activity branch */}
+      <Stack.Screen name="activity" component={Activity} />
+      {/* destination branch */}
       <Stack.Screen name="destination" component={Destination} />
       <Stack.Screen name="pickTrip" component={PickTrip} />
       <Stack.Screen name="newTrip" component={NewTrip} />

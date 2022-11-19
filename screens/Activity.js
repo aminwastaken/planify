@@ -8,8 +8,9 @@ import PhotosCarousel from '../components/PhotosCarousel';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
+import {set} from 'react-native-reanimated';
 
-const Destination = ({navigation, route, id}) => {
+const Activity = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [image, setImage] = useState();
   const [images, setImages] = useState([]);
@@ -17,10 +18,10 @@ const Destination = ({navigation, route, id}) => {
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
 
-  const getDestination = async () => {
+  const getActivities = async () => {
     try {
       const response = await fetch(
-        global.apiUrl + 'places/' + route.params.id,
+        global.apiUrl + 'activities/' + route.params.id,
         {
           method: 'GET',
           headers: {
@@ -29,31 +30,31 @@ const Destination = ({navigation, route, id}) => {
           },
         },
       );
-      const destination = await response.json();
+      const activity = await response.json();
 
       setImage(
-        destination.medias !== undefined && destination.medias.length > 0
-          ? destination.medias[0].url
+        activity.medias !== undefined && activity.medias.length > 0
+          ? activity.medias[0].url
           : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
       );
-      if (destination.medias !== undefined && destination.medias.length > 1) {
+      if (activity.medias !== undefined && activity.medias.length > 1) {
         setImages(
-          destination.medias.slice(1).map(image => ({
+          activity.medias.slice(1).map(image => ({
             id: image.id,
             image: image.url,
           })),
         );
       }
-      setTitle(destination.name);
-      setDescription(destination.description);
+      setTitle(activity.name);
+      setDescription(activity.description);
+      setPrice(activity.price);
     } catch (error) {
       console.log('error', error);
     }
   };
 
   useEffect(() => {
-    getDestination();
-    setPrice(20);
+    getActivities();
   }, []);
 
   return (
@@ -161,4 +162,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Destination;
+export default Activity;
