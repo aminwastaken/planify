@@ -13,6 +13,7 @@ import PickTrip from './screens/PickTrip';
 import ActivityBooked from './screens/ActivityBooked';
 import NewTrip from './components/NewTrip';
 import Activity from './screens/Activity';
+import Trip from './screens/Trip';
 const Stack = createStackNavigator();
 
 const HomeScreenStack = ({navigation}) => {
@@ -70,6 +71,7 @@ const TripsStack = ({navigation}) => {
         headerShown: false,
       }}>
       <Stack.Screen name="Trips" component={Trips} />
+      <Stack.Screen name="Trip" component={Trip} />
     </Stack.Navigator>
   );
 };

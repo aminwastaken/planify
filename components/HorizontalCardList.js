@@ -14,6 +14,7 @@ const HorizontalCardList = ({data}) => {
           subtitle2={item.subtitle2}
           footerText={item.footerText}
           style={styles.eventCard}
+          onPress={item.onPress}
         />
       ))}
     </View>

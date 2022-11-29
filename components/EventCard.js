@@ -8,6 +8,7 @@ const EventCard = ({
   subtitle2,
   footerText,
   style,
+  onPress,
 }) => {
   const options = {
     weekday: 'long',
@@ -20,7 +21,7 @@ const EventCard = ({
   //   options,
   // );
   return (
-    <TouchableOpacity style={[style, styles.mainContainer]}>
+    <TouchableOpacity style={[style, styles.mainContainer]} onPress={onPress}>
       <Image style={styles.image} source={{uri: imageLink}} />
 
       <View style={styles.textContainer}>

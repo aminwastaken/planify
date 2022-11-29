@@ -36,8 +36,9 @@ const Trips = ({navigation, children}) => {
                 : '',
             subtitle: trip.activities.length + ' activities',
             footerText: 'footer', // total cost
-            onCLick: () => {
-              // navigation.navigate('Trip', {trip: trip});
+            onPress: () => {
+              console.log('clicked');
+              navigation.navigate('Trip', {id: trip.id});
             },
           };
         }),

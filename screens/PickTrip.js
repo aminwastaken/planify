@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,23 +10,68 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Button from '../components/Button';
 import TripCard from '../components/TripCard';
+import GlobalContext from '../GlobalContext';
 
-const trips = [
-  {
-    id: '1',
-    title: 'my trip to paris',
-    location: 'paris',
-    imageLink:
-      'https://www.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_77884/node_77888/cath%C3%A9drale-notre-dame-de-paris-vue-depuis-le-parvis-%7C-630x405-%7C-%C2%A9-leiflinding/11884072-6-fre-FR/Cath%C3%A9drale-Notre-Dame-de-Paris-Vue-depuis-le-parvis-%7C-630x405-%7C-%C2%A9-LeifLinding.jpg',
-  },
-  {
-    id: '2',
-    title: 'my trip to rouen',
-    location: 'paris',
-    imageLink: 'https://media.routard.com/image/81/8/fb-rouen.1552818.jpg',
-  },
-];
+// const trips = [
+//   {
+//     id: '1',
+//     title: 'my trip to paris',
+//     location: 'paris',
+//     imageLink:
+//       'https://www.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_77884/node_77888/cath%C3%A9drale-notre-dame-de-paris-vue-depuis-le-parvis-%7C-630x405-%7C-%C2%A9-leiflinding/11884072-6-fre-FR/Cath%C3%A9drale-Notre-Dame-de-Paris-Vue-depuis-le-parvis-%7C-630x405-%7C-%C2%A9-LeifLinding.jpg',
+//   },
+//   {
+//     id: '2',
+//     title: 'my trip to rouen',
+//     location: 'paris',
+//     imageLink: 'https://media.routard.com/image/81/8/fb-rouen.1552818.jpg',
+//   },
+// ];
 const PickTrip = ({navigation}) => {
+  const [trips, setTrips] = useState([]);
+  const {token, setToken} = useContext(GlobalContext);
+
+  const getTrips = async () => {
+    try {
+      const response = await fetch(global.apiUrl + 'trips', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+
+      const data = await response.json();
+      console.log('these are the trips', data);
+      setTrips(
+        data.map(trip => {
+          return {
+            id: trip.id,
+            title: trip.name,
+            image:
+              trip.activities && trip.activities.length > 0
+                ? trip.activities[0].image
+                  ? trip.activities[0].image
+                  : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
+                : '',
+            subtitle: trip.activities.length + ' activities',
+            footerText: 'footer', // total cost
+            onCLick: () => {
+              // navigation.navigate('Trip', {trip: trip});
+            },
+          };
+        }),
+      );
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    getTrips();
+  }, []);
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView>
@@ -51,8 +96,8 @@ const PickTrip = ({navigation}) => {
             <TripCard
               key={trip.id}
               title={trip.title}
-              location={trip.location}
-              imageLink={trip.imageLink}
+              subtitle={trip.subtitle}
+              imageLink={trip.image}
               style={styles.tripCard}
               navigation={navigation}
             />

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-const TripCard = ({imageLink, title, location, style, navigation}) => {
+const TripCard = ({imageLink, title, subtitle, style, navigation}) => {
   return (
     <TouchableOpacity
       style={[style, styles.mainContainer]}
@@ -12,7 +12,7 @@ const TripCard = ({imageLink, title, location, style, navigation}) => {
 
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.location}>{location}</Text>
+        <Text style={styles.subtitle}>{subtitle}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: '700',
   },
-  location: {
+  subtitle: {
     marginTop: 2,
     marginBottom: 5,
   },
