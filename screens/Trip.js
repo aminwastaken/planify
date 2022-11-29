@@ -8,51 +8,71 @@ import PhotosCarousel from '../components/PhotosCarousel';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
+import EventCard from '../components/EventCard';
 
 const Trip = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
-  const [image, setImage] = useState();
-  const [images, setImages] = useState([]);
-  const [title, setTitle] = useState();
-  const [price, setPrice] = useState();
-  const [description, setDescription] = useState();
+  const [trip, setTrip] = useState([]);
+  const [activities, setActivities] = useState([]);
 
-  const getDestination = async () => {
+  console.log('this is the id', route.params.id);
+
+  const getTrips = async () => {
     try {
-      const response = await fetch(
-        global.apiUrl + 'places/' + route.params.id,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
-          },
+      const response = await fetch(global.apiUrl + 'trips/' + route.params.id, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
         },
-      );
-      const destination = await response.json();
+      });
 
-      setImage(
-        destination.medias !== undefined && destination.medias.length > 0
-          ? destination.medias[0].url
-          : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+      const data = await response.json();
+      console.log('these are the trips', data);
+      setTrip({
+        id: data.id,
+        title: data.name,
+        image:
+          data.activities && data.activities.length > 0
+            ? data.activities[0].image
+              ? data.activities[0].image
+              : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
+            : '',
+        subtitle: data.activities.length + ' activities',
+        footerText: 'footer', // total cost
+        onPress: () => {
+          console.log('clicked');
+          navigation.navigate('Trip', {id: data.id});
+        },
+      });
+
+      setActivities(
+        data.activities.map(activity => {
+          return {
+            id: activity.id,
+            image:
+              activity.medias && activity.medias.length > 0
+                ? activity.medias[0].url
+                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+            title: activity.name,
+            subtitle: activity.date && activity.date,
+            subtitle2: activity.date && 'time',
+            footerText: activity.price && 'Price: ' + activity.price + '€',
+            onPress: () => {
+              console.log('clicked');
+              navigation.navigate('Activity', {id: activity.id});
+            },
+          };
+        }),
       );
-      if (destination.medias !== undefined && destination.medias.length > 1) {
-        setImages(
-          destination.medias.slice(1).map(image => ({
-            id: image.id,
-            image: image.url,
-          })),
-        );
-      }
-      setTitle(destination.name);
-      setDescription(destination.description);
     } catch (error) {
       console.log('error', error);
     }
   };
 
   useEffect(() => {
-    getDestination();
+    getTrips();
   }, []);
 
   return (
@@ -63,19 +83,21 @@ const Trip = ({navigation, route, id}) => {
             <Icon name="arrow-left" size={20} color="#FFF" />
           </TouchableOpacity>
         </View>
-        <PageCover image={image} title={title} price={price} />
+        <PageCover image={trip.image} title={trip.title} />
         <View style={styles.infoContainer}>
-          {images.length > 0 && (
-            <>
-              <Text style={styles.subTitle}>Photos</Text>
-              <PhotosCarousel data={images} style={styles.photoCarousel} />
-            </>
-          )}
-
-          {description && description.length > 0 && (
-            <Text style={styles.subTitle}>Description</Text>
-          )}
-          <Text style={styles.descriptionText}>{description}</Text>
+          <Text style={styles.subTitle}>Activities</Text>
+          {activities?.map(item => (
+            <EventCard
+              key={item.id}
+              imageLink={item.image}
+              title={item.title}
+              subtitle={item.subtitle}
+              subtitle2={item.subtitle2}
+              footerText={item.footerText}
+              style={styles.eventCard}
+              onPress={item.onPress}
+            />
+          ))}
         </View>
       </ScrollView>
     </View>
@@ -129,6 +151,8 @@ const styles = StyleSheet.create({
     color: '#5E5F61',
     lineHeight: 18,
   },
+
+  eventCard: {marginBottom: 15},
 });
 
 export default Trip;

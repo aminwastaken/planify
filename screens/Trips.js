@@ -10,6 +10,8 @@ const Trips = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [trips, setTrips] = useState([]);
 
+  console.log('this is the token', token);
+
   const getTrips = async () => {
     try {
       const response = await fetch(global.apiUrl + 'trips', {
@@ -38,6 +40,7 @@ const Trips = ({navigation, children}) => {
             footerText: 'footer', // total cost
             onPress: () => {
               console.log('clicked');
+              console.log('this is the trip.id', trip.id);
               navigation.navigate('Trip', {id: trip.id});
             },
           };
