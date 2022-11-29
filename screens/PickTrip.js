@@ -27,9 +27,11 @@ import GlobalContext from '../GlobalContext';
 //     imageLink: 'https://media.routard.com/image/81/8/fb-rouen.1552818.jpg',
 //   },
 // ];
-const PickTrip = ({navigation}) => {
+const PickTrip = ({navigation, route}) => {
   const [trips, setTrips] = useState([]);
   const {token, setToken} = useContext(GlobalContext);
+
+  console.log('activity id', route.params.activityId);
 
   const getTrips = async () => {
     try {
@@ -57,8 +59,29 @@ const PickTrip = ({navigation}) => {
                 : '',
             subtitle: trip.activities.length + ' activities',
             footerText: 'footer', // total cost
-            onCLick: () => {
-              // navigation.navigate('Trip', {trip: trip});
+            onPress: async () => {
+              try {
+                const response = await fetch(
+                  global.apiUrl + 'trips/' + trip.id + '/activities',
+                  {
+                    method: 'POST',
+                    headers: {
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json',
+                      Authorization: 'Bearer ' + token,
+                    },
+                    body: JSON.stringify({
+                      activityId: route.params.activityId,
+                    }),
+                  },
+                );
+
+                const data = await response.json();
+                console.log('data', data);
+                navigation.navigate('ActivityBooked');
+              } catch (error) {
+                console.log('error', error);
+              }
             },
           };
         }),
@@ -100,6 +123,7 @@ const PickTrip = ({navigation}) => {
               imageLink={trip.image}
               style={styles.tripCard}
               navigation={navigation}
+              onPress={trip.onPress}
             />
           ))}
         </View>

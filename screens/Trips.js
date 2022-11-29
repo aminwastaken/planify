@@ -36,7 +36,9 @@ const Trips = ({navigation, children}) => {
                   ? trip.activities[0].image
                   : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
                 : '',
-            subtitle: trip.activities.length + ' activities',
+            subtitle:
+              trip.activities.length +
+              (trip.activities.length === 1 ? ' activity' : ' activities'),
             footerText: 'footer', // total cost
             onPress: () => {
               console.log('clicked');

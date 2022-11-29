@@ -1,13 +1,9 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-const TripCard = ({imageLink, title, subtitle, style, navigation}) => {
+const TripCard = ({imageLink, title, subtitle, style, navigation, onPress}) => {
   return (
-    <TouchableOpacity
-      style={[style, styles.mainContainer]}
-      onPress={() => {
-        navigation.navigate('ActivityBooked');
-      }}>
+    <TouchableOpacity style={[style, styles.mainContainer]} onPress={onPress}>
       <Image style={styles.image} source={{uri: imageLink}} />
 
       <View style={styles.textContainer}>

@@ -84,7 +84,9 @@ const Activity = ({navigation, route, id}) => {
         <Button
           style={styles.button}
           onPress={() => {
-            navigation.navigate('pickTrip');
+            navigation.navigate('pickTrip', {
+              activityId: route.params.id,
+            });
           }}>
           Add to trip
         </Button>
