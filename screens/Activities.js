@@ -6,46 +6,12 @@ import TabsView from '../components/TabsView';
 import GlobalContext from '../GlobalContext';
 import HorizontalCardList from '../components/HorizontalCardList';
 
-// const upcomingActivities = [
-//   {
-//     id: 'item1',
-//     image: 'https://cdn.pariscityvision.com/library/image/5542.jpg',
-//     title: 'Notre Dame Cathedral',
-//     url: 'https://github.com/lehoangnam97/react-native-anchor-carousel',
-//     subtitle: 'Wednesday 12th May',
-//     subtitle2: 'at 10:00 AM',
-//     footerText: 'Paris',
-//   },
-//   {
-//     id: 'item2',
-//     image:
-//       'https://cdn.getyourguide.com/img/location/5b06b2ad0949d.jpeg/88.webp',
-//     title: 'Palace of Versailles',
-//     url: 'https://www.npmjs.com/package/react-native-anchor-carousel',
-//     subtitle: 'Wednesday 12th May',
-//     subtitle2: 'at 10:00 AM',
-//     footerText: 'Paris',
-//   },
-//   {
-//     id: 'item3',
-//     image:
-//       'https://d39gusjpdm7p1o.cloudfront.net/data/layout_grouping/static_page_step/20842_e98a166f199a380b378efb6f017e3f03.jpg?ver=1477297873',
-//     title: 'Louvre Museum',
-//     url: 'https://www.npmjs.com/package/react-native-anchor-carousel',
-//     subtitle: 'Wednesday 12th May',
-//     subtitle2: 'at 10:00 AM',
-//     footerText: 'Paris',
-//   },
-// ];
-
 const Activities = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [upcomingActivities, setUpcomingActivities] = useState([]);
   const [pastActivities, setPastActivities] = useState([]);
 
   const getActivities = async () => {
-    console.log('test');
-    // try {
     const response = await fetch(global.apiUrl + 'activities', {
       method: 'GET',
       headers: {
@@ -54,7 +20,6 @@ const Activities = ({navigation, children}) => {
       },
     });
     const activities = await response.json();
-    console.log('activities', activities);
 
     const upcoming = [];
     const past = [];
@@ -70,6 +35,11 @@ const Activities = ({navigation, children}) => {
         subtitle: activity.date && activity.date,
         subtitle2: activity.date && 'time',
         footerText: activity.price && 'Price: ' + activity.price + '€',
+        onPress: () => {
+          navigation.navigate('activity', {
+            id: activity.id,
+          });
+        },
       };
       console.log('activity date', activity.date);
 

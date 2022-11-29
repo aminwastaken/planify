@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useColorScheme, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
@@ -21,9 +21,7 @@ const Logout = () => {
 };
 
 const App = () => {
-  const [token, setToken] = React.useState(
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjY3MDYxNjU3LCJleHAiOjE2NjcxNDgwNTd9.OzSaJuTIxgD4hJ3GwhFCbajFFQ2MqNpDQIlTJIQ46-0',
-  );
+  const [token, setToken] = useState('');
   return (
     <GlobalContext.Provider
       value={{

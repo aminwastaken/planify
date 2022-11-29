@@ -15,8 +15,6 @@ const Trip = ({navigation, route, id}) => {
   const [trip, setTrip] = useState([]);
   const [activities, setActivities] = useState([]);
 
-  console.log('this is the id', route.params.id);
-
   const getTrips = async () => {
     try {
       const response = await fetch(global.apiUrl + 'trips/' + route.params.id, {
