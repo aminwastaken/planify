@@ -59,7 +59,7 @@ const Trips = ({navigation, children}) => {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.scrollView}>
+      <ScrollView style={styles.scrollView}>
         <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
           <Text style={styles.title}>Trips</Text>
@@ -67,7 +67,7 @@ const Trips = ({navigation, children}) => {
         <View style={styles.content}>
           <HorizontalCardList data={trips} />
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };

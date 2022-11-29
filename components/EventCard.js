@@ -20,6 +20,7 @@ const EventCard = ({
   //   'en-US',
   //   options,
   // );
+  console.log('imageLink', imageLink);
   return (
     <TouchableOpacity style={[style, styles.mainContainer]} onPress={onPress}>
       <Image style={styles.image} source={{uri: imageLink}} />

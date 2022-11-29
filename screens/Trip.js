@@ -38,7 +38,7 @@ const Trip = ({navigation, route, id}) => {
             ? data.activities[0].image
               ? data.activities[0].image
               : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
-            : '',
+            : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
         subtitle: data.activities.length + ' activities',
         footerText: 'footer', // total cost
         onPress: () => {

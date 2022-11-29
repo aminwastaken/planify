@@ -31,7 +31,7 @@ const PickTrip = ({navigation, route}) => {
   const [trips, setTrips] = useState([]);
   const {token, setToken} = useContext(GlobalContext);
 
-  console.log('activity id', route.params.activityId);
+  console.log('route', route);
 
   const getTrips = async () => {
     try {
@@ -56,7 +56,7 @@ const PickTrip = ({navigation, route}) => {
                 ? trip.activities[0].image
                   ? trip.activities[0].image
                   : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
-                : '',
+                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
             subtitle: trip.activities.length + ' activities',
             footerText: 'footer', // total cost
             onPress: async () => {
@@ -109,7 +109,9 @@ const PickTrip = ({navigation, route}) => {
             <Button
               style={styles.button}
               onPress={() => {
-                navigation.navigate('newTrip');
+                navigation.navigate('newTrip', {
+                  activityId: route.params.activityId,
+                });
               }}>
               New Trip
             </Button>
@@ -120,7 +122,7 @@ const PickTrip = ({navigation, route}) => {
               key={trip.id}
               title={trip.title}
               subtitle={trip.subtitle}
-              imageLink={trip.image}
+              imageLink={trip.image ? trip.image : ''}
               style={styles.tripCard}
               navigation={navigation}
               onPress={trip.onPress}
