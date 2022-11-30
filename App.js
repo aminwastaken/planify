@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {useColorScheme, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
@@ -11,17 +11,13 @@ import {
 import GlobalContext from './GlobalContext';
 import Signup from './screens/Signup';
 import Login from './screens/Login';
+import Logout from './screens/Logout';
 const Drawer = createDrawerNavigator();
 
 global.apiUrl = 'http://51.15.219.3:5000/';
-const Logout = () => {
-  const {token, setToken} = useContext(GlobalContext);
-  setToken('');
-  return <View></View>;
-};
 
 const App = () => {
-  const [token, setToken] = useState('');
+  const [token, setToken] = React.useState('');
   return (
     <GlobalContext.Provider
       value={{

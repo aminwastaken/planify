@@ -8,9 +8,9 @@ const ActivityBooked = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.scrollView}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-left" size={20} color="#000" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View style={styles.titleArea}>
           <Text style={styles.title}>Activity Booked</Text>
         </View>

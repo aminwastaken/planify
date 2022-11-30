@@ -8,6 +8,7 @@ import PhotosCarousel from '../components/PhotosCarousel';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
+import EventCard from '../components/EventCard';
 
 const Destination = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -16,6 +17,7 @@ const Destination = ({navigation, route, id}) => {
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
+  const [activities, setActivities] = useState([]);
 
   const getDestination = async () => {
     try {
@@ -46,6 +48,23 @@ const Destination = ({navigation, route, id}) => {
       }
       setTitle(destination.name);
       setDescription(destination.description);
+
+      const destinationActivities = destination.activities.map(activity => ({
+        id: activity.id,
+        title: activity.name,
+        image:
+          activity.medias && activity.medias.length > 0
+            ? activity.medias[0].url
+            : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+        subtitle: activity.date,
+        subtitle2: 'time',
+        footerText: 'Price: ' + activity.price + '€',
+        onPress: () => {
+          navigation.navigate('activity', {id: activity.id});
+        },
+      }));
+
+      setActivities(destinationActivities);
     } catch (error) {
       console.log('error', error);
     }
@@ -67,15 +86,30 @@ const Destination = ({navigation, route, id}) => {
         <View style={styles.infoContainer}>
           {images.length > 0 && (
             <>
-              <Text style={styles.subTitle}>Photos</Text>
+              <Text style={styles.subtitle}>Photos</Text>
               <PhotosCarousel data={images} style={styles.photoCarousel} />
             </>
           )}
-
           {description && description.length > 0 && (
-            <Text style={styles.subTitle}>Description</Text>
+            <Text style={styles.subtitle}>Description</Text>
           )}
           <Text style={styles.descriptionText}>{description}</Text>
+          {activities && activities.length > 0 && (
+            <Text style={styles.activitiesSubtitle}>Activities</Text>
+          )}
+
+          {activities.map(item => (
+            <EventCard
+              key={item.id}
+              imageLink={item.image}
+              title={item.title}
+              subtitle={item.subtitle}
+              subtitle2={item.subtitle2}
+              footerText={item.footerText}
+              style={styles.eventCard}
+              onPress={item.onPress}
+            />
+          ))}
         </View>
       </ScrollView>
     </View>
@@ -105,11 +139,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   destinationPhoto: {},
-  subTitle: {
+  subtitle: {
     fontSize: 20,
     fontWeight: '700',
     marginBottom: 5,
     marginTop: 10,
+  },
+
+  activitiesSubtitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    // // marginBottom: 5,
+    marginTop: 10,
+    marginBottom: 15,
   },
   infoContainer: {
     marginLeft: 20,
@@ -129,6 +171,7 @@ const styles = StyleSheet.create({
     color: '#5E5F61',
     lineHeight: 18,
   },
+  eventCard: {marginBottom: 15},
 });
 
 export default Destination;
