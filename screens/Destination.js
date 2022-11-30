@@ -8,7 +8,7 @@ import PhotosCarousel from '../components/PhotosCarousel';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
-import EventCard from '../components/EventCard';
+import HorizontalCard from '../components/HorizontalCard';
 
 const Destination = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -99,7 +99,7 @@ const Destination = ({navigation, route, id}) => {
           )}
 
           {activities.map(item => (
-            <EventCard
+            <HorizontalCard
               key={item.id}
               imageLink={item.image}
               title={item.title}

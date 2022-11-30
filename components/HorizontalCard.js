@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-const EventCard = ({
+const HorizontalCard = ({
   imageLink,
   title,
   subtitle,
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventCard;
+export default HorizontalCard;

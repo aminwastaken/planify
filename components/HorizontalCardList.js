@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import EventCard from './EventCard';
+import HorizontalCard from './HorizontalCard';
 
 const HorizontalCardList = ({data}) => {
   return (
     <View style={styles.tabContent}>
       {data?.map(item => (
-        <EventCard
+        <HorizontalCard
           key={item.id}
           imageLink={item.image}
           title={item.title}

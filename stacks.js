@@ -61,6 +61,7 @@ const ActivitiesStack = ({navigation}) => {
         headerShown: false,
       }}>
       <Stack.Screen name="activities" component={Activities} />
+      <Stack.Screen name="activity" component={Activity} />
       <Stack.Screen name="settings" component={Settings} />
     </Stack.Navigator>
   );
@@ -75,6 +76,7 @@ const TripsStack = ({navigation}) => {
       }}>
       <Stack.Screen name="Trips" component={Trips} />
       <Stack.Screen name="Trip" component={Trip} />
+      <Stack.Screen name="activity" component={Activity} />
     </Stack.Navigator>
   );
 };

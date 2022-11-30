@@ -87,12 +87,17 @@ const Search = ({navigation, children, ...rest}) => {
     getActivities();
   }, []);
 
+  const handleSearchSubmit = () => {
+    console.log('search');
+  };
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
         <SearchBar
           style={styles.searchBar}
           focus={true}
+          onSubmit={handleSearchSubmit}
           //   onPress={() => navigation.navigate('Search')}
         />
       </ScrollView>

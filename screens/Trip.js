@@ -8,7 +8,7 @@ import PhotosCarousel from '../components/PhotosCarousel';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
-import EventCard from '../components/EventCard';
+import HorizontalCard from '../components/HorizontalCard';
 
 const Trip = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -39,10 +39,6 @@ const Trip = ({navigation, route, id}) => {
             : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
         subtitle: data.activities.length + ' activities',
         footerText: 'footer', // total cost
-        onPress: () => {
-          console.log('clicked');
-          navigation.navigate('Trip', {id: data.id});
-        },
       });
 
       setActivities(
@@ -59,7 +55,7 @@ const Trip = ({navigation, route, id}) => {
             footerText: activity.price && 'Price: ' + activity.price + '€',
             onPress: () => {
               console.log('clicked');
-              navigation.navigate('Activity', {id: activity.id});
+              navigation.navigate('activity', {id: activity.id});
             },
           };
         }),
@@ -85,7 +81,7 @@ const Trip = ({navigation, route, id}) => {
         <View style={styles.infoContainer}>
           <Text style={styles.subTitle}>Activities</Text>
           {activities?.map(item => (
-            <EventCard
+            <HorizontalCard
               key={item.id}
               imageLink={item.image}
               title={item.title}
