@@ -1,94 +1,89 @@
 import React, {useEffect, useContext} from 'react';
 import {useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import BottomTabs from '../components/BottomTabs';
-import Carousel from '../components/Carousel';
-import Header from '../components/Header';
+import HorizontalCard from '../components/HorizontalCard';
 import SearchBar from '../components/SearchBar';
-import Tabs from '../components/Tabs';
-import Text from '../components/Text';
-import {destinations, moreDestinations} from '../data/destinations';
+import {destinations} from '../data/destinations';
 import GlobalContext from '../GlobalContext';
 
 const Search = ({navigation, children, ...rest}) => {
   const {token, setToken} = useContext(GlobalContext);
-  const [activeTab, setActiveTab] = useState(0);
-  const [allDestinations, setAllDestinations] = useState([]);
-  const [entries, setEntries] = useState(0);
+  const [searchValue, setSearchValue] = useState('');
+  const [destinations, setDestinations] = useState([]);
   const [activities, setActivities] = useState([]);
-  const getDestinations = async () => {
+  const [searchSubmitted, setSearchSubmitted] = useState(false);
+
+  const getDestinationResults = async () => {
     try {
-      const response = await fetch(global.apiUrl + 'places', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+      const response = await fetch(
+        global.apiUrl + 'places/search/' + searchValue,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
         },
-      });
+      );
       const destinations = await response.json();
-      setAllDestinations(
-        destinations.map(destination => {
-          return {
-            id: destination.id,
-            image:
-              destination.medias !== undefined && destination.medias.length > 0
-                ? destination.medias[0].url
-                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
-            title: destination.name,
-            url: destination.website,
-            subtitle: {
-              icon: 'location-outline',
-              text: destination.address.city,
-            },
-          };
-        }),
+
+      setDestinations(
+        destinations && Array.isArray(destinations)
+          ? destinations.map(destination => {
+              return {
+                id: destination.id,
+                title: destination.name,
+                footerText: destination?.address?.city,
+                image: destination.medias[0]
+                  ? destination.medias[0].url
+                  : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+              };
+            })
+          : [],
       );
     } catch (error) {
       console.log('the error is', error);
     }
   };
 
-  const getActivities = async () => {
+  const getActivitiesResults = async () => {
     try {
-      const response = await fetch(global.apiUrl + 'activities', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+      const response = await fetch(
+        global.apiUrl + 'activities/search/' + searchValue,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
         },
-      });
+      );
       const activities = await response.json();
-      {
-        console.log('activities', activities);
-      }
+
       setActivities(
-        activities.map(activity => {
-          return {
-            id: activity.id,
-            image:
-              activity.medias !== undefined && activity.medias.length > 0
-                ? activity.medias[0].url
-                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
-            title: activity.name,
-            subtitle: {
-              icon: 'location-outline',
-              text: 'Paris',
-            },
-          };
-        }),
+        activities && Array.isArray(activities)
+          ? activities.map(activity => {
+              return {
+                id: activity.id,
+                title: activity.name,
+                footerText: 'Price: ' + activity.price + '€',
+                image: activity.medias[0]
+                  ? activity.medias[0].url
+                  : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+              };
+            })
+          : [],
       );
     } catch (error) {
-      console.log('error', error);
+      console.log('the error is', error);
     }
   };
 
-  useEffect(() => {
-    getDestinations();
-    getActivities();
-  }, []);
-
   const handleSearchSubmit = () => {
-    console.log('search');
+    getDestinationResults();
+    getActivitiesResults();
+    setSearchSubmitted(true);
   };
 
   return (
@@ -98,16 +93,53 @@ const Search = ({navigation, children, ...rest}) => {
           style={styles.searchBar}
           focus={true}
           onSubmit={handleSearchSubmit}
-          //   onPress={() => navigation.navigate('Search')}
+          value={searchValue}
+          onChange={value => setSearchValue(value)}
         />
+        <View style={styles.searchResultContainer}>
+          {destinations && destinations.length > 0 && (
+            <Text style={styles.subtitle}>Destinations</Text>
+          )}
+          {destinations?.map(item => (
+            <HorizontalCard
+              key={item.id}
+              imageLink={item.image}
+              title={item.title}
+              subtitle={item.subtitle}
+              subtitle2={item.subtitle2}
+              footerText={item.footerText}
+              style={styles.eventCard}
+              onPress={item.onPress}
+            />
+          ))}
+
+          {activities && activities.length > 0 && (
+            <Text style={styles.subtitle}>Activities</Text>
+          )}
+          {activities?.map(item => (
+            <HorizontalCard
+              key={item.id}
+              imageLink={item.image}
+              title={item.title}
+              subtitle={item.subtitle}
+              subtitle2={item.subtitle2}
+              footerText={item.footerText}
+              style={styles.eventCard}
+              onPress={item.onPress}
+            />
+          ))}
+        </View>
       </ScrollView>
-      <BottomTabs
-        tabs={[
-          {id: 'home', icon: 'home'},
-          {id: 'test', icon: 'document-text-outline'},
-          {id: 'favorites', icon: 'heart'},
-        ]}
-      />
+      {searchSubmitted &&
+        (!activities || activities.length === 0) &&
+        (!destinations || destinations.length === 0) && (
+          <View style={styles.messageContainer}>
+            <Text style={styles.mainMessage}>No results found</Text>
+            <Text style={styles.subMessage}>
+              Try searching again using a different spelling or keyword
+            </Text>
+          </View>
+        )}
     </View>
   );
 };
@@ -124,7 +156,9 @@ const styles = StyleSheet.create({
   titleArea: {
     marginBottom: 20,
   },
-
+  searchResultContainer: {
+    marginLeft: 15,
+  },
   description: {
     fontSize: 15,
     fontWeight: '400',
@@ -137,16 +171,37 @@ const styles = StyleSheet.create({
   carousel: {
     marginTop: 20,
   },
-  subTitle: {
+  subtitle: {
     fontSize: 20,
     fontWeight: '700',
+    marginBottom: 5,
+    marginTop: 10,
+    color: '#000',
   },
-  subTitleArea: {
-    marginTop: 20,
+
+  mainMessage: {
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 5,
+    marginTop: 10,
+    color: '#000',
+    textAlign: 'center',
   },
-  bottomTabs: {
+  subMessage: {
+    fontSize: 15,
+    fontWeight: '400',
+    marginBottom: 5,
+    textAlign: 'center',
+    width: '80%',
+  },
+
+  messageContainer: {
     position: 'absolute',
-    bottom: 0,
+    top: '50%',
+    left: '42%',
+    transform: [{translateX: -150}, {translateY: -50}],
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

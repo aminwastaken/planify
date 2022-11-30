@@ -3,7 +3,7 @@ import {View, TextInput, StyleSheet, Button, Image, Text} from 'react-native';
 import {IconButton} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native';
 
-const SearchBar = ({style, onPress, focus}) => {
+const SearchBar = ({style, onPress, focus, value, onChange, onSubmit}) => {
   const inputRef = useRef();
 
   useEffect(() => {
@@ -22,13 +22,18 @@ const SearchBar = ({style, onPress, focus}) => {
         <TextInput
           style={styles.input}
           placeholder="Search places"
+          value={value}
+          onChangeText={text => onChange(text)}
           disabled={true}
           ref={inputRef}
           // focus on input
         />
       )}
 
-      <TouchableOpacity style={styles.searchButton} activeOpacity={0.5}>
+      <TouchableOpacity
+        style={styles.searchButton}
+        activeOpacity={0.5}
+        onPress={onSubmit}>
         <View style={styles.searchButtonContainer}>
           <Image
             source={require('../assets/images/search.png')}

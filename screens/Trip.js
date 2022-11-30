@@ -79,7 +79,7 @@ const Trip = ({navigation, route, id}) => {
         </View>
         <PageCover image={trip.image} title={trip.title} />
         <View style={styles.infoContainer}>
-          <Text style={styles.subTitle}>Activities</Text>
+          <Text style={styles.subtitle}>Activities</Text>
           {activities?.map(item => (
             <HorizontalCard
               key={item.id}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   destinationPhoto: {},
-  subTitle: {
+  subtitle: {
     fontSize: 20,
     fontWeight: '700',
     marginBottom: 5,
