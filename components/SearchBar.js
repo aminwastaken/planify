@@ -1,12 +1,33 @@
-import React from 'react';
-import {View, TextInput, StyleSheet, Button, Image} from 'react-native';
+import React, {useRef, useEffect} from 'react';
+import {View, TextInput, StyleSheet, Button, Image, Text} from 'react-native';
 import {IconButton} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native';
 
-const SearchBar = ({style}) => {
+const SearchBar = ({style, onPress, focus}) => {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (focus) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   return (
     <View style={{...styles.screen, ...style}}>
-      <TextInput style={styles.input} placeholder="Search places" />
+      {onPress ? (
+        <Text onPress={onPress} style={styles.input}>
+          Search places
+        </Text>
+      ) : (
+        <TextInput
+          style={styles.input}
+          placeholder="Search places"
+          disabled={true}
+          ref={inputRef}
+          // focus on input
+        />
+      )}
+
       <TouchableOpacity style={styles.searchButton} activeOpacity={0.5}>
         <View style={styles.searchButtonContainer}>
           <Image
@@ -23,7 +44,7 @@ const SearchBar = ({style}) => {
 
 const styles = StyleSheet.create({
   input: {
-    width: 300,
+    width: '100%',
     height: 50,
     backgroundColor: '#fff',
     paddingVertical: 10,
@@ -52,7 +73,7 @@ const styles = StyleSheet.create({
 
   searchButton: {
     position: 'absolute',
-    left: 255,
+    right: 5,
     top: 5,
   },
 });

@@ -14,6 +14,7 @@ import ActivityBooked from './screens/ActivityBooked';
 import NewTrip from './components/NewTrip';
 import Activity from './screens/Activity';
 import Trip from './screens/Trip';
+import Search from './screens/Search';
 const Stack = createStackNavigator();
 
 const HomeScreenStack = ({navigation}) => {
@@ -32,6 +33,8 @@ const HomeScreenStack = ({navigation}) => {
       <Stack.Screen name="pickTrip" component={PickTrip} />
       <Stack.Screen name="newTrip" component={NewTrip} />
       <Stack.Screen name="ActivityBooked" component={ActivityBooked} />
+      {/* search branch */}
+      <Stack.Screen name="search" component={Search} />
     </Stack.Navigator>
   );
 };
