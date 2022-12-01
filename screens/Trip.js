@@ -69,6 +69,22 @@ const Trip = ({navigation, route, id}) => {
     getTrips();
   }, []);
 
+  const deleteTrip = async () => {
+    try {
+      const response = await fetch(global.apiUrl + 'trips/' + route.params.id, {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      navigation.goBack();
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
@@ -93,6 +109,9 @@ const Trip = ({navigation, route, id}) => {
             />
           ))}
         </View>
+        <Button style={styles.button} onPress={deleteTrip}>
+          Delete trip
+        </Button>
       </ScrollView>
     </View>
   );
@@ -147,6 +166,15 @@ const styles = StyleSheet.create({
   },
 
   eventCard: {marginBottom: 15},
+
+  button: {
+    backgroundColor: '#AD081B',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    borderRadius: 7.56,
+    margin: 10,
+  },
 });
 
 export default Trip;

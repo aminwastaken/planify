@@ -49,8 +49,6 @@ const Trips = ({navigation, children}) => {
     }
   };
 
-  // refresh on navigation
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getTrips();
@@ -60,15 +58,15 @@ const Trips = ({navigation, children}) => {
 
   return (
     <View style={styles.mainContainer}>
-      <ScrollView style={styles.scrollView}>
+      <View style={styles.scrollView}>
         <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
           <Text style={styles.title}>Trips</Text>
         </View>
-        <View style={styles.content}>
+        <ScrollView style={styles.content}>
           <HorizontalCardList data={trips} />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 };

@@ -26,7 +26,6 @@ const SearchBar = ({style, onPress, focus, value, onChange, onSubmit}) => {
           onChangeText={text => onChange(text)}
           disabled={true}
           ref={inputRef}
-          // focus on input
         />
       )}
 
