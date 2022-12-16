@@ -9,6 +9,7 @@ import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
 import HorizontalCard from '../components/HorizontalCard';
+import Map from '../components/Map';
 
 const Trip = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -27,7 +28,7 @@ const Trip = ({navigation, route, id}) => {
       });
 
       const data = await response.json();
-      console.log('these are the trips', data);
+      console.log('trip', data);
       setTrip({
         id: data.id,
         title: data.name,
@@ -93,7 +94,8 @@ const Trip = ({navigation, route, id}) => {
             <Icon name="arrow-left" size={20} color="#FFF" />
           </TouchableOpacity>
         </View>
-        <PageCover image={trip.image} title={trip.title} />
+        {/* <PageCover image={trip.image} title={trip.title} /> */}
+        <Map />
         <View style={styles.infoContainer}>
           <Text style={styles.subtitle}>Activities</Text>
           {activities?.map(item => (

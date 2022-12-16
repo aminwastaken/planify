@@ -32,6 +32,7 @@ const Destination = ({navigation, route, id}) => {
         },
       );
       const destination = await response.json();
+      console.log('destination', destination);
 
       setImage(
         destination.medias !== undefined && destination.medias.length > 0
@@ -40,7 +41,7 @@ const Destination = ({navigation, route, id}) => {
       );
       if (destination.medias !== undefined && destination.medias.length > 1) {
         setImages(
-          destination.medias.slice(1).map(image => ({
+          destination?.medias?.slice(1)?.map(image => ({
             id: image.id,
             image: image.url,
           })),
@@ -49,7 +50,7 @@ const Destination = ({navigation, route, id}) => {
       setTitle(destination.name);
       setDescription(destination.description);
 
-      const destinationActivities = destination.activities.map(activity => ({
+      const destinationActivities = destination?.activities?.map(activity => ({
         id: activity.id,
         title: activity.name,
         image:
@@ -98,7 +99,7 @@ const Destination = ({navigation, route, id}) => {
             <Text style={styles.activitiesSubtitle}>Activities</Text>
           )}
 
-          {activities.map(item => (
+          {activities?.map(item => (
             <HorizontalCard
               key={item.id}
               imageLink={item.image}

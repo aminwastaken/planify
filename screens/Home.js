@@ -4,6 +4,7 @@ import {View, StyleSheet, ScrollView} from 'react-native';
 import BottomTabs from '../components/BottomTabs';
 import Carousel from '../components/Carousel';
 import Header from '../components/Header';
+import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
 import Tabs from '../components/Tabs';
 import Text from '../components/Text';
