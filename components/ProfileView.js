@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 import Text from './Text';
 
-const ProfileView = ({firstname, lastname, email}) => {
+const ProfileView = ({user, firstname, lastname, email, profilePicture}) => {
+  useEffect(() => {}, [user]);
   return (
     <View style={styles.mainContainer}>
       <Image
         source={{
-          uri: 'https://www.shareicon.net/data/128x128/2016/05/24/770117_people_512x512.png',
+          uri: profilePicture?.url
+            ? profilePicture.url
+            : 'https://www.darylroththeatre.com/wp-content/uploads/2018/10/avatar-placeholder.png',
         }}
         style={styles.profilePhoto}
       />
@@ -30,6 +33,8 @@ const styles = StyleSheet.create({
   profilePhoto: {
     height: 150,
     width: 150,
+    borderRadius: 75,
+    marginBottom: 10,
   },
   fullName: {
     fontSize: 20,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import BottomTabs from '../components/BottomTabs';
@@ -12,17 +12,45 @@ import {Button} from 'react-native-paper';
 import ProfileView from '../components/ProfileView';
 import ProfileMenu from '../components/ProfileMenu';
 import ProfileForm from '../components/ProfileForm';
+import GlobalContext from '../GlobalContext';
+import ProfileEditForm from '../components/ProfileEditForm';
 
 const EditProfile = ({navigation, children}) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const [entries, setEntries] = useState(0);
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [birthmonth, setBirthmonth] = useState('');
-  const [birthyear, setBirthyear] = useState('');
-  console.log(process.env.NODE_ENV);
+  const {token, setToken} = useContext(GlobalContext);
+  const [updateNumber, setUpdateNumber] = useState(0);
+  const [user, setUser] = useState({});
+
+  const getCurrentUser = async () => {
+    try {
+      const response = await fetch(global.apiUrl + 'me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      const user = await response.json();
+      return user;
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
+
+  const loadData = async () => {
+    const user = await getCurrentUser();
+    setUser(user);
+    console.log('updated user ', user);
+  };
+
+  const update = () => {
+    console.log('update function');
+    setUpdateNumber(updateNumber + 1);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   console.log('BACKEND_BASE_URL', process.env);
   return (
     <View style={styles.mainContainer}>
@@ -31,12 +59,17 @@ const EditProfile = ({navigation, children}) => {
         <View style={styles.titleArea}>
           <Text style={styles.title}>Edit profile</Text>
           <ProfileView
-            firstname="John"
-            lastname="Doe"
-            email="john.doe@example.com"
+            user={user}
+            firstname={user.firstName}
+            lastname={user.lastName}
+            email={user.email}
+            profilePicture={user.profilePicture}
           />
-          {/* <ProfileMenu style={styles.profileMenu} navigation={navigation} /> */}
-          <ProfileForm />
+          <ProfileEditForm
+            data={user}
+            update={update}
+            navigation={navigation}
+          />
         </View>
       </ScrollView>
     </View>
