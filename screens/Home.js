@@ -105,12 +105,14 @@ const Home = ({navigation, children, ...rest}) => {
             navigation.navigate('search');
           }}
         />
-        <Tabs
-          tabs={['All destinations', 'Hotels', 'Restaurants', 'More']}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          allDestinations={allDestinations}
-        />
+        <View style={styles.tabContainer}>
+          <Tabs
+            tabs={['All destinations', 'Destinations near you']}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            allDestinations={allDestinations}
+          />
+        </View>
         <Carousel
           style={styles.carousel}
           data={activeTab === 0 && allDestinations}
@@ -153,6 +155,9 @@ const styles = StyleSheet.create({
     color: '#B6B6B8',
   },
 
+  tabContainer: {
+    width: 280,
+  },
   searchBar: {
     marginBottom: 20,
     width: 300,

@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import GlobalContext from '../GlobalContext';
 
 const Login = ({navigation, ...props}) => {
-  const {token, setToken} = useContext(GlobalContext);
+  const {token, setToken, userLocation} = useContext(GlobalContext);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const login = async () => {
@@ -51,6 +51,9 @@ const Login = ({navigation, ...props}) => {
           Signup
         </Text>
       </View>
+      <Text style={styles.subTitle}>
+        user location {userLocation?.latitude} {userLocation?.longitude}
+      </Text>
     </View>
   );
 };
