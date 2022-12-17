@@ -5,6 +5,7 @@ import Text from '../components/Text';
 import TabsView from '../components/TabsView';
 import GlobalContext from '../GlobalContext';
 import HorizontalCardList from '../components/HorizontalCardList';
+import {getFormattedDate, getFormattedTime} from '../utils/format';
 
 const Activities = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -32,8 +33,8 @@ const Activities = ({navigation, children}) => {
             ? activity.medias[0].url
             : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
         title: activity.name,
-        subtitle: activity.date && activity.date,
-        subtitle2: activity.date && 'time',
+        subtitle: activity.date && getFormattedDate(activity.date),
+        subtitle2: activity.date && getFormattedTime(activity.date),
         footerText: activity.price && 'Price: ' + activity.price + '€',
         onPress: () => {
           navigation.navigate('activity', {
@@ -41,9 +42,10 @@ const Activities = ({navigation, children}) => {
           });
         },
       };
+      console.log('current activity ', activity.name);
       console.log('activity date', activity.date);
 
-      if (activity.date > new Date()) {
+      if (new Date(activity.date) < new Date()) {
         past.push(formattedActivity);
       } else {
         upcoming.push(formattedActivity);
