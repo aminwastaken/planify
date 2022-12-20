@@ -16,6 +16,7 @@ const HorizontalCard = ({
     month: 'long',
     day: 'numeric',
   };
+  console.log('Subtitle 1 :', subtitle);
   return (
     <TouchableOpacity style={[style, styles.mainContainer]} onPress={onPress}>
       <Image style={styles.image} source={{uri: imageLink}} />
@@ -23,8 +24,8 @@ const HorizontalCard = ({
       <View style={styles.textContainer}>
         <View>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.text}>{subtitle}</Text>
-          <Text style={styles.text}>{subtitle2}</Text>
+          {/* {subtitle && <Text style={styles.text}>{subtitle}</Text>} */}
+          {/* {subtitle2 && <Text style={styles.text}>{subtitle2}</Text>} */}
         </View>
         <Text style={styles.footerText}>{footerText}</Text>
       </View>

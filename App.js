@@ -7,6 +7,7 @@ import {
   ProfileStack,
   ActivitiesStack,
   TripsStack,
+  DestinationsStack,
 } from './stacks';
 import GlobalContext from './GlobalContext';
 import Signup from './screens/Signup';
@@ -126,6 +127,7 @@ const App = () => {
             <Drawer.Screen name="Home" component={HomeScreenStack} />
             <Drawer.Screen name="Profile" component={ProfileStack} />
             <Drawer.Screen name="Activities" component={ActivitiesStack} />
+            <Drawer.Screen name="Destinations" component={DestinationsStack} />
             <Drawer.Screen name="Trips" component={TripsStack} />
             <Drawer.Screen name="Logout" component={Logout} />
           </Drawer.Navigator>

@@ -35,7 +35,7 @@ const Activities = ({navigation, children}) => {
         title: activity.name,
         subtitle: activity.date && getFormattedDate(activity.date),
         subtitle2: activity.date && getFormattedTime(activity.date),
-        footerText: activity.price && 'Price: ' + activity.price + '€',
+        footerText: activity.price ? 'Price: ' + activity.price + '€' : 'Free',
         onPress: () => {
           navigation.navigate('activity', {
             id: activity.id,

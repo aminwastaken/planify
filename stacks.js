@@ -15,6 +15,7 @@ import NewTrip from './components/NewTrip';
 import Activity from './screens/Activity';
 import Trip from './screens/Trip';
 import Search from './screens/Search';
+import Destinations from './screens/Destinations';
 const Stack = createStackNavigator();
 
 const HomeScreenStack = ({navigation}) => {
@@ -62,7 +63,19 @@ const ActivitiesStack = ({navigation}) => {
       }}>
       <Stack.Screen name="activities" component={Activities} />
       <Stack.Screen name="activity" component={Activity} />
-      <Stack.Screen name="settings" component={Settings} />
+    </Stack.Navigator>
+  );
+};
+
+const DestinationsStack = ({}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Destinations"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="destinations" component={Destinations} />
+      <Stack.Screen name="destination" component={Destination} />
     </Stack.Navigator>
   );
 };
@@ -81,4 +94,10 @@ const TripsStack = ({navigation}) => {
   );
 };
 
-export {HomeScreenStack, ProfileStack, ActivitiesStack, TripsStack};
+export {
+  HomeScreenStack,
+  ProfileStack,
+  ActivitiesStack,
+  TripsStack,
+  DestinationsStack,
+};

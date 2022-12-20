@@ -10,6 +10,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
 import HorizontalCard from '../components/HorizontalCard';
 import Map from '../components/Map';
+import {getFormattedDate, getFormattedTime} from '../utils/format';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 const Trip = ({navigation, route, id}) => {
   const {token, userLocation} = useContext(GlobalContext);
@@ -50,8 +52,8 @@ const Trip = ({navigation, route, id}) => {
                 ? activity.medias[0].url
                 : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
             title: activity.name,
-            subtitle: activity.date && activity.date,
-            subtitle2: activity.date && 'time',
+            subtitle: activity.date && getFormattedDate(activity.date),
+            subtitle2: activity.date && getFormattedTime(activity.date),
             footerText: activity.price && 'Price: ' + activity.price + '€',
             onPress: () => {
               console.log('clicked');
