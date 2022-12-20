@@ -4,7 +4,19 @@ import Header from '../components/Header';
 import Text from '../components/Text';
 import GlobalContext from '../GlobalContext';
 import HorizontalCardList from '../components/HorizontalCardList';
-import {upcomingActivities} from '../data/destinations';
+
+const getImage = activities => {
+  for (let i = 0; i < activities.length; i++) {
+    console.log('activity inside foreach', activities[i]);
+    if (activities[i].medias && activities[i].medias.length > 0) {
+      console.log('inside condition', activities[i].medias);
+      console.log('should return', activities[i].medias[0].url);
+      return activities[i].medias[0].url;
+    }
+  }
+
+  return 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg';
+};
 
 const Trips = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -30,10 +42,8 @@ const Trips = ({navigation, children}) => {
             title: trip.name,
             image:
               trip.activities && trip.activities.length > 0
-                ? trip.activities[0].image
-                  ? trip.activities[0].image
-                  : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
-                : '',
+                ? getImage(trip.activities)
+                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
             subtitle:
               trip.activities.length +
               (trip.activities.length === 1 ? ' activity' : ' activities'),
