@@ -17,7 +17,7 @@ const Search = ({navigation, children, ...rest}) => {
   const getDestinationResults = async () => {
     try {
       const response = await fetch(
-        global.apiUrl + 'places/search/' + searchValue,
+        global.apiUrl + 'places?page=1&search=' + searchValue,
         {
           method: 'GET',
           headers: {
@@ -29,8 +29,10 @@ const Search = ({navigation, children, ...rest}) => {
       const destinations = await response.json();
 
       setDestinations(
-        destinations && Array.isArray(destinations)
-          ? destinations.map(destination => {
+        destinations &&
+          destinations.places &&
+          Array.isArray(destinations.places)
+          ? destinations.places.map(destination => {
               return {
                 id: destination.id,
                 title: destination.name,
@@ -50,7 +52,7 @@ const Search = ({navigation, children, ...rest}) => {
   const getActivitiesResults = async () => {
     try {
       const response = await fetch(
-        global.apiUrl + 'activities/search/' + searchValue,
+        global.apiUrl + 'activities?page=1&search=' + searchValue,
         {
           method: 'GET',
           headers: {
@@ -62,8 +64,10 @@ const Search = ({navigation, children, ...rest}) => {
       const activities = await response.json();
 
       setActivities(
-        activities && Array.isArray(activities)
-          ? activities.map(activity => {
+        activities &&
+          activities.activities &&
+          Array.isArray(activities.activities)
+          ? activities.activities.map(activity => {
               return {
                 id: activity.id,
                 title: activity.name,
@@ -80,9 +84,9 @@ const Search = ({navigation, children, ...rest}) => {
     }
   };
 
-  const handleSearchSubmit = () => {
-    getDestinationResults();
-    getActivitiesResults();
+  const handleSearchSubmit = async () => {
+    await getDestinationResults();
+    await getActivitiesResults();
     setSearchSubmitted(true);
   };
 

@@ -14,8 +14,8 @@ const Activity = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [image, setImage] = useState();
   const [images, setImages] = useState([]);
-  const [title, setTitle] = useState();
-  const [price, setPrice] = useState();
+  const [title, setTitle] = useState(undefined);
+  const [price, setPrice] = useState(undefined);
   const [description, setDescription] = useState();
 
   const getActivities = async () => {
@@ -47,8 +47,10 @@ const Activity = ({navigation, route, id}) => {
         );
       }
       setTitle(activity.name);
+      console.log(activity.description);
+      console.log('price', price);
       setDescription(activity.description);
-      setPrice(activity.price);
+      setPrice(activity.price ? activity.price : 'Free');
     } catch (error) {
       console.log('error', error);
     }

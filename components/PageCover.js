@@ -5,6 +5,7 @@ import Text from './Text';
 import Rating from './Rating';
 
 const PageCover = ({image, title, price}) => {
+  console.log('price from page cover', price);
   return (
     <View>
       <Image
@@ -24,12 +25,18 @@ const PageCover = ({image, title, price}) => {
           height: '70%',
           bottom: 0,
         }}></LinearGradient>
-      <Text style={styles.title}>{title}</Text>
+      {title && title.length > 0 && <Text style={styles.title}>{title}</Text>}
       {price && (
         <View style={styles.priceContainer}>
           <Text style={styles.priceText}>
-            €{price}
-            <Text style={styles.priceSecondaryText}> /person</Text>
+            {price !== 'Free' ? (
+              <>
+                €{price}
+                <Text style={styles.priceSecondaryText}> /person</Text>
+              </>
+            ) : (
+              <Text style={styles.priceText}> Free </Text>
+            )}
           </Text>
         </View>
       )}

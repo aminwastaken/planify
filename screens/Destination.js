@@ -83,7 +83,7 @@ const Destination = ({navigation, route, id}) => {
             <Icon name="arrow-left" size={20} color="#FFF" />
           </TouchableOpacity>
         </View>
-        <PageCover image={image} title={title} price={price} />
+        <PageCover image={image} title={title} price={price} rating={'4.6'} />
         <View style={styles.infoContainer}>
           {images.length > 0 && (
             <>
