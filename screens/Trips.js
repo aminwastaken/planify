@@ -22,7 +22,7 @@ const Trips = ({navigation, children}) => {
       });
 
       const data = await response.json();
-      console.log('these are the trips', data);
+      console.log('these are the trips (trips)', data);
       setTrips(
         data.map(trip => {
           return {
@@ -63,9 +63,15 @@ const Trips = ({navigation, children}) => {
         <View style={styles.titleArea}>
           <Text style={styles.title}>Trips</Text>
         </View>
-        <ScrollView style={styles.content}>
-          <HorizontalCardList data={trips} />
-        </ScrollView>
+        {trips && trips.length > 0 ? (
+          <ScrollView style={styles.content}>
+            <HorizontalCardList data={trips} />
+          </ScrollView>
+        ) : (
+          <View style={styles.messageContainer}>
+            <Text style={styles.message}>You have no trips yet.</Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -89,6 +95,16 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  messageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  message: {
+    fontSize: 16,
+    color: 'grey',
+    // fontWeight: '700',
   },
 });
 

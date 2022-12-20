@@ -74,7 +74,7 @@ const TripsStack = ({navigation}) => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Trips" component={Trips} />
+      <Stack.Screen name="trips" component={Trips} />
       <Stack.Screen name="Trip" component={Trip} />
       <Stack.Screen name="activity" component={Activity} />
     </Stack.Navigator>

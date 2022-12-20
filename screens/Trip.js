@@ -12,7 +12,7 @@ import HorizontalCard from '../components/HorizontalCard';
 import Map from '../components/Map';
 
 const Trip = ({navigation, route, id}) => {
-  const {token, setToken} = useContext(GlobalContext);
+  const {token, userLocation} = useContext(GlobalContext);
   const [trip, setTrip] = useState([]);
   const [activities, setActivities] = useState([]);
 
@@ -28,7 +28,6 @@ const Trip = ({navigation, route, id}) => {
       });
 
       const data = await response.json();
-      console.log('trip', data);
       setTrip({
         id: data.id,
         title: data.name,
@@ -67,6 +66,7 @@ const Trip = ({navigation, route, id}) => {
   };
 
   useEffect(() => {
+    console.log('current locaton from trip', userLocation);
     getTrips();
   }, []);
 
@@ -95,7 +95,7 @@ const Trip = ({navigation, route, id}) => {
           </TouchableOpacity>
         </View>
         {/* <PageCover image={trip.image} title={trip.title} /> */}
-        <Map />
+        <Map currentLocation={userLocation} />
         <View style={styles.infoContainer}>
           <Text style={styles.subtitle}>Activities</Text>
           {activities?.map(item => (

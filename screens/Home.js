@@ -28,7 +28,7 @@ const Home = ({navigation, children, ...rest}) => {
       });
       const destinations = await response.json();
       setAllDestinations(
-        destinations.map(destination => {
+        destinations.places.map(destination => {
           return {
             id: destination.id,
             image:
@@ -63,7 +63,7 @@ const Home = ({navigation, children, ...rest}) => {
         console.log('activities', activities);
       }
       setActivities(
-        activities.map(activity => {
+        activities.activities.map(activity => {
           return {
             id: activity.id,
             image:

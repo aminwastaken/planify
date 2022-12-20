@@ -45,7 +45,7 @@ const PickTrip = ({navigation, route}) => {
       });
 
       const data = await response.json();
-      console.log('these are the trips', data);
+      console.log('these are the trips (pick a trip)', data);
       setTrips(
         data.map(trip => {
           return {

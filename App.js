@@ -38,8 +38,21 @@ const App = () => {
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             console.log('Permission Granted');
+            // Geolocation.getCurrentPosition(
+            //   info => {
+            //     setUserLocation({
+            //       longitude: info.coords.longitude,
+            //       latitude: info.coords.latitude,
+            //     });
+
+            //     console.log('info', info);
+            //   },
+
+            //   error => console.error(error),
+            //   {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
+            // );
             getOneTimeLocation();
-            subscribeLocationLocation();
+            // subscribeLocationLocation();
           } else {
             console.log('Permission Denied');
           }
@@ -79,22 +92,22 @@ const App = () => {
     );
   };
 
-  const subscribeLocationLocation = () => {
-    console.log('subscribing to location');
-    return Geolocation.watchPosition(
-      position => {
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-        console.log('currentLongitude', currentLongitude);
-        console.log('currentLatitude', currentLatitude);
-      },
-      error => {},
-      {
-        enableHighAccuracy: false,
-        maximumAge: 1000,
-      },
-    );
-  };
+  // const subscribeLocationLocation = () => {
+  //   console.log('subscribing to location');
+  //   return Geolocation.watchPosition(
+  //     position => {
+  //       const currentLongitude = JSON.stringify(position.coords.longitude);
+  //       const currentLatitude = JSON.stringify(position.coords.latitude);
+  //       console.log('currentLongitude', currentLongitude);
+  //       console.log('currentLatitude', currentLatitude);
+  //     },
+  //     error => {},
+  //     {
+  //       enableHighAccuracy: false,
+  //       maximumAge: 1000,
+  //     },
+  //   );
+  // };
 
   return (
     <GlobalContext.Provider

@@ -25,7 +25,7 @@ const Activities = ({navigation, children}) => {
     const upcoming = [];
     const past = [];
 
-    activities.forEach(activity => {
+    activities.activities.forEach(activity => {
       const formattedActivity = {
         id: activity.id,
         image:
@@ -51,9 +51,6 @@ const Activities = ({navigation, children}) => {
         upcoming.push(formattedActivity);
       }
     });
-
-    console.log('upcoming', upcoming);
-    console.log('past', past);
 
     setUpcomingActivities(upcoming);
     setPastActivities(past);

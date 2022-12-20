@@ -31,6 +31,7 @@ const Activity = ({navigation, route, id}) => {
         },
       );
       const activity = await response.json();
+      console.log('activity data', activity);
 
       setImage(
         activity.medias !== undefined && activity.medias.length > 0
