@@ -15,16 +15,6 @@ const createFormData = photo => {
     uri: Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
   });
 
-  // Object.keys(body).forEach(key => {
-  //   data.append(key, body[key]);
-  // });
-
-  console.log('formatted image data', {
-    name: photo.fileName,
-    type: photo.type,
-    uri: Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
-  });
-
   return data;
 };
 
@@ -44,8 +34,22 @@ const ProfileEditForm = ({data, navigation, style}) => {
   const handleChoosePhoto = () => {
     launchImageLibrary({noData: true}, response => {
       console.log('photo response', response);
-      if (response) {
-        setPhoto(response.assets[0]);
+      if (response && response.assets && response.assets[0]) {
+        fetch(global.apiUrl + 'users/' + userId, {
+          method: 'PUT',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+          body: createFormData(response.assets[0]),
+        })
+          .then(response => response.json())
+          .then(response => {
+            console.log('photo response', response);
+            navigation.goBack();
+          })
+          .catch(error => {
+            console.log('error', error);
+          });
       }
     });
   };
