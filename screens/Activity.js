@@ -9,6 +9,7 @@ import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
 import {set} from 'react-native-reanimated';
+import {getFormattedDate} from '../utils/format';
 
 const Activity = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -17,8 +18,9 @@ const Activity = ({navigation, route, id}) => {
   const [title, setTitle] = useState(undefined);
   const [price, setPrice] = useState(undefined);
   const [description, setDescription] = useState();
+  const [date, setDate] = useState();
 
-  const getActivities = async () => {
+  const loadActivity = async () => {
     try {
       const response = await fetch(
         global.apiUrl + 'activities/' + route.params.id,
@@ -47,8 +49,7 @@ const Activity = ({navigation, route, id}) => {
         );
       }
       setTitle(activity.name);
-      console.log(activity.description);
-      console.log('price', price);
+      if (activity.date) setDate(getFormattedDate(activity.date));
       setDescription(activity.description);
       setPrice(activity.price ? activity.price : 'Free');
     } catch (error) {
@@ -57,7 +58,7 @@ const Activity = ({navigation, route, id}) => {
   };
 
   useEffect(() => {
-    getActivities();
+    loadActivity();
   }, []);
 
   return (
@@ -77,6 +78,8 @@ const Activity = ({navigation, route, id}) => {
             </>
           )}
 
+          {/* {date && date.length > 0 && <Text style={styles.subTitle}>Date</Text>} */}
+          <Text style={styles.text}>{date}</Text>
           {description && description.length > 0 && (
             <Text style={styles.subTitle}>Description</Text>
           )}
@@ -124,6 +127,12 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 20,
     fontWeight: '700',
+    marginBottom: 5,
+    marginTop: 10,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: '300',
     marginBottom: 5,
     marginTop: 10,
   },

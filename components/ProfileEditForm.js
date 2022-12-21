@@ -1,9 +1,32 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import Button from './Button';
 import GlobalContext from '../GlobalContext';
+import {launchImageLibrary} from 'react-native-image-picker';
+
+const createFormData = photo => {
+  const data = new FormData();
+
+  data.append('images', {
+    name: photo.fileName,
+    type: photo.type,
+    uri: Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
+  });
+
+  // Object.keys(body).forEach(key => {
+  //   data.append(key, body[key]);
+  // });
+
+  console.log('formatted image data', {
+    name: photo.fileName,
+    type: photo.type,
+    uri: Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
+  });
+
+  return data;
+};
 
 const ProfileEditForm = ({data, navigation, style}) => {
   const [open, setOpen] = useState(false);
@@ -16,9 +39,32 @@ const ProfileEditForm = ({data, navigation, style}) => {
   const [errors, setErrors] = useState([]);
   const [userId, setUserId] = useState();
   const {token, setToken} = useContext(GlobalContext);
+  const [photo, setPhoto] = React.useState(null);
 
-  const reloadScreen = () => {
-    console.log('reload screen');
+  const handleChoosePhoto = () => {
+    launchImageLibrary({noData: true}, response => {
+      console.log('photo response', response);
+      if (response) {
+        setPhoto(response.assets[0]);
+      }
+    });
+  };
+
+  const handleUploadPhoto = () => {
+    fetch(global.apiUrl + 'users/' + userId, {
+      method: 'PUT',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      body: createFormData(photo),
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log('photo response', response);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
   };
 
   useEffect(() => {
@@ -108,12 +154,24 @@ const ProfileEditForm = ({data, navigation, style}) => {
         onChangeText={text => setPhone(text)}
       />
       <Button style={styles.button} onPress={saveProfile}>
-        {' '}
         Save profile{' '}
       </Button>
+      <View>
+        {photo && (
+          <>
+            <Image
+              source={{uri: photo.uri}}
+              style={{width: 300, height: 300}}
+            />
+            <Button onPress={handleUploadPhoto}> Upload photo </Button>
+          </>
+        )}
+        <Button style={styles.button} onPress={handleChoosePhoto}>
+          Choose Photo
+        </Button>
+      </View>
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeText}
         type="flat"
         underlineColor="#707070"
         activeUnderlineColor="#707070"
@@ -133,54 +191,6 @@ const ProfileEditForm = ({data, navigation, style}) => {
         onChangeText={text => setNewPassword(text)}
       />
       <Button style={styles.button}> Change password </Button>
-      {/* <TouchableOpacity onPress={() => setOpen(true)}>
-        <View style={styles.birthdayInput}>
-          <Text style={styles.birthdayInputText}>
-            {day && month && year
-              ? `${day} / ${month} / ${year}`
-              : 'DD / MM / YYYY'}
-          </Text>
-        </View>
-      </TouchableOpacity> */}
-
-      {/* <Button
-        mode="contained"
-        style={styles.submitButton}
-        onPress={() => console.log('Pressed')}>
-        Save
-      </Button> */}
-
-      {/* <DatePicker
-        modal
-        mode="date"
-        open={open}
-        date={date}
-        value={date}
-        maximumDate={new Date('2010-12-31')}
-        minimumDate={new Date('1910-01-01')}
-        onConfirm={date => {
-          setOpen(false);
-          let day = date.getDate().toString();
-          let month = date.getMonth().toString();
-          const year = date.getFullYear().toString();
-          if (day.length === 1) {
-            day = '0' + day;
-          }
-          if (month.length === 1) {
-            month = '0' + month;
-          }
-          setDay(day);
-          setMonth(month);
-          setYear(year);
-          setDate(date);
-        }}
-        onCancel={() => {
-          setOpen(false);
-        }}
-      /> */}
-      {errors.map((error, index) => {
-        return <Text key={index}>{error}</Text>;
-      })}
     </View>
   );
 };

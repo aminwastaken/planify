@@ -15,6 +15,7 @@ const Signup = ({navigation}) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const {token, setToken} = useContext(GlobalContext);
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   const handleSignup = async () => {
     console.log('signup');
@@ -40,46 +41,71 @@ const Signup = ({navigation}) => {
         lastName: lastName,
       });
       const data = await response.json();
-      console.log('this is the signup data', data);
+      if (data.error) {
+        if (
+          data.message &&
+          Array.isArray(data.message) &&
+          data.message.length > 0
+        ) {
+          console.log('this is the error message', data.message[0]);
+          setErrorMessage(data.message[0]);
+        } else if (data.message && typeof data.message === 'string') {
+          setErrorMessage(data.message);
+        } else {
+          setErrorMessage('Something went wrong');
+        }
+      }
       setToken(data.access_token);
     } catch (error) {
       console.log(error);
-      setError(error);
     }
   };
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Create your</Text>
-        <Text style={styles.title}>Account</Text>
+    <>
+      <View
+        style={[
+          styles.errorMessageContainer,
+          {
+            backgroundColor: errorMessage && errorMessage != '' && '#FD4640',
+          },
+        ]}>
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
       </View>
-      <ProfileForm
-        email={email}
-        setEmail={setEmail}
-        password={password}
-        setPassword={setPassword}
-        firstName={firstName}
-        setFirstName={setFirstName}
-        lastName={lastName}
-        setLastName={setLastName}
-        phone={phone}
-        setPhone={setPhone}
-        error={error}
-        setError={setError}
-        loading={loading}
-        setLoading={setLoading}
-        style={styles.profileForm}
-      />
-      <Button style={styles.button} onPress={handleSignup}>
-        Sign up
-      </Button>
-      <View style={styles.loginMessage}>
-        <Text style={styles.subTitle}>Already have an account? </Text>
-        <Text style={styles.link} onPress={() => navigation.navigate('Login')}>
-          Login
-        </Text>
+      <View style={styles.mainContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Create your</Text>
+          <Text style={styles.title}>Account</Text>
+        </View>
+        <ProfileForm
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          firstName={firstName}
+          setFirstName={setFirstName}
+          lastName={lastName}
+          setLastName={setLastName}
+          phone={phone}
+          setPhone={setPhone}
+          error={error}
+          setError={setError}
+          loading={loading}
+          setLoading={setLoading}
+          style={styles.profileForm}
+        />
+        <Button style={styles.button} onPress={handleSignup}>
+          Sign up
+        </Button>
+        <View style={styles.loginMessage}>
+          <Text style={styles.subTitle}>Already have an account? </Text>
+          <Text
+            style={styles.link}
+            onPress={() => navigation.navigate('Login')}>
+            Login
+          </Text>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -115,6 +141,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 20,
+  },
+  errorMessageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    zIndex: 1,
+  },
+
+  errorMessage: {
+    color: '#fff',
+    fontSize: 18,
   },
 });
 export default Signup;

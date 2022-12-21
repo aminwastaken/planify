@@ -15,7 +15,6 @@ const ProfileForm = ({
   setLastName,
   phone,
   setPhone,
-  error,
   setError,
   loading,
   setLoading,
@@ -112,7 +111,6 @@ const ProfileForm = ({
           setOpen(false);
         }}
       />
-      <Text> {error}</Text>
     </View>
   );
 };

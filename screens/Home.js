@@ -63,20 +63,25 @@ const Home = ({navigation, children, ...rest}) => {
         console.log('activities', activities);
       }
       setActivities(
-        activities.activities.map(activity => {
-          return {
-            id: activity.id,
-            image:
-              activity.medias !== undefined && activity.medias.length > 0
-                ? activity.medias[0].url
-                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
-            title: activity.name,
-            subtitle: {
-              icon: 'location-outline',
-              text: 'Paris',
-            },
-          };
-        }),
+        activities.activities
+          .filter(activity => {
+            if (new Date(activity.date) > new Date()) return true;
+            else return false;
+          })
+          .map(activity => {
+            return {
+              id: activity.id,
+              image:
+                activity.medias !== undefined && activity.medias.length > 0
+                  ? activity.medias[0].url
+                  : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+              title: activity.name,
+              subtitle: {
+                icon: 'location-outline',
+                text: 'Paris',
+              },
+            };
+          }),
       );
     } catch (error) {
       console.log('error', error);
