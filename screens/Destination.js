@@ -9,6 +9,8 @@ import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
 import HorizontalCard from '../components/HorizontalCard';
+import RatingCard from '../components/RatingCard';
+import EmptyStars from '../components/EmptyStars';
 
 const Destination = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -18,6 +20,7 @@ const Destination = ({navigation, route, id}) => {
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
   const [activities, setActivities] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   const getDestination = async () => {
     try {
@@ -111,6 +114,17 @@ const Destination = ({navigation, route, id}) => {
               onPress={item.onPress}
             />
           ))}
+
+          <Text style={styles.title}>Rate this app</Text>
+          <Text style={styles.smallText}>
+            Tell us what you think about this place
+          </Text>
+          <EmptyStars />
+          {/* {reviews && reviews.length > 0 && ( */}
+          <Text style={styles.activitiesSubtitle}>Reviews</Text>
+
+          {/* )} */}
+          <RatingCard />
         </View>
       </ScrollView>
     </View>
@@ -154,6 +168,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 15,
   },
+  title: {
+    fontSize: 20,
+    fontWeight: '700',
+    marginTop: 10,
+  },
   infoContainer: {
     marginLeft: 20,
     marginTop: 15,
@@ -173,6 +192,9 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   eventCard: {marginBottom: 15},
+  smallText: {
+    color: '#5E5F61',
+  },
 });
 
 export default Destination;

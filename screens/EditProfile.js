@@ -64,6 +64,8 @@ const EditProfile = ({navigation, children}) => {
             lastname={user.lastName}
             email={user.email}
             profilePicture={user.profilePicture}
+            edit={true}
+            navigation={navigation}
           />
           <ProfileEditForm
             data={user}
