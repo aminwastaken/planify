@@ -12,6 +12,7 @@ import {Button} from 'react-native-paper';
 import ProfileView from '../components/ProfileView';
 import ProfileMenu from '../components/ProfileMenu';
 import GlobalContext from '../GlobalContext';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Profile = ({navigation, children}) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -20,6 +21,7 @@ const Profile = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [updateNumber, setUpdateNumber] = useState(0);
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const getCurrentUser = async () => {
     try {
@@ -40,7 +42,7 @@ const Profile = ({navigation, children}) => {
   const loadData = async () => {
     const user = await getCurrentUser();
     setUser(user);
-    console.log('updated user ', user);
+    setLoading(false);
   };
 
   const update = () => {
@@ -55,6 +57,8 @@ const Profile = ({navigation, children}) => {
     });
     return unsubscribe;
   }, [navigation]);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>

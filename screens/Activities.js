@@ -6,13 +6,16 @@ import TabsView from '../components/TabsView';
 import GlobalContext from '../GlobalContext';
 import HorizontalCardList from '../components/HorizontalCardList';
 import {getFormattedDate, getFormattedTime} from '../utils/format';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Activities = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [upcomingActivities, setUpcomingActivities] = useState([]);
   const [pastActivities, setPastActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getActivities = async () => {
+    setLoading(true);
     const response = await fetch(global.apiUrl + 'activities', {
       method: 'GET',
       headers: {
@@ -54,14 +57,14 @@ const Activities = ({navigation, children}) => {
 
     setUpcomingActivities(upcoming);
     setPastActivities(past);
-    // } catch (error) {
-    //   console.log('error', error);
-    // }
+    setLoading(false);
   };
 
   useEffect(() => {
     getActivities();
   }, []);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>

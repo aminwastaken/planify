@@ -15,8 +15,8 @@ const Home = ({navigation, children, ...rest}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
   const [allDestinations, setAllDestinations] = useState([]);
-  const [entries, setEntries] = useState(0);
   const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
   const getDestinations = async () => {
     try {
       const response = await fetch(global.apiUrl + 'places', {
@@ -88,9 +88,14 @@ const Home = ({navigation, children, ...rest}) => {
     }
   };
 
+  const loadData = async () => {
+    await getDestinations();
+    await getActivities();
+    setLoading(false);
+  };
+
   useEffect(() => {
-    getDestinations();
-    getActivities();
+    loadData();
   }, []);
 
   return (

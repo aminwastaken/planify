@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Text from '../components/Text';
 import GlobalContext from '../GlobalContext';
 import HorizontalCardList from '../components/HorizontalCardList';
+import LoadingScreen from '../components/LoadingScreen';
 
 const getImage = activities => {
   for (let i = 0; i < activities.length; i++) {
@@ -21,6 +22,7 @@ const getImage = activities => {
 const Trips = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [trips, setTrips] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getTrips = async () => {
     try {
@@ -57,6 +59,7 @@ const Trips = ({navigation, children}) => {
     } catch (error) {
       console.log('error', error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -65,6 +68,8 @@ const Trips = ({navigation, children}) => {
     });
     return unsubscribe;
   }, [navigation]);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>

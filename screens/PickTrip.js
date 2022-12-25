@@ -12,21 +12,6 @@ import Button from '../components/Button';
 import TripCard from '../components/TripCard';
 import GlobalContext from '../GlobalContext';
 
-// const trips = [
-//   {
-//     id: '1',
-//     title: 'my trip to paris',
-//     location: 'paris',
-//     imageLink:
-//       'https://www.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_77884/node_77888/cath%C3%A9drale-notre-dame-de-paris-vue-depuis-le-parvis-%7C-630x405-%7C-%C2%A9-leiflinding/11884072-6-fre-FR/Cath%C3%A9drale-Notre-Dame-de-Paris-Vue-depuis-le-parvis-%7C-630x405-%7C-%C2%A9-LeifLinding.jpg',
-//   },
-//   {
-//     id: '2',
-//     title: 'my trip to rouen',
-//     location: 'paris',
-//     imageLink: 'https://media.routard.com/image/81/8/fb-rouen.1552818.jpg',
-//   },
-// ];
 const PickTrip = ({navigation, route}) => {
   const [trips, setTrips] = useState([]);
   const {token, setToken} = useContext(GlobalContext);

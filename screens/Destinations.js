@@ -6,12 +6,14 @@ import TabsView from '../components/TabsView';
 import GlobalContext from '../GlobalContext';
 import HorizontalCardList from '../components/HorizontalCardList';
 import {getFormattedDate, getFormattedTime} from '../utils/format';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Destinations = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [upcomingActivities, setUpcomingActivities] = useState([]);
   const [pastActivities, setPastActivities] = useState([]);
   const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getDestinations = async () => {
     const response = await fetch(global.apiUrl + 'places', {
@@ -52,11 +54,14 @@ const Destinations = ({navigation, children}) => {
       destinationList.push(formattedplace);
     });
     setDestinations(destinationList);
+    setLoading(false);
   };
 
   useEffect(() => {
     getDestinations();
   }, []);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <ScrollView style={styles.mainContainer}>

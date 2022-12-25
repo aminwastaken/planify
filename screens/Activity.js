@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {useEffect, useState, useContext} from 'react';
 import {notreDame, notreDamePhotos} from '../data/destinations';
 import PageCover from '../components/PageCover';
@@ -10,6 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
 import {set} from 'react-native-reanimated';
 import {getFormattedDate} from '../utils/format';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Activity = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -17,10 +24,14 @@ const Activity = ({navigation, route, id}) => {
   const [images, setImages] = useState([]);
   const [title, setTitle] = useState(undefined);
   const [price, setPrice] = useState(undefined);
+  const [subscribed, setSubscribed] = useState(false);
   const [description, setDescription] = useState();
+  const [loading, setLoading] = useState(true);
+
   const [date, setDate] = useState();
 
   const loadActivity = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         global.apiUrl + 'activities/' + route.params.id,
@@ -32,8 +43,28 @@ const Activity = ({navigation, route, id}) => {
           },
         },
       );
+
       const activity = await response.json();
-      console.log('activity data', activity);
+      const subscribedActivitiesResponse = await fetch(
+        global.apiUrl + 'activities/subscribed',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        },
+      );
+      const subscribedActivities = await subscribedActivitiesResponse.json();
+      if (Array.isArray(subscribedActivities)) {
+        for (let i = 0; i < subscribedActivities.length; i++) {
+          if (subscribedActivities[i].id === activity.id) {
+            setSubscribed(true);
+            break;
+          }
+        }
+      }
+      console.log('subscribedActivities', subscribedActivities);
 
       setImage(
         activity.medias !== undefined && activity.medias.length > 0
@@ -55,11 +86,14 @@ const Activity = ({navigation, route, id}) => {
     } catch (error) {
       console.log('error', error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
     loadActivity();
   }, []);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>
@@ -87,15 +121,27 @@ const Activity = ({navigation, route, id}) => {
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <Button
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate('pickTrip', {
-              activityId: route.params.id,
-            });
-          }}>
-          Add to trip
-        </Button>
+        {subscribed ? (
+          <Button
+            style={styles.errorButton}
+            onPress={() => {
+              navigation.navigate('pickTrip', {
+                activityId: route.params.id,
+              });
+            }}>
+            Unsubscribe from activity
+          </Button>
+        ) : (
+          <Button
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate('pickTrip', {
+                activityId: route.params.id,
+              });
+            }}>
+            Add to trip
+          </Button>
+        )}
       </View>
     </View>
   );
@@ -168,6 +214,15 @@ const styles = StyleSheet.create({
 
   button: {
     backgroundColor: '#007AFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    borderRadius: 7.56,
+    margin: 10,
+  },
+
+  errorButton: {
+    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,

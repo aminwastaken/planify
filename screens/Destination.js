@@ -12,6 +12,7 @@ import HorizontalCard from '../components/HorizontalCard';
 import RatingCard from '../components/RatingCard';
 import StarsInput from '../components/StarsInput';
 import UserReviewCard from '../components/UserReviewCard';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Destination = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -24,6 +25,7 @@ const Destination = ({navigation, route, id}) => {
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
   const [destinationId, setDestinationId] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const getDestination = async () => {
     console.log('destination page');
@@ -101,6 +103,7 @@ const Destination = ({navigation, route, id}) => {
     } catch (error) {
       console.log('error', error);
     }
+    setLoading(false);
   };
 
   const handleRatingChange = rating => {
@@ -113,6 +116,8 @@ const Destination = ({navigation, route, id}) => {
   useEffect(() => {
     getDestination();
   }, []);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>

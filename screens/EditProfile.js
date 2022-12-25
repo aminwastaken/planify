@@ -14,11 +14,13 @@ import ProfileMenu from '../components/ProfileMenu';
 import ProfileForm from '../components/ProfileForm';
 import GlobalContext from '../GlobalContext';
 import ProfileEditForm from '../components/ProfileEditForm';
+import LoadingScreen from '../components/LoadingScreen';
 
 const EditProfile = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [updateNumber, setUpdateNumber] = useState(0);
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const getCurrentUser = async () => {
     try {
@@ -39,7 +41,7 @@ const EditProfile = ({navigation, children}) => {
   const loadData = async () => {
     const user = await getCurrentUser();
     setUser(user);
-    console.log('updated user ', user);
+    setLoading(false);
   };
 
   const update = () => {
@@ -51,7 +53,8 @@ const EditProfile = ({navigation, children}) => {
     loadData();
   }, []);
 
-  console.log('BACKEND_BASE_URL', process.env);
+  if (loading) return <LoadingScreen />;
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>

@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import BottomTabs from '../components/BottomTabs';
 import HorizontalCard from '../components/HorizontalCard';
+import LoadingScreen from '../components/LoadingScreen';
 import SearchBar from '../components/SearchBar';
 import {destinations} from '../data/destinations';
 import GlobalContext from '../GlobalContext';
@@ -13,6 +14,7 @@ const Search = ({navigation, children, ...rest}) => {
   const [destinations, setDestinations] = useState([]);
   const [activities, setActivities] = useState([]);
   const [searchSubmitted, setSearchSubmitted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getDestinationResults = async () => {
     try {
@@ -85,10 +87,14 @@ const Search = ({navigation, children, ...rest}) => {
   };
 
   const handleSearchSubmit = async () => {
+    setLoading(true);
     await getDestinationResults();
     await getActivitiesResults();
+    setLoading(false);
     setSearchSubmitted(true);
   };
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>

@@ -11,12 +11,13 @@ import GlobalContext from '../GlobalContext';
 import HorizontalCard from '../components/HorizontalCard';
 import Map from '../components/Map';
 import {getFormattedDate, getFormattedTime} from '../utils/format';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Trip = ({navigation, route, id}) => {
   const {token, userLocation} = useContext(GlobalContext);
   const [trip, setTrip] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getTrips = async () => {
     try {
@@ -65,6 +66,7 @@ const Trip = ({navigation, route, id}) => {
     } catch (error) {
       console.log('error', error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -87,6 +89,8 @@ const Trip = ({navigation, route, id}) => {
       console.log('error', error);
     }
   };
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>
