@@ -10,7 +10,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import GlobalContext from '../GlobalContext';
 import HorizontalCard from '../components/HorizontalCard';
 import RatingCard from '../components/RatingCard';
-import EmptyStars from '../components/EmptyStars';
+import StarsInput from '../components/StarsInput';
+import UserReviewCard from '../components/UserReviewCard';
 
 const Destination = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
@@ -21,8 +22,11 @@ const Destination = ({navigation, route, id}) => {
   const [description, setDescription] = useState();
   const [activities, setActivities] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [destinationId, setDestinationId] = useState(0);
 
   const getDestination = async () => {
+    console.log('destination page');
     try {
       const response = await fetch(
         global.apiUrl + 'places/' + route.params.id,
@@ -34,9 +38,33 @@ const Destination = ({navigation, route, id}) => {
           },
         },
       );
-      const destination = await response.json();
-      console.log('destination', destination);
 
+      // get reviews
+
+      const reviewsResponse = await fetch(
+        global.apiUrl + 'reviews?place=' + route.params.id,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        },
+      );
+
+      const reviews = await reviewsResponse.json();
+      console.log('reviews', reviews.reviews);
+      setReviews(
+        reviews?.reviews.map(review => ({
+          review: review.description,
+          date: review.createdAt,
+          rating: parseFloat(review.rating),
+          username: review.author.firstName + ' ' + review.author.lastName,
+        })),
+      );
+
+      const destination = await response.json();
+      console.log('destination data', destination);
       setImage(
         destination.medias !== undefined && destination.medias.length > 0
           ? destination.medias[0].url
@@ -50,6 +78,7 @@ const Destination = ({navigation, route, id}) => {
           })),
         );
       }
+      setDestinationId(destination.id);
       setTitle(destination.name);
       setDescription(destination.description);
 
@@ -72,6 +101,13 @@ const Destination = ({navigation, route, id}) => {
     } catch (error) {
       console.log('error', error);
     }
+  };
+
+  const handleRatingChange = rating => {
+    setRating(rating);
+    console.log('the rating is', rating);
+    console.log('destination id', destinationId);
+    navigation.navigate('review', {id: destinationId, rating: rating});
   };
 
   useEffect(() => {
@@ -115,16 +151,26 @@ const Destination = ({navigation, route, id}) => {
             />
           ))}
 
-          <Text style={styles.title}>Rate this app</Text>
+          <Text style={styles.title}>Rate this destination</Text>
           <Text style={styles.smallText}>
             Tell us what you think about this place
           </Text>
-          <EmptyStars />
+          <StarsInput onChange={handleRatingChange} value={rating} />
           {/* {reviews && reviews.length > 0 && ( */}
           <Text style={styles.activitiesSubtitle}>Reviews</Text>
-
-          {/* )} */}
           <RatingCard />
+          <View style={styles.userReviewsContainer}>
+            {reviews?.map(review => (
+              <UserReviewCard
+                key={review.id}
+                review={review.review}
+                date={review.date}
+                rating={review.rating}
+                username={review.username}
+                style={styles.userReviewCard}
+              />
+            ))}
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -194,6 +240,12 @@ const styles = StyleSheet.create({
   eventCard: {marginBottom: 15},
   smallText: {
     color: '#5E5F61',
+  },
+  userReviewsContainer: {
+    marginTop: 10,
+  },
+  userReviewCard: {
+    marginTop: 10,
   },
 });
 

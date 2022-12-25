@@ -16,6 +16,8 @@ import Activity from './screens/Activity';
 import Trip from './screens/Trip';
 import Search from './screens/Search';
 import Destinations from './screens/Destinations';
+import Review from './screens/Review';
+import ReviewPosted from './screens/ReviewPosted';
 const Stack = createStackNavigator();
 
 const HomeScreenStack = ({navigation}) => {
@@ -31,6 +33,7 @@ const HomeScreenStack = ({navigation}) => {
       <Stack.Screen name="activity" component={Activity} />
       {/* destination branch */}
       <Stack.Screen name="destination" component={Destination} />
+      <Stack.Screen name="review" component={Review} />
       <Stack.Screen name="pickTrip" component={PickTrip} />
       <Stack.Screen name="newTrip" component={NewTrip} />
       <Stack.Screen name="ActivityBooked" component={ActivityBooked} />
@@ -76,6 +79,8 @@ const DestinationsStack = ({}) => {
       }}>
       <Stack.Screen name="destinations" component={Destinations} />
       <Stack.Screen name="destination" component={Destination} />
+      <Stack.Screen name="review" component={Review} />
+      <Stack.Screen name="reviewPosted" component={ReviewPosted} />
     </Stack.Navigator>
   );
 };

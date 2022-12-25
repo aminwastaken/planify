@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const StarRating = ({rating, max, size}) => {
+const StarRating = ({rating, style, max, size}) => {
   const stars = [];
   const maxRating = 5;
   if (max) maxRating = max;
@@ -12,7 +12,9 @@ const StarRating = ({rating, max, size}) => {
       stars.push(<Icon name="star" key={i} style={styles.iconSelected} />);
     }
     for (let i = 0; i < maxRating - intRating; i++) {
-      stars.push(<Icon name="star" key={i} style={styles.iconUnselected} />);
+      stars.push(
+        <Icon name="star" key={i + 1000} style={styles.iconUnselected} />,
+      );
     }
   } else {
     for (let i = 0; i < maxRating; i++) {
@@ -20,12 +22,11 @@ const StarRating = ({rating, max, size}) => {
     }
   }
 
-  return <View style={styles.mainContainer}>{stars}</View>;
+  return <View style={[styles.mainContainer, style]}>{stars}</View>;
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
     flexDirection: 'row',
   },
   iconSelected: {color: '#F5BE18'},
