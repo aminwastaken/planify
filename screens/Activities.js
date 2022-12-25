@@ -24,6 +24,7 @@ const Activities = ({navigation, children}) => {
       },
     });
     const activities = await response.json();
+    console.log('activities', activities);
 
     const upcoming = [];
     const past = [];

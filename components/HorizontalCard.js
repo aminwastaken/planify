@@ -24,8 +24,8 @@ const HorizontalCard = ({
       <View style={styles.textContainer}>
         <View>
           <Text style={styles.title}>{title}</Text>
-          {/* {subtitle && <Text style={styles.text}>{subtitle}</Text>} */}
-          {/* {subtitle2 && <Text style={styles.text}>{subtitle2}</Text>} */}
+          {subtitle && <Text style={styles.text}>{subtitle}</Text>}
+          {subtitle2 && <Text style={styles.text}>{subtitle2}</Text>}
         </View>
         <Text style={styles.footerText}>{footerText}</Text>
       </View>

@@ -19,7 +19,7 @@ const Home = ({navigation, children, ...rest}) => {
   const [loading, setLoading] = useState(true);
   const getDestinations = async () => {
     try {
-      const response = await fetch(global.apiUrl + 'places', {
+      const response = await fetch(global.apiUrl + 'places?limit=800', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const Home = ({navigation, children, ...rest}) => {
 
   const getActivities = async () => {
     try {
-      const response = await fetch(global.apiUrl + 'activities', {
+      const response = await fetch(global.apiUrl + 'activities?limit=800s', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

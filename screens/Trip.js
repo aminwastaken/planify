@@ -31,6 +31,7 @@ const Trip = ({navigation, route, id}) => {
       });
 
       const data = await response.json();
+      console.log('data', data);
       setTrip({
         id: data.id,
         title: data.name,
@@ -45,23 +46,29 @@ const Trip = ({navigation, route, id}) => {
       });
 
       setActivities(
-        data.activities.map(activity => {
-          return {
-            id: activity.id,
-            image:
-              activity.medias && activity.medias.length > 0
-                ? activity.medias[0].url
-                : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
-            title: activity.name,
-            subtitle: activity.date && getFormattedDate(activity.date),
-            subtitle2: activity.date && getFormattedTime(activity.date),
-            footerText: activity.price && 'Price: ' + activity.price + '€',
-            onPress: () => {
-              console.log('clicked');
-              navigation.navigate('activity', {id: activity.id});
-            },
-          };
-        }),
+        data.activities
+          .sort((a, b) => {
+            if (new Date(a.date) < new Date(b.date)) return -1;
+            else return 1;
+          })
+          .map(activity => {
+            console.log('activity date', activity.date);
+            return {
+              id: activity.id,
+              image:
+                activity.medias && activity.medias.length > 0
+                  ? activity.medias[0].url
+                  : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+              title: activity.name,
+              subtitle: activity.date && getFormattedDate(activity.date),
+              subtitle2: activity.date && getFormattedTime(activity.date),
+              footerText: activity.price && 'Price: ' + activity.price + '€',
+              onPress: () => {
+                console.log('clicked');
+                navigation.navigate('activity', {id: activity.id});
+              },
+            };
+          }),
       );
     } catch (error) {
       console.log('error', error);
@@ -104,7 +111,7 @@ const Trip = ({navigation, route, id}) => {
         <Map currentLocation={userLocation} />
         <View style={styles.infoContainer}>
           <Text style={styles.subtitle}>Activities</Text>
-          {activities?.map(item => (
+          {activities.map(item => (
             <HorizontalCard
               key={item.id}
               imageLink={item.image}

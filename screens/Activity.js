@@ -27,6 +27,7 @@ const Activity = ({navigation, route, id}) => {
   const [subscribed, setSubscribed] = useState(false);
   const [description, setDescription] = useState();
   const [loading, setLoading] = useState(true);
+  const [trips, setTrips] = useState([]);
 
   const [date, setDate] = useState();
 
@@ -56,6 +57,7 @@ const Activity = ({navigation, route, id}) => {
         },
       );
       const subscribedActivities = await subscribedActivitiesResponse.json();
+      console.log('subscribed activities', subscribedActivities);
       if (Array.isArray(subscribedActivities)) {
         for (let i = 0; i < subscribedActivities.length; i++) {
           if (subscribedActivities[i].id === activity.id) {
@@ -64,7 +66,6 @@ const Activity = ({navigation, route, id}) => {
           }
         }
       }
-      console.log('subscribedActivities', subscribedActivities);
 
       setImage(
         activity.medias !== undefined && activity.medias.length > 0
@@ -89,8 +90,71 @@ const Activity = ({navigation, route, id}) => {
     setLoading(false);
   };
 
+  // const getActivityTrip = () => {
+  //   for (let i = 0; i < trips.length; i++) {
+  //     if (trips[i].activities.includes(route.params.id)) {
+  //       return trips[i].id;
+  //     }
+  //   }
+  // };
+
+  // const deleteActivity = async () => {
+  //   const trip = getActivityTrip();
+  //   if (trip) {
+  //     try {
+  //       const response = await fetch(global.apiUrl + 'trips', {
+  //         method: 'PUT',
+  //         headers: {
+  //           Accept: 'application/json',
+  //           'Content-Type': 'application/json',
+  //           Authorization: 'Bearer ' + token,
+  //         },
+  //       });
+
+  //       const data = await response.json();
+  //       console.log('these are the trips (trips)', data);
+  //     } catch (error) {
+  //       console.log('error', error);
+  //     }
+  //   }
+  // };
+
+  const deleteActivity = async () => {};
+
+  const getTrips = async () => {
+    try {
+      const response = await fetch(global.apiUrl + 'trips', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+
+      const data = await response.json();
+      console.log('these are the trips (trips)', data);
+      console.log(
+        'fromatted trips',
+        data.map(trip => ({
+          id: trip.id,
+          activities: trip.activities.map(activity => activity.id),
+        })),
+      );
+      setTrips(
+        data.map(trip => ({
+          id: trip.id,
+          activities: trip.activities.map(activity => activity.id),
+        })),
+      );
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   useEffect(() => {
     loadActivity();
+    getTrips();
   }, []);
 
   if (loading) return <LoadingScreen />;
@@ -112,7 +176,6 @@ const Activity = ({navigation, route, id}) => {
             </>
           )}
 
-          {/* {date && date.length > 0 && <Text style={styles.subTitle}>Date</Text>} */}
           <Text style={styles.text}>{date}</Text>
           {description && description.length > 0 && (
             <Text style={styles.subTitle}>Description</Text>
@@ -122,13 +185,7 @@ const Activity = ({navigation, route, id}) => {
       </ScrollView>
       <View style={styles.buttonContainer}>
         {subscribed ? (
-          <Button
-            style={styles.errorButton}
-            onPress={() => {
-              navigation.navigate('pickTrip', {
-                activityId: route.params.id,
-              });
-            }}>
+          <Button style={styles.errorButton} onPress={deleteActivity}>
             Unsubscribe from activity
           </Button>
         ) : (
