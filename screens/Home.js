@@ -18,8 +18,27 @@ const Home = ({navigation, children, ...rest}) => {
   const [allDestinations, setAllDestinations] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const getPlaceTypes = async () => {
+    try {
+      const response = await fetch(global.apiUrl + 'place-types', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      const placeTypes = await response.json();
+      // console.log('placeTypes', placeTypes);
+      return placeTypes;
+    } catch (error) {
+      console.log('the error is', error);
+    }
+  };
+
   const getDestinations = async () => {
     try {
+      const placeTypes = await getPlaceTypes();
       const response = await fetch(global.apiUrl + 'places?limit=800', {
         method: 'GET',
         headers: {
@@ -65,6 +84,7 @@ const Home = ({navigation, children, ...rest}) => {
           };
         }),
       );
+      console.log('placeTypes', placeTypes);
     } catch (error) {
       console.log('the error is', error);
     }
@@ -132,32 +152,27 @@ const Home = ({navigation, children, ...rest}) => {
             navigation.navigate('search');
           }}
         />
-        <View style={styles.tabContainer}>
-          <Tabs
-            tabs={['All destinations', 'Destinations near you']}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            allDestinations={allDestinations}
-          />
-        </View>
-        <Carousel
-          style={styles.carousel}
-          data={activeTab === 0 && allDestinations}
-          navigation={navigation}
-          screen="destination"
-        />
         <View style={styles.subTitleArea}>
           <Text style={styles.subTitle}>Activities</Text>
         </View>
-        <View style={{marginBottom: 50}}>
+        <View>
           <Carousel
             style={styles.carousel}
-            mini={true}
             data={activities}
             navigation={navigation}
             screen="activity"
           />
         </View>
+        <View style={styles.subTitleArea}>
+          <Text style={styles.subTitle}>Destinations</Text>
+        </View>
+        <Carousel
+          style={styles.carousel}
+          mini={true}
+          data={activeTab === 0 && allDestinations}
+          navigation={navigation}
+          screen="destination"
+        />
       </ScrollView>
     </View>
   );
@@ -191,13 +206,14 @@ const styles = StyleSheet.create({
   },
   carousel: {
     marginTop: 20,
+    marginBottom: 20,
   },
   subTitle: {
     fontSize: 20,
     fontWeight: '700',
   },
   subTitleArea: {
-    marginTop: 20,
+    // marginTop: 20,
   },
   bottomTabs: {
     position: 'absolute',
