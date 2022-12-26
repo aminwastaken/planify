@@ -7,16 +7,16 @@ import GlobalContext from '../GlobalContext';
 import HorizontalCardList from '../components/HorizontalCardList';
 import {getFormattedDate, getFormattedTime} from '../utils/format';
 import LoadingScreen from '../components/LoadingScreen';
+import {set} from 'react-native-reanimated';
 
 const Activities = ({navigation, children}) => {
   const {token, setToken} = useContext(GlobalContext);
-  const [upcomingActivities, setUpcomingActivities] = useState([]);
-  const [pastActivities, setPastActivities] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getActivities = async () => {
     setLoading(true);
-    const response = await fetch(global.apiUrl + 'activities', {
+    const response = await fetch(global.apiUrl + 'activities?limit=800', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -29,35 +29,35 @@ const Activities = ({navigation, children}) => {
     const upcoming = [];
     const past = [];
 
-    activities.activities.forEach(activity => {
-      const formattedActivity = {
-        id: activity.id,
-        image:
-          activity.medias && activity.medias.length > 0
-            ? activity.medias[0].url
-            : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
-        title: activity.name,
-        subtitle: activity.date && getFormattedDate(activity.date),
-        subtitle2: activity.date && getFormattedTime(activity.date),
-        footerText: activity.price ? 'Price: ' + activity.price + '€' : 'Free',
-        onPress: () => {
-          navigation.navigate('activity', {
-            id: activity.id,
-          });
-        },
-      };
-      console.log('current activity ', activity.name);
-      console.log('activity date', activity.date);
+    //show only upcoming activities
 
-      if (new Date(activity.date) < new Date()) {
-        past.push(formattedActivity);
-      } else {
-        upcoming.push(formattedActivity);
-      }
-    });
+    activities.activities = activities.activities.filter(
+      activity => new Date(activity.date) > new Date(),
+    );
 
-    setUpcomingActivities(upcoming);
-    setPastActivities(past);
+    setActivities(
+      activities.activities.map(activity => {
+        return {
+          id: activity.id,
+          image:
+            activity.medias && activity.medias.length > 0
+              ? activity.medias[0].url
+              : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+          title: activity.name,
+          subtitle: activity.date && getFormattedDate(activity.date),
+          subtitle2: activity.date && getFormattedTime(activity.date),
+          footerText: activity.price
+            ? 'Price: ' + activity.price + '€'
+            : 'Free',
+          onPress: () => {
+            navigation.navigate('activity', {
+              id: activity.id,
+            });
+          },
+        };
+      }),
+    );
+
     setLoading(false);
   };
 
@@ -68,22 +68,19 @@ const Activities = ({navigation, children}) => {
   if (loading) return <LoadingScreen />;
 
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}>
       <View style={styles.scrollView}>
         <Header style={styles.header} navigation={navigation} />
         <View style={styles.titleArea}>
           <Text style={styles.title}>Activities</Text>
         </View>
         <View style={styles.content}>
-          <TabsView
-            data={{
-              upcoming: () => <HorizontalCardList data={upcomingActivities} />,
-              past: () => <HorizontalCardList data={pastActivities} />,
-            }}
-          />
+          {activities && activities.length > 0 && (
+            <HorizontalCardList data={activities} />
+          )}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

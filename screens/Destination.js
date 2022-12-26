@@ -67,14 +67,11 @@ const Destination = ({navigation, route, id}) => {
 
       const destination = await response.json();
       console.log('destination data', destination);
-      setImage(
-        destination.medias !== undefined && destination.medias.length > 0
-          ? destination.medias[0].url
-          : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
-      );
-      if (destination.medias !== undefined && destination.medias.length > 1) {
+      setImage(0);
+      if (destination.medias !== undefined && destination.medias.length > 0) {
         setImages(
-          destination?.medias?.slice(1)?.map(image => ({
+          destination?.medias?.map((image, index) => ({
+            index: index,
             id: image.id,
             image: image.url,
           })),
@@ -113,6 +110,11 @@ const Destination = ({navigation, route, id}) => {
     navigation.navigate('review', {id: destinationId, rating: rating});
   };
 
+  const onPhotoPress = index => {
+    console.log('index', index);
+    setImage(index);
+  };
+
   useEffect(() => {
     getDestination();
   }, []);
@@ -127,12 +129,24 @@ const Destination = ({navigation, route, id}) => {
             <Icon name="arrow-left" size={20} color="#FFF" />
           </TouchableOpacity>
         </View>
-        <PageCover image={image} title={title} price={price} rating={'4.6'} />
+        {/* {console.log('images', images[0].image)} */}
+        <PageCover
+          image={images[image].image}
+          title={title}
+          price={price}
+          rating={'4.6'}
+        />
         <View style={styles.infoContainer}>
+          {console.log('images', images)}
           {images.length > 0 && (
             <>
               <Text style={styles.subtitle}>Photos</Text>
-              <PhotosCarousel data={images} style={styles.photoCarousel} />
+              <PhotosCarousel
+                onPress={onPhotoPress}
+                data={images}
+                style={styles.photoCarousel}
+                imageIndex={image}
+              />
             </>
           )}
           {description && description.length > 0 && (

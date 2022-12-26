@@ -16,18 +16,19 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const {width: windowWidth} = Dimensions.get('window');
 
-const PhotosCarousel = ({style, data, navigation}) => {
+const PhotosCarousel = ({style, data, imageIndex, onPress, navigation}) => {
   const carouselRef = useRef(null);
 
-  function renderItem({item, index}) {
-    const {image, title, url, subtitle, id} = item;
+  console.log(JSON.stringify(data, null, 2));
+  function renderItem({item}) {
+    const {image, title, url, subtitle, id, index} = item;
 
     return (
       <View style={{...styles.item}}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            console.log('pressed');
+            onPress(index);
           }}>
           <Image source={{uri: image}} style={styles.image} />
         </TouchableOpacity>
@@ -43,11 +44,11 @@ const PhotosCarousel = ({style, data, navigation}) => {
         ref={carouselRef}
         data={data}
         renderItem={renderItem}
-        // itemWidth={120}
+        itemWidth={120}
         separatorWidth={20}
         inActiveScale={1}
         inActiveOpacity={1}
-        containerWidth={windowWidth}
+        containerWidth={200}
       />
     </View>
   );

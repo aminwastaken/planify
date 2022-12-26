@@ -66,7 +66,7 @@ const UserActivities = ({navigation, children}) => {
     getActivities();
   }, []);
 
-  // if (loading) return <LoadingScreen />;
+  if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>
