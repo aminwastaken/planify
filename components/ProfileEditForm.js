@@ -18,7 +18,7 @@ const createFormData = photo => {
   return data;
 };
 
-const ProfileEditForm = ({data, navigation, style}) => {
+const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -110,9 +110,25 @@ const ProfileEditForm = ({data, navigation, style}) => {
     if (phone) data.phoneNumber = phone;
 
     const response = await updateUserInfo(userId, data);
-    // reload screen
-    console.log('go back and reload the screen');
-    navigation.goBack();
+    console.log('response from the saveProfile', response);
+    console.log('response error', response.error);
+    console.log('---------------------');
+    if (response.error) {
+      console.log('this is the error', response.error);
+      if (
+        response.message &&
+        Array.isArray(response.message) &&
+        response.message.length > 0
+      ) {
+        console.log('this is the error message', response.message[0]);
+        setErrorMessage(response.message[0]);
+      } else if (response.message && typeof response.message === 'string') {
+        setErrorMessage(response.message);
+      } else {
+        setErrorMessage('Something went wrong');
+      }
+    }
+    // navigation.goBack();
   };
 
   return (
@@ -158,7 +174,7 @@ const ProfileEditForm = ({data, navigation, style}) => {
         onChangeText={text => setPhone(text)}
       />
       <Button style={styles.button} onPress={saveProfile}>
-        Save profile{' '}
+        Save profile
       </Button>
       <View>
         {photo && (

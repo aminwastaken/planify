@@ -21,6 +21,7 @@ const EditProfile = ({navigation, children}) => {
   const [updateNumber, setUpdateNumber] = useState(0);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   const getCurrentUser = async () => {
     try {
@@ -56,28 +57,41 @@ const EditProfile = ({navigation, children}) => {
   if (loading) return <LoadingScreen />;
 
   return (
-    <View style={styles.mainContainer}>
-      <ScrollView style={styles.scrollView}>
-        <Header style={styles.header} navigation={navigation} />
-        <View style={styles.titleArea}>
-          <Text style={styles.title}>Edit profile</Text>
-          <ProfileView
-            user={user}
-            firstname={user.firstName}
-            lastname={user.lastName}
-            email={user.email}
-            profilePicture={user.profilePicture}
-            edit={true}
-            navigation={navigation}
-          />
-          <ProfileEditForm
-            data={user}
-            update={update}
-            navigation={navigation}
-          />
+    <>
+      <View style={styles.mainContainer}>
+        <View
+          style={[
+            styles.errorMessageContainer,
+            {
+              backgroundColor: errorMessage && errorMessage != '' && '#FD4640',
+            },
+          ]}>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
         </View>
-      </ScrollView>
-    </View>
+
+        <ScrollView style={styles.scrollView}>
+          <Header style={styles.header} navigation={navigation} />
+          <View style={styles.titleArea}>
+            <Text style={styles.title}>Edit profile</Text>
+            <ProfileView
+              user={user}
+              firstname={user.firstName}
+              lastname={user.lastName}
+              email={user.email}
+              profilePicture={user.profilePicture}
+              edit={true}
+              navigation={navigation}
+            />
+            <ProfileEditForm
+              data={user}
+              update={update}
+              navigation={navigation}
+              setErrorMessage={setErrorMessage}
+            />
+          </View>
+        </ScrollView>
+      </View>
+    </>
   );
 };
 
@@ -96,6 +110,16 @@ const styles = StyleSheet.create({
 
   profileMenu: {
     marginTop: 50,
+  },
+
+  errorMessageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 70,
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    zIndex: 1,
   },
 });
 
