@@ -130,12 +130,7 @@ const Destination = ({navigation, route, id}) => {
           </TouchableOpacity>
         </View>
         {/* {console.log('images', images[0].image)} */}
-        <PageCover
-          image={images[image].image}
-          title={title}
-          price={price}
-          rating={'4.6'}
-        />
+        <PageCover image={images[image].image} title={title} price={price} />
         <View style={styles.infoContainer}>
           {console.log('images', images)}
           {images.length > 0 && (
