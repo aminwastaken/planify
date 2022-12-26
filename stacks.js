@@ -18,6 +18,7 @@ import Search from './screens/Search';
 import Destinations from './screens/Destinations';
 import Review from './screens/Review';
 import ReviewPosted from './screens/ReviewPosted';
+import UserActivities from './screens/UsersActivities';
 const Stack = createStackNavigator();
 
 const HomeScreenStack = ({navigation}) => {
@@ -70,6 +71,19 @@ const ActivitiesStack = ({navigation}) => {
   );
 };
 
+const UserActivitiesStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="UserActivities"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="userActivities" component={UserActivities} />
+      <Stack.Screen name="activity" component={Activity} />
+    </Stack.Navigator>
+  );
+};
+
 const DestinationsStack = ({}) => {
   return (
     <Stack.Navigator
@@ -103,6 +117,7 @@ export {
   HomeScreenStack,
   ProfileStack,
   ActivitiesStack,
+  UserActivitiesStack,
   TripsStack,
   DestinationsStack,
 };

@@ -1,10 +1,16 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import HorizontalCard from './HorizontalCard';
 
-const HorizontalCardList = ({data}) => {
+const HorizontalCardList = ({data, placeholder}) => {
   return (
     <View style={styles.tabContent}>
+      {!data ||
+        (data?.length === 0 && (
+          <Text style={styles.noDataText}>
+            {placeholder ? placeholder : 'No data'}
+          </Text>
+        ))}
       {data?.map(item => (
         <HorizontalCard
           key={item.id}
@@ -22,7 +28,8 @@ const HorizontalCardList = ({data}) => {
 };
 
 const styles = StyleSheet.create({
-  tabContent: {marginTop: 30},
+  tabContent: {marginTop: 30, minHeight: '100%'},
   eventCard: {marginBottom: 15},
+  noDataText: {position: 'absolute', top: '30%', left: '40%'},
 });
 export default HorizontalCardList;

@@ -8,6 +8,7 @@ import {
   ActivitiesStack,
   TripsStack,
   DestinationsStack,
+  UserActivitiesStack,
 } from './stacks';
 import GlobalContext from './GlobalContext';
 import Signup from './screens/Signup';
@@ -18,11 +19,14 @@ const Drawer = createDrawerNavigator();
 
 global.apiUrl = 'http://51.15.219.3:5000/';
 
+// user@user.com token is eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidXNlckB1c2VyLmNvbSIsImlhdCI6MTY3MTYzNjk5OH0.YidlFWyAeNS2jixRFGvRotc5LZ7sr9ifnwUCg82q5Ow
+// this token is useless hackers :)
+
 const App = () => {
   const [token, setToken] = React.useState(
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidXNlckB1c2VyLmNvbSIsImlhdCI6MTY3MTYzNjk5OH0.YidlFWyAeNS2jixRFGvRotc5LZ7sr9ifnwUCg82q5Ow',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjgsImVtYWlsIjoiam9obkBlbWFpbC5jb20iLCJpYXQiOjE2NzIwNTUxNjR9.3FUmBvBNKZxVaiPsoR5I1sqI3yLsJGrSWkg9f1cZfbE',
   );
-  const [showOnlyLocal, setShowOnlyLocal] = React.useState(true);
+  const [showOnlyLocal, setShowOnlyLocal] = React.useState(false);
 
   const [userLocation, setUserLocation] = React.useState({});
 
@@ -119,6 +123,10 @@ const App = () => {
             <Drawer.Screen name="Home" component={HomeScreenStack} />
             <Drawer.Screen name="Profile" component={ProfileStack} />
             <Drawer.Screen name="Activities" component={ActivitiesStack} />
+            <Drawer.Screen
+              name="Your Activities"
+              component={UserActivitiesStack}
+            />
             <Drawer.Screen name="Destinations" component={DestinationsStack} />
             <Drawer.Screen name="Trips" component={TripsStack} />
             <Drawer.Screen name="Logout" component={Logout} />
