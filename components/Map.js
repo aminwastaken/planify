@@ -16,8 +16,8 @@ const Map = ({markers, currentLocation}) => {
             initialRegion={{
               latitude: 48.8566,
               longitude: 2.3522,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
+              latitudeDelta: 0.15,
+              longitudeDelta: 0.15,
             }}
             showUserLocation={true}>
             {/* <Marker

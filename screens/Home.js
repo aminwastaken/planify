@@ -12,7 +12,8 @@ import {destinations, moreDestinations} from '../data/destinations';
 import GlobalContext from '../GlobalContext';
 
 const Home = ({navigation, children, ...rest}) => {
-  const {token, setToken} = useContext(GlobalContext);
+  const {token, setToken, showOnlyLocal, userLocation} =
+    useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
   const [allDestinations, setAllDestinations] = useState([]);
   const [activities, setActivities] = useState([]);
@@ -27,6 +28,26 @@ const Home = ({navigation, children, ...rest}) => {
         },
       });
       const destinations = await response.json();
+      console.log('destinations', destinations);
+      console.log('show only local', showOnlyLocal);
+      console.log('user location', userLocation);
+
+      console.log("type of user's latitude", typeof userLocation.latitude);
+      console.log("place's latitude", destinations.places[1].address.latitude);
+
+      const maxDistance = 0.15;
+
+      if (showOnlyLocal) {
+        destinations.places = destinations.places.filter(place => {
+          const distance = Math.sqrt(
+            Math.pow(userLocation.latitude - place.address.latitude, 2) +
+              Math.pow(userLocation.longitude - place.address.longitude, 2),
+          );
+          console.log('distance', distance);
+          return distance < maxDistance;
+        });
+      }
+
       setAllDestinations(
         destinations.places.map(destination => {
           return {
@@ -59,9 +80,6 @@ const Home = ({navigation, children, ...rest}) => {
         },
       });
       const activities = await response.json();
-      {
-        console.log('activities', activities);
-      }
       setActivities(
         activities.activities
           .filter(activity => {
@@ -96,7 +114,7 @@ const Home = ({navigation, children, ...rest}) => {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [userLocation]);
 
   return (
     <View style={styles.mainContainer}>
@@ -111,7 +129,6 @@ const Home = ({navigation, children, ...rest}) => {
         <SearchBar
           style={styles.searchBar}
           onPress={() => {
-            console.log('search pressed');
             navigation.navigate('search');
           }}
         />

@@ -18,7 +18,6 @@ const {width: windowWidth} = Dimensions.get('window');
 
 const CustomCarousel = ({style, mini, data, navigation, screen}) => {
   const itemWidth = mini ? 120 : 180;
-  console.log('window width', windowWidth);
   const carouselRef = useRef(null);
 
   function renderItem({item, index}) {

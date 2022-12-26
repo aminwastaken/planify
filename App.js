@@ -22,6 +22,7 @@ const App = () => {
   const [token, setToken] = React.useState(
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidXNlckB1c2VyLmNvbSIsImlhdCI6MTY3MTYzNjk5OH0.YidlFWyAeNS2jixRFGvRotc5LZ7sr9ifnwUCg82q5Ow',
   );
+  const [showOnlyLocal, setShowOnlyLocal] = React.useState(true);
 
   const [userLocation, setUserLocation] = React.useState({});
 
@@ -30,7 +31,7 @@ const App = () => {
     const requestLocationPermission = async () => {
       if (Platform.OS === 'ios') {
         getOneTimeLocation();
-        subscribeLocationLocation();
+        // subscribeLocationLocation();
       } else {
         try {
           const granted = await PermissionsAndroid.request(
@@ -42,21 +43,25 @@ const App = () => {
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             console.log('Permission Granted');
-            // Geolocation.getCurrentPosition(
-            //   info => {
-            //     setUserLocation({
-            //       longitude: info.coords.longitude,
-            //       latitude: info.coords.latitude,
-            //     });
+            // getOneTimeLocation();
+            Geolocation.getCurrentPosition(
+              info => {
+                // console.log('setting users location to =', {
+                //   longitude: info.coords.longitude,
+                //   latitude: info.coords.latitude,
+                // });
 
-            //     console.log('info', info);
-            //   },
+                setUserLocation({
+                  longitude: info.coords.longitude,
+                  latitude: info.coords.latitude,
+                });
 
-            //   error => console.error(error),
-            //   {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
-            // );
-            getOneTimeLocation();
-            // subscribeLocationLocation();
+                // console.log('info', info);
+              },
+
+              error => console.error(error),
+              {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
+            );
           } else {
             console.log('Permission Denied');
           }
@@ -73,7 +78,6 @@ const App = () => {
 
   const getOneTimeLocation = () => {
     console.log('getting one time location');
-
     Geolocation.getCurrentPosition(
       position => {
         const currentLongitude = JSON.stringify(position.coords.longitude);
@@ -89,35 +93,20 @@ const App = () => {
         console.log(error.message);
       },
       {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
         timeout: 30000,
         maximumAge: 1000,
       },
     );
   };
 
-  // const subscribeLocationLocation = () => {
-  //   console.log('subscribing to location');
-  //   return Geolocation.watchPosition(
-  //     position => {
-  //       const currentLongitude = JSON.stringify(position.coords.longitude);
-  //       const currentLatitude = JSON.stringify(position.coords.latitude);
-  //       console.log('currentLongitude', currentLongitude);
-  //       console.log('currentLatitude', currentLatitude);
-  //     },
-  //     error => {},
-  //     {
-  //       enableHighAccuracy: false,
-  //       maximumAge: 1000,
-  //     },
-  //   );
-  // };
-
   return (
     <GlobalContext.Provider
       value={{
         token: token,
         setToken: setToken,
+        showOnlyLocal: showOnlyLocal,
+        setShowOnlyLocal: setShowOnlyLocal,
         userLocation: userLocation,
       }}>
       {token && token != '' ? (

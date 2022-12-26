@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   errorMessageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
+    height: 70,
     width: '100%',
     position: 'absolute',
     top: 0,
