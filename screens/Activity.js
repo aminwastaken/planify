@@ -28,6 +28,7 @@ const Activity = ({navigation, route, id}) => {
   const [description, setDescription] = useState();
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
+  const [tripId, setTripId] = useState();
 
   const [date, setDate] = useState();
 
@@ -46,6 +47,7 @@ const Activity = ({navigation, route, id}) => {
       );
 
       const activity = await response.json();
+      // console.log('activity', activity);
       const subscribedActivitiesResponse = await fetch(
         global.apiUrl + 'activities/subscribed',
         {
@@ -62,6 +64,7 @@ const Activity = ({navigation, route, id}) => {
         for (let i = 0; i < subscribedActivities.length; i++) {
           if (subscribedActivities[i].id === activity.id) {
             setSubscribed(true);
+            setTripId(subscribedActivities[i].tripId);
             break;
           }
         }
@@ -98,28 +101,35 @@ const Activity = ({navigation, route, id}) => {
   //   }
   // };
 
+  const deleteActivity = async () => {
+    try {
+      const response = await fetch(
+        global.apiUrl + 'trips/' + tripId + '/activities',
+        {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+          body: JSON.stringify({
+            activityId: route.params.id,
+          }),
+        },
+      );
+
+      const data = await response.json();
+      console.log('delete activity response', data);
+      // navigation.goBack();
+      setSubscribed(false);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   // const deleteActivity = async () => {
-  //   const trip = getActivityTrip();
-  //   if (trip) {
-  //     try {
-  //       const response = await fetch(global.apiUrl + 'trips', {
-  //         method: 'PUT',
-  //         headers: {
-  //           Accept: 'application/json',
-  //           'Content-Type': 'application/json',
-  //           Authorization: 'Bearer ' + token,
-  //         },
-  //       });
-
-  //       const data = await response.json();
-  //       console.log('these are the trips (trips)', data);
-  //     } catch (error) {
-  //       console.log('error', error);
-  //     }
-  //   }
+  //   console.log('trip id is', tripId);
   // };
-
-  const deleteActivity = async () => {};
 
   const getTrips = async () => {
     try {
@@ -133,14 +143,6 @@ const Activity = ({navigation, route, id}) => {
       });
 
       const data = await response.json();
-      console.log('these are the trips (trips)', data);
-      console.log(
-        'fromatted trips',
-        data.map(trip => ({
-          id: trip.id,
-          activities: trip.activities.map(activity => activity.id),
-        })),
-      );
       setTrips(
         data.map(trip => ({
           id: trip.id,
