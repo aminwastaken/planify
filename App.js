@@ -23,9 +23,7 @@ global.apiUrl = 'http://51.15.219.3:5000/';
 // this token is useless hackers :)
 
 const App = () => {
-  const [token, setToken] = React.useState(
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjgsImVtYWlsIjoiam9obkBlbWFpbC5jb20iLCJpYXQiOjE2NzIwNTUxNjR9.3FUmBvBNKZxVaiPsoR5I1sqI3yLsJGrSWkg9f1cZfbE',
-  );
+  const [token, setToken] = React.useState('');
   const [showOnlyLocal, setShowOnlyLocal] = React.useState(false);
 
   const [userLocation, setUserLocation] = React.useState({});

@@ -69,36 +69,38 @@ const Destination = ({navigation, route, id}) => {
 
       const destination = await response.json();
 
-      setRatingAverage(destination.rating.average);
-      setRatingDetails([
-        {
-          rating: 1,
-          value: destination.rating.one,
-        },
-        {
-          rating: 2,
-          value: destination.rating.two,
-        },
-        {
-          rating: 3,
-          value: destination.rating.three,
-        },
-        {
-          rating: 4,
-          value: destination.rating.four,
-        },
-        {
-          rating: 5,
-          value: destination.rating.five,
-        },
-      ]);
-      setTotalReviews(
-        destination.rating.one +
-          destination.rating.two +
-          destination.rating.three +
-          destination.rating.four +
-          destination.rating.five,
-      );
+      if (destination.rating) {
+        setRatingAverage(destination.rating?.average);
+        setRatingDetails([
+          {
+            rating: 1,
+            value: destination.rating.one,
+          },
+          {
+            rating: 2,
+            value: destination.rating.two,
+          },
+          {
+            rating: 3,
+            value: destination.rating.three,
+          },
+          {
+            rating: 4,
+            value: destination.rating.four,
+          },
+          {
+            rating: 5,
+            value: destination.rating.five,
+          },
+        ]);
+        setTotalReviews(
+          destination.rating.one +
+            destination.rating.two +
+            destination.rating.three +
+            destination.rating.four +
+            destination.rating.five,
+        );
+      }
       setImage(0);
       if (destination.medias !== undefined && destination.medias.length > 0) {
         setImages(
@@ -146,8 +148,11 @@ const Destination = ({navigation, route, id}) => {
   };
 
   useEffect(() => {
-    getDestination();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getDestination();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   if (loading) return <LoadingScreen />;
 

@@ -33,14 +33,17 @@ const Review = ({navigation, route}) => {
           description: review,
         }),
       });
-      const data = await response.json();
-      navigation.navigate('home', {
-        id: route.params.id,
-      });
-      console.log('review posted ? ', data);
+      if (response.status === 200) {
+        const data = await response.json();
+        navigation.navigate('home', {
+          id: route.params.id,
+        });
+        console.log('review posted ? ', data);
+      } else {
+        setErrorMessage('Something went wrong');
+      }
     } catch (error) {
-      console.log('error: ', error);
-      setErrorMessage("you've already posted a review for this place");
+      setErrorMessage('Something went wrong');
     }
   };
 
