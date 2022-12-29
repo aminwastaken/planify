@@ -19,7 +19,6 @@ const {width: windowWidth} = Dimensions.get('window');
 const PhotosCarousel = ({style, data, imageIndex, onPress, navigation}) => {
   const carouselRef = useRef(null);
 
-  console.log(JSON.stringify(data, null, 2));
   function renderItem({item}) {
     const {image, title, url, subtitle, id, index} = item;
 

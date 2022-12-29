@@ -5,7 +5,6 @@ import Text from './Text';
 import Rating from './Rating';
 
 const PageCover = ({image, title, price, subtitle}) => {
-  console.log('subtitle from page cover', subtitle);
   return (
     <View>
       <Image

@@ -58,8 +58,6 @@ const Destination = ({navigation, route, id}) => {
 
       const reviews = await reviewsResponse.json();
 
-      // console.log('reviews: ', JSON.stringify(reviews, null, 2));
-
       setReviews(
         reviews?.reviews.map(review => ({
           review: review.description,
@@ -70,11 +68,6 @@ const Destination = ({navigation, route, id}) => {
       );
 
       const destination = await response.json();
-
-      console.log(
-        'destinations: ',
-        JSON.stringify(destination.rating, null, 2),
-      );
 
       setRatingAverage(destination.rating.average);
       setRatingDetails([
@@ -168,7 +161,7 @@ const Destination = ({navigation, route, id}) => {
         </View>
         <PageCover
           image={
-            images && images?.legnth > 0
+            images && images?.length > 0
               ? images[image].image
               : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
           }
@@ -215,13 +208,18 @@ const Destination = ({navigation, route, id}) => {
           </Text>
           <StarsInput onChange={handleRatingChange} value={rating} />
           {/* {reviews && reviews.length > 0 && ( */}
-          <Text style={styles.activitiesSubtitle}>Reviews</Text>
-          <RatingCard
-            rating={ratingAverage}
-            totalReviews={totalReviews}
-            ratingDetails={ratingDetails}
-            ratingAverage={ratingAverage}
-          />
+
+          {reviews && reviews.length > 0 && (
+            <>
+              <Text style={styles.activitiesSubtitle}>Reviews</Text>
+              <RatingCard
+                rating={ratingAverage}
+                totalReviews={totalReviews}
+                ratingDetails={ratingDetails}
+                ratingAverage={ratingAverage}
+              />
+            </>
+          )}
           <View style={styles.userReviewsContainer}>
             {reviews?.map(review => (
               <UserReviewCard
