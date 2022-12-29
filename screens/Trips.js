@@ -49,7 +49,10 @@ const Trips = ({navigation, children}) => {
             subtitle:
               trip.activities.length +
               (trip.activities.length === 1 ? ' activity' : ' activities'),
-            footerText: 'footer', // total cost
+            // footerText: data.activities.reduce(
+            //   (total, activity) => total + activity.price,
+            //   0,
+            // ),
             onPress: () => {
               navigation.navigate('Trip', {id: trip.id});
             },

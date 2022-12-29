@@ -31,7 +31,6 @@ const Trip = ({navigation, route, id}) => {
       });
 
       const data = await response.json();
-      console.log('data', data);
       setTrip({
         id: data.id,
         title: data.name,
@@ -42,9 +41,8 @@ const Trip = ({navigation, route, id}) => {
               : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
             : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
         subtitle: data.activities.length + ' activities',
-        footerText: 'footer', // total cost
       });
-
+      // console.log('activities', JSON.stringify(data.activities, null, 2));
       setActivities(
         data.activities
           .sort((a, b) => {
@@ -52,7 +50,6 @@ const Trip = ({navigation, route, id}) => {
             else return 1;
           })
           .map(activity => {
-            console.log('activity date', activity.date);
             return {
               id: activity.id,
               image:
@@ -64,15 +61,15 @@ const Trip = ({navigation, route, id}) => {
               subtitle2: activity.date && getFormattedTime(activity.date),
               footerText: activity.price && 'Price: ' + activity.price + '€',
               onPress: () => {
-                console.log('clicked');
                 navigation.navigate('activity', {id: activity.id});
               },
+              address: activity.address,
             };
           }),
       );
     } catch (error) {
       console.log('error', error);
-      navigation.navigate('home');
+      navigation.navigate('trips');
     }
     setLoading(false);
   };
@@ -111,7 +108,7 @@ const Trip = ({navigation, route, id}) => {
           </TouchableOpacity>
         </View>
         {/* <PageCover image={trip.image} title={trip.title} /> */}
-        <Map currentLocation={userLocation} />
+        <Map currentLocation={userLocation} data={activities} />
         <View style={styles.infoContainer}>
           <Text style={styles.subtitle}>
             {activities && activities.length > 0 && 'Activities'}

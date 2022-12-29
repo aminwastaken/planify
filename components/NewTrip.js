@@ -3,66 +3,72 @@ import GlobalContext from '../GlobalContext';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Button from '../components/Button';
-
-const bookActivity = async (activityId, tripId, navigation, token) => {
-  try {
-    const response = await fetch(
-      global.apiUrl + 'trips/' + tripId + '/activities',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-        body: JSON.stringify({
-          activityId,
-        }),
-      },
-    );
-
-    const data = await response.json();
-    navigation.navigate('ActivityBooked');
-  } catch (error) {
-    console.log('error', error);
-  }
-};
+import {set} from 'react-native-reanimated';
 
 const NewTrip = ({navigation, route}) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {token, setToken} = useContext(GlobalContext);
 
   const [tripName, setTripName] = useState('');
 
   console.log('route', route);
 
-  const handleSubmit = async () => {
+  const bookActivity = async (activityId, tripId, navigation, token) => {
     try {
-      const response = await fetch(global.apiUrl + 'trips/', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+      const response = await fetch(
+        global.apiUrl + 'trips/' + tripId + '/activities',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+          body: JSON.stringify({
+            activityId,
+          }),
         },
-        body: JSON.stringify({
-          name: tripName,
-          description: tripName,
-        }),
-      });
+      );
 
       const data = await response.json();
-
-      const activityBookingData = bookActivity(
-        route.params.activityId,
-        data.id,
-        navigation,
-        token,
-      );
-      console.log('activityBookingData', activityBookingData);
-
       navigation.navigate('ActivityBooked');
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (isSubmitting === false) {
+      setIsSubmitting(true);
+      try {
+        const response = await fetch(global.apiUrl + 'trips/', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+          body: JSON.stringify({
+            name: tripName,
+            description: tripName,
+          }),
+        });
+
+        const data = await response.json();
+
+        const activityBookingData = await bookActivity(
+          route.params.activityId,
+          data.id,
+          navigation,
+          token,
+        );
+        console.log('activityBookingData', activityBookingData);
+        navigation.navigate('ActivityBooked');
+      } catch (error) {
+        console.log(error);
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -79,8 +85,6 @@ const NewTrip = ({navigation, route}) => {
           style={[styles.button, styles.secondaryButton]}
           textStyle={styles.buttonText}
           onPress={() => {
-            // navigation.goBack();
-
             navigation.navigate('pickTrip', {
               activityId: route.params.activityId,
             });

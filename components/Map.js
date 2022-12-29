@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 
-const Map = ({markers, currentLocation}) => {
+const Map = ({markers, currentLocation, data}) => {
   console.log('currentLocation from the map', currentLocation);
 
   return (
@@ -13,13 +13,42 @@ const Map = ({markers, currentLocation}) => {
           <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
-            initialRegion={{
-              latitude: 48.8566,
-              longitude: 2.3522,
-              latitudeDelta: 0.15,
-              longitudeDelta: 0.15,
-            }}
+            initialRegion={
+              data[0]?.address?.latitude && data[0]?.address?.longitude
+                ? {
+                    latitude: parseFloat(data[0].address.latitude),
+                    longitude: parseFloat(data[0].address.longitude),
+                    latitudeDelta: 0.2,
+                    longitudeDelta: 0.2,
+                  }
+                : {
+                    latitude: 48.8566,
+                    longitude: 2.3522,
+                    latitudeDelta: 0.15,
+                    longitudeDelta: 0.15,
+                  }
+            }
             showUserLocation={true}>
+            {data?.map((item, index) => {
+              if (!item?.address?.latitude || !item?.address?.longitude)
+                return null;
+              console.log('coordinates ', {
+                latitude: parseFloat(item.address.latitude),
+                longitude: parseFloat(item.address.longitude),
+              });
+              return (
+                <Marker
+                  key={index}
+                  coordinate={{
+                    latitude: parseFloat(item.address.latitude),
+                    longitude: parseFloat(item.address.longitude),
+                  }}
+                  title={item.title}
+                  description={item.subtitle}
+                />
+              );
+            })}
+
             {/* <Marker
               coordinate={{
                 latitude: 48.8566,
@@ -33,7 +62,7 @@ const Map = ({markers, currentLocation}) => {
               }}
             /> */}
 
-            {console.log('you are here', {
+            {/* {console.log('you are here', {
               latitude: parseFloat(currentLocation.latitude),
               longitude: parseFloat(currentLocation.longitude),
             })}
@@ -44,7 +73,7 @@ const Map = ({markers, currentLocation}) => {
               }}
               title="You are here"
               description="You are here"
-            />
+            /> */}
           </MapView>
         )}
     </View>

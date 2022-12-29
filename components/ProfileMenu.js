@@ -5,12 +5,12 @@ import ProfileMenuItem from './ProfileMenuItem';
 
 const ProfileMenu = ({style, navigation}) => {
   const menuItems = [
-    {
-      id: 'settings',
-      icon: 'settings',
-      text: 'Settings',
-      screen: 'settings',
-    },
+    // {
+    //   id: 'settings',
+    //   icon: 'settings',
+    //   text: 'Settings',
+    //   screen: 'settings',
+    // },
     {
       id: 'edit',
       icon: 'edit',

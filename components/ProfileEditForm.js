@@ -178,7 +178,7 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
       <Button style={styles.button} onPress={saveProfile}>
         Save profile
       </Button>
-      <View>
+      {/* <View>
         {photo && (
           <>
             <Image
@@ -191,7 +191,7 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
         <Button style={styles.button} onPress={handleChoosePhoto}>
           Choose Photo
         </Button>
-      </View>
+      </View> */}
       <TextInput
         style={styles.input}
         type="flat"
