@@ -19,7 +19,7 @@ const Trip = ({navigation, route, id}) => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getTrips = async () => {
+  const getTrip = async () => {
     try {
       const response = await fetch(global.apiUrl + 'trips/' + route.params.id, {
         method: 'GET',
@@ -72,14 +72,17 @@ const Trip = ({navigation, route, id}) => {
       );
     } catch (error) {
       console.log('error', error);
+      navigation.navigate('home');
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    console.log('current locaton from trip', userLocation);
-    getTrips();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getTrip();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const deleteTrip = async () => {
     try {
@@ -110,7 +113,10 @@ const Trip = ({navigation, route, id}) => {
         {/* <PageCover image={trip.image} title={trip.title} /> */}
         <Map currentLocation={userLocation} />
         <View style={styles.infoContainer}>
-          <Text style={styles.subtitle}>Activities</Text>
+          <Text style={styles.subtitle}>
+            {activities && activities.length > 0 && 'Activities'}
+          </Text>
+
           {activities.map(item => (
             <HorizontalCard
               key={item.id}

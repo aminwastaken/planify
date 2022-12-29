@@ -93,13 +93,33 @@ const Activity = ({navigation, route, id}) => {
     setLoading(false);
   };
 
-  // const getActivityTrip = () => {
-  //   for (let i = 0; i < trips.length; i++) {
-  //     if (trips[i].activities.includes(route.params.id)) {
-  //       return trips[i].id;
-  //     }
-  //   }
-  // };
+  const deleteTripIfEmpty = async id => {
+    try {
+      const response = await fetch(global.apiUrl + 'trips/' + id, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      const data = await response.json();
+      if (!data.activities || data.activities?.length === 0) {
+        const deleteResponse = await fetch(global.apiUrl + 'trips/' + id, {
+          method: 'DELETE',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        });
+        const deleteData = await deleteResponse.json();
+        console.log('delete data', deleteData);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   const deleteActivity = async () => {
     try {
@@ -119,8 +139,7 @@ const Activity = ({navigation, route, id}) => {
       );
 
       const data = await response.json();
-      console.log('delete activity response', data);
-      // navigation.goBack();
+      await deleteTripIfEmpty(tripId);
       setSubscribed(false);
     } catch (error) {
       console.log('error', error);
