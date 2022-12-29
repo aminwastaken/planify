@@ -4,7 +4,6 @@ import {getFormattedDate} from '../utils/format';
 import StarRating from './StarRating';
 
 const UserReviewCard = ({review, date, rating, username, style}) => {
-  console.log('user reviews called');
   return (
     <View style={[styles.mainContainer, style]}>
       <View style={styles.header}>

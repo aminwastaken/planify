@@ -1,60 +1,80 @@
 import React, {useContext} from 'react';
 import {useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import Button from '../components/Button';
 import StarsInput from '../components/StarsInput';
 import GlobalContext from '../GlobalContext';
 
 const Review = ({navigation, route}) => {
   const [review, setReview] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [localRating, setLocalRating] = useState(
     route.params.rating ? route.params.rating : 0,
   );
   const {token, setToken} = useContext(GlobalContext);
 
   const handleSubmit = async () => {
-    console.log('placeId: ', route.params.id);
-    const response = await fetch(global.apiUrl + 'reviews/', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
+    if (review == '') {
+      setErrorMessage('Please enter a review');
+      return;
+    }
+    try {
+      const response = await fetch(global.apiUrl + 'reviews/', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
 
-      body: JSON.stringify({
-        placeId: route.params?.id?.toString(),
-        rating: localRating.toString(),
-        description: review,
-      }),
-    });
-    const data = await response.json();
-    navigation.navigate('home', {
-      id: route.params.id,
-    });
-    console.log('review posted ? ', data);
+        body: JSON.stringify({
+          placeId: route.params?.id?.toString(),
+          rating: localRating.toString(),
+          description: review,
+        }),
+      });
+      const data = await response.json();
+      navigation.navigate('home', {
+        id: route.params.id,
+      });
+      console.log('review posted ? ', data);
+    } catch (error) {
+      console.log('error: ', error);
+      setErrorMessage("you've already posted a review for this place");
+    }
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <StarsInput
-        style={styles.starsInput}
-        value={localRating}
-        onChange={value => {
-          setLocalRating(value);
-        }}
-      />
-      <View sx={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="What do you think of this place ?"
-          onChangeText={text => setReview(text)}
-        />
+    <>
+      <View
+        style={[
+          styles.errorMessageContainer,
+          {
+            backgroundColor: errorMessage && errorMessage != '' && '#FD4640',
+          },
+        ]}>
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
       </View>
-      <Button style={styles.button} onPress={handleSubmit}>
-        Post Review
-      </Button>
-    </View>
+      <View style={styles.mainContainer}>
+        <StarsInput
+          style={styles.starsInput}
+          value={localRating}
+          onChange={value => {
+            setLocalRating(value);
+          }}
+        />
+        <View sx={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="What do you think of this place ?"
+            onChangeText={text => setReview(text)}
+          />
+        </View>
+        <Button style={styles.button} onPress={handleSubmit}>
+          Post Review
+        </Button>
+      </View>
+    </>
   );
 };
 
@@ -88,6 +108,15 @@ const styles = StyleSheet.create({
     borderColor: '#007AFF',
     borderRadius: 7.56,
     backgroundColor: 'red',
+  },
+
+  errorMessageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 70,
+    width: '100%',
+    position: 'absolute',
+    top: 0,
   },
 });
 

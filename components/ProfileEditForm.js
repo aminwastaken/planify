@@ -128,7 +128,7 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
         setErrorMessage('Something went wrong');
       }
     }
-    // navigation.goBack();
+    navigation.goBack();
   };
 
   return (
@@ -158,6 +158,8 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
         // onChangeText={onChangeText}
         type="flat"
         underlineColor="#707070"
+        user
+        review
         activeUnderlineColor="#707070"
         label="Email Address"
         value={email}

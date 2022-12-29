@@ -4,8 +4,8 @@ import {View, StyleSheet, Image} from 'react-native';
 import Text from './Text';
 import Rating from './Rating';
 
-const PageCover = ({image, title, price}) => {
-  console.log('price from page cover', price);
+const PageCover = ({image, title, price, subtitle}) => {
+  console.log('subtitle from page cover', subtitle);
   return (
     <View>
       <Image
@@ -25,7 +25,11 @@ const PageCover = ({image, title, price}) => {
           height: '70%',
           bottom: 0,
         }}></LinearGradient>
+
       {title && title.length > 0 && <Text style={styles.title}>{title}</Text>}
+      {subtitle && subtitle.length > 0 && (
+        <Text style={styles.priceSecondaryText}>{subtitle}</Text>
+      )}
       {price && (
         <View style={styles.priceContainer}>
           <Text style={styles.priceText}>

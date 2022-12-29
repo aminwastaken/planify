@@ -3,37 +3,17 @@ import {StyleSheet, Text, View} from 'react-native';
 import RatingDetails from './RatingDetails';
 import StarRating from './StarRating';
 
-const RatingCard = ({reviews}) => {
+const RatingCard = ({rating, totalReviews, ratingDetails, ratingAverage}) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.globalRating}>
-        <Text style={styles.globalRatingText}>4.6</Text>
-        <StarRating rating={4.6} size={36} />
-        <Text> 12 reviews</Text>
+        <Text style={styles.globalRatingText}>{ratingAverage}</Text>
+        <StarRating rating={ratingAverage} size={36} />
+        <Text> {totalReviews} reviews</Text>
       </View>
       <RatingDetails
-        data={[
-          {
-            rating: 5,
-            value: 4.5,
-          },
-          {
-            rating: 4,
-            value: 4,
-          },
-          {
-            rating: 3,
-            value: 1,
-          },
-          {
-            rating: 2,
-            value: 0,
-          },
-          {
-            rating: 1,
-            value: 0,
-          },
-        ]}
+        data={ratingDetails}
+        total={totalReviews}
         style={styles.ratingDetails}
       />
     </View>

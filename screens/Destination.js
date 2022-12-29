@@ -13,11 +13,13 @@ import RatingCard from '../components/RatingCard';
 import StarsInput from '../components/StarsInput';
 import UserReviewCard from '../components/UserReviewCard';
 import LoadingScreen from '../components/LoadingScreen';
+import {getFormattedDate, getFormattedTime} from '../utils/format';
 
 const Destination = ({navigation, route, id}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [image, setImage] = useState();
   const [images, setImages] = useState([]);
+  const [destinationType, setDestinationType] = useState();
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
@@ -26,9 +28,11 @@ const Destination = ({navigation, route, id}) => {
   const [rating, setRating] = useState(0);
   const [destinationId, setDestinationId] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [ratingAverage, setRatingAverage] = useState(0);
+  const [ratingDetails, setRatingDetails] = useState([]);
+  const [totalReviews, setTotalReviews] = useState(0);
 
   const getDestination = async () => {
-    console.log('destination page');
     try {
       const response = await fetch(
         global.apiUrl + 'places/' + route.params.id,
@@ -36,12 +40,10 @@ const Destination = ({navigation, route, id}) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
+            Authorization: 'BgetDearer ' + token,
           },
         },
       );
-
-      // get reviews
 
       const reviewsResponse = await fetch(
         global.apiUrl + 'reviews?place=' + route.params.id,
@@ -55,7 +57,9 @@ const Destination = ({navigation, route, id}) => {
       );
 
       const reviews = await reviewsResponse.json();
-      console.log('reviews', reviews.reviews);
+
+      // console.log('reviews: ', JSON.stringify(reviews, null, 2));
+
       setReviews(
         reviews?.reviews.map(review => ({
           review: review.description,
@@ -66,7 +70,42 @@ const Destination = ({navigation, route, id}) => {
       );
 
       const destination = await response.json();
-      console.log('destination data', destination);
+
+      console.log(
+        'destinations: ',
+        JSON.stringify(destination.rating, null, 2),
+      );
+
+      setRatingAverage(destination.rating.average);
+      setRatingDetails([
+        {
+          rating: 1,
+          value: destination.rating.one,
+        },
+        {
+          rating: 2,
+          value: destination.rating.two,
+        },
+        {
+          rating: 3,
+          value: destination.rating.three,
+        },
+        {
+          rating: 4,
+          value: destination.rating.four,
+        },
+        {
+          rating: 5,
+          value: destination.rating.five,
+        },
+      ]);
+      setTotalReviews(
+        destination.rating.one +
+          destination.rating.two +
+          destination.rating.three +
+          destination.rating.four +
+          destination.rating.five,
+      );
       setImage(0);
       if (destination.medias !== undefined && destination.medias.length > 0) {
         setImages(
@@ -80,6 +119,7 @@ const Destination = ({navigation, route, id}) => {
       setDestinationId(destination.id);
       setTitle(destination.name);
       setDescription(destination.description);
+      setDestinationType(destination?.type?.name);
 
       const destinationActivities = destination?.activities?.map(activity => ({
         id: activity.id,
@@ -88,8 +128,8 @@ const Destination = ({navigation, route, id}) => {
           activity.medias && activity.medias.length > 0
             ? activity.medias[0].url
             : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
-        subtitle: activity.date,
-        subtitle2: 'time',
+        subtitle: getFormattedDate(activity.date),
+        subtitle2: getFormattedTime(activity.date),
         footerText: 'Price: ' + activity.price + '€',
         onPress: () => {
           navigation.navigate('activity', {id: activity.id});
@@ -105,13 +145,10 @@ const Destination = ({navigation, route, id}) => {
 
   const handleRatingChange = rating => {
     setRating(rating);
-    console.log('the rating is', rating);
-    console.log('destination id', destinationId);
     navigation.navigate('review', {id: destinationId, rating: rating});
   };
 
   const onPhotoPress = index => {
-    console.log('index', index);
     setImage(index);
   };
 
@@ -129,10 +166,17 @@ const Destination = ({navigation, route, id}) => {
             <Icon name="arrow-left" size={20} color="#FFF" />
           </TouchableOpacity>
         </View>
-        {/* {console.log('images', images[0].image)} */}
-        <PageCover image={images[image].image} title={title} price={price} />
+        <PageCover
+          image={
+            images && images?.legnth > 0
+              ? images[image].image
+              : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg'
+          }
+          title={title}
+          price={price}
+          subtitle={destinationType}
+        />
         <View style={styles.infoContainer}>
-          {console.log('images', images)}
           {images.length > 0 && (
             <>
               <Text style={styles.subtitle}>Photos</Text>
@@ -172,7 +216,12 @@ const Destination = ({navigation, route, id}) => {
           <StarsInput onChange={handleRatingChange} value={rating} />
           {/* {reviews && reviews.length > 0 && ( */}
           <Text style={styles.activitiesSubtitle}>Reviews</Text>
-          <RatingCard />
+          <RatingCard
+            rating={ratingAverage}
+            totalReviews={totalReviews}
+            ratingDetails={ratingDetails}
+            ratingAverage={ratingAverage}
+          />
           <View style={styles.userReviewsContainer}>
             {reviews?.map(review => (
               <UserReviewCard

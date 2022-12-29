@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const RatingDetails = ({data, style}) => {
+const RatingDetails = ({data, total, style}) => {
   return (
     <View style={[styles.mainContainer, style]}>
       {data?.map((data, index) => {
@@ -12,7 +12,7 @@ const RatingDetails = ({data, style}) => {
               <View
                 style={[
                   styles.progress,
-                  {width: (parseFloat(data.value) * 100) / 5 + '%'},
+                  {width: (parseFloat(data.value) * 100) / total + '%'},
                 ]}></View>
             </View>
           </View>
