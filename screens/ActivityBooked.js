@@ -1,36 +1,16 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
-import Header from '../components/Header';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Button from '../components/Button';
+import SuccessView from '../components/SuccessView';
 
 const ActivityBooked = ({navigation}) => {
+  const goHome = () => navigation.navigate('home');
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.scrollView}>
-        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={20} color="#000" />
-        </TouchableOpacity> */}
-        <View style={styles.titleArea}>
-          <Text style={styles.title}>Activity Booked</Text>
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.text}>
-            You have successfully booked the activity.
-          </Text>
-          <Image
-            source={require('../assets/images/success-icon.png')}
-            style={styles.image}
-          />
-        </View>
-        <View>
-          <Button
-            style={styles.button}
-            onPress={() => navigation.navigate('home')}>
-            Go to home
-          </Button>
-        </View>
-      </View>
+      <SuccessView
+        title="Activity Booked"
+        text="Your activity has been booked successfully"
+        action={goHome}
+      />
     </View>
   );
 };

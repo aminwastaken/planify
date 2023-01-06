@@ -1,10 +1,11 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import ProfileForm from '../components/ProfileForm';
 import Button from '../components/Button';
-import {set} from 'react-native-reanimated';
 import GlobalContext from '../GlobalContext';
+import ActivityBooked from './ActivityBooked';
+import SuccessView from '../components/SuccessView';
 
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,17 @@ const Signup = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const {token, setToken} = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = React.useState('');
+  const [submitted, setSubmitted] = React.useState(false);
+
+  const resetForm = () => {
+    setEmail('');
+    setPassword('');
+    setFirstName('');
+    setLastName('');
+    setPhone('');
+    setErrorMessage(undefined);
+    setSubmitted(false);
+  };
 
   const handleSignup = async () => {
     console.log('signup');
@@ -31,35 +43,48 @@ const Signup = ({navigation}) => {
           password: password,
           firstName: firstName,
           lastName: lastName,
+          role: 'USER',
         }),
       });
-
-      console.log({
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-      });
-      const data = await response.json();
-      if (data.error) {
-        if (
-          data.message &&
-          Array.isArray(data.message) &&
-          data.message.length > 0
-        ) {
-          console.log('this is the error message', data.message[0]);
-          setErrorMessage(data.message[0]);
-        } else if (data.message && typeof data.message === 'string') {
-          setErrorMessage(data.message);
-        } else {
-          setErrorMessage('Something went wrong');
-        }
+      console.log(response.status);
+      const data = await response.text();
+      if (response.status === 400) {
+        setErrorMessage('One or more fields are not valid');
+        return;
       }
-      setToken(data.access_token);
-    } catch (error) {
-      console.log(error);
-    }
+      if (response.status === 401) {
+        setErrorMessage('A user with this email already address exists');
+        return;
+      } else if (response.status === 200 || response.status === 201) {
+        setSubmitted(true);
+      } else {
+        setErrorMessage('Server error');
+        return;
+      }
+    } catch (error) {}
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      resetForm();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  if (submitted) {
+    return (
+      <SuccessView
+        title="Account created"
+        text="Your account has been created succesfully, please verify your email address before login in"
+        action={() => {
+          resetForm();
+          navigation.navigate('Login');
+        }}
+        buttonValue="Go to login page"
+      />
+    );
+  }
+
   return (
     <>
       <View
@@ -100,7 +125,10 @@ const Signup = ({navigation}) => {
           <Text style={styles.subTitle}>Already have an account? </Text>
           <Text
             style={styles.link}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() => {
+              resetForm();
+              navigation.navigate('Login');
+            }}>
             Login
           </Text>
         </View>

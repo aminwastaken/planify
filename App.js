@@ -15,6 +15,7 @@ import Signup from './screens/Signup';
 import Login from './screens/Login';
 import Logout from './screens/Logout';
 import Geolocation from '@react-native-community/geolocation';
+import ResetPassword from './screens/ResetPassword';
 const Drawer = createDrawerNavigator();
 
 global.apiUrl = 'http://51.15.219.3:5000/';
@@ -139,6 +140,7 @@ const App = () => {
             }}>
             <Drawer.Screen name="Login" component={Login} />
             <Drawer.Screen name="Signup" component={Signup} />
+            <Drawer.Screen name="ResetPassword" component={ResetPassword} />
           </Drawer.Navigator>
         </NavigationContainer>
       )}

@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import {Button} from 'react-native-paper';
+import DatePicker from 'react-native-date-picker';
 
-const ProfileForm = ({style, email, password, setEmail, setPassword}) => {
+const ResetPasswordForm = ({style, email, setEmail}) => {
   return (
     <View style={{...styles.mainContainer, ...style}}>
       <TextInput
@@ -13,16 +15,6 @@ const ProfileForm = ({style, email, password, setEmail, setPassword}) => {
         underlineColor="#707070"
         activeUnderlineColor="#707070"
         onChangeText={text => setEmail(text)}
-      />
-      <TextInput
-        style={styles.input}
-        // secureTextEntry={true}
-        type="password"
-        underlineColor="#707070"
-        activeUnderlineColor="#707070"
-        label="Password"
-        value={password}
-        onChangeText={text => setPassword(text)}
       />
     </View>
   );
@@ -53,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileForm;
+export default ResetPasswordForm;

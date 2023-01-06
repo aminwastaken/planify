@@ -194,9 +194,10 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
       </View> */}
       <TextInput
         style={styles.input}
-        type="flat"
+        type="password"
         underlineColor="#707070"
         activeUnderlineColor="#707070"
+        secureTextEntry={true}
         label="Old Password"
         value={oldPassword}
         onChangeText={text => setOldPassword(text)}
@@ -205,8 +206,9 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
       <TextInput
         style={styles.input}
         // onChangeText={onChangeText}
-        type="flat"
+        type="password"
         underlineColor="#707070"
+        secureTextEntry={true}
         activeUnderlineColor="#707070"
         label="New Password"
         value={newPassword}

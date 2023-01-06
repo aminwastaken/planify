@@ -58,8 +58,8 @@ const ProfileForm = ({
       />
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeText}
-        type="flat"
+        type="password"
+        secureTextEntry={true}
         underlineColor="#707070"
         activeUnderlineColor="#707070"
         label="Password"

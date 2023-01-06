@@ -3,33 +3,49 @@ import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import LoginForm from '../components/LoginForm';
 import Button from '../components/Button';
 import GlobalContext from '../GlobalContext';
+import ResetPasswordForm from '../components/ResetPasswordForm';
+import SuccessView from '../components/SuccessView';
 
-const Login = ({navigation, ...props}) => {
+const ResetPassword = ({navigation, ...props}) => {
   const {token, setToken, userLocation} = useContext(GlobalContext);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
+  const [submitted, setSubmitted] = React.useState(false);
 
   const resetForm = () => {
     setEmail('');
-    setPassword('');
     setErrorMessage(undefined);
+    setSubmitted(false);
   };
 
   const login = async () => {
+    console.log('this is the email', email);
     try {
-      const response = await fetch(global.apiUrl + 'login', {
+      const response = await fetch(global.apiUrl + 'forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: email,
-          password: password,
         }),
       });
-      const data = await response.json();
+
+      if (response.status === 200 || response.status === 201) {
+        setSubmitted(true);
+      } else if (response.status === 400) {
+        setErrorMessage('Email address not valid.');
+      } else if (response.status === 404) {
+        setErrorMessage('User not found.');
+      } else {
+        setErrorMessage('Something went wrong');
+      }
+
+      console.log('this is the response', response);
+      const data = await response.text();
       console.log('this is the login data', data);
+      console.log('this is the status code', response.status);
       if (data.error) {
         if (
           data.message &&
@@ -57,6 +73,20 @@ const Login = ({navigation, ...props}) => {
     return unsubscribe;
   }, [navigation]);
 
+  if (submitted) {
+    return (
+      <SuccessView
+        title="Password reset"
+        text="Your password has been reset. Please check your email for further instructions."
+        action={() => {
+          resetForm();
+          navigation.navigate('Login');
+        }}
+        buttonValue="Go to login page"
+      />
+    );
+  }
+
   return (
     <>
       <View
@@ -70,43 +100,30 @@ const Login = ({navigation, ...props}) => {
       </View>
       <View style={styles.mainContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Login to your</Text>
-          <Text style={styles.title}>Account</Text>
+          <Text style={styles.title}>Reset your password</Text>
+          {/* <Text style={styles.title}>to reset your password</Text> */}
         </View>
-        <LoginForm
+        <ResetPasswordForm
           style={styles.loginForm}
           email={email}
           password={password}
           setEmail={setEmail}
           setPassword={setPassword}
         />
-
         <Button style={styles.button} onPress={() => login()}>
-          Login
+          Reset password
         </Button>
-        <View style={styles.signupMessage}>
-          <Text style={styles.subTitle}>Don't have an account? </Text>
-          <Text
-            style={styles.link}
-            onPress={() => {
-              resetForm();
-              navigation.navigate('Signup');
-            }}>
-            Signup
-          </Text>
-        </View>
         <View style={styles.lostPswMessage}>
-          <Text style={styles.subTitle}>
-            if you lost your password you can{' '}
-          </Text>
+          <Text style={styles.subTitle}>You can always go back to the </Text>
           <Text
             style={styles.link}
             onPress={() => {
               resetForm();
-              navigation.navigate('ResetPassword');
+              navigation.navigate('Login');
             }}>
-            Reset it
+            login
           </Text>
+          <Text style={styles.subTitle}>page</Text>
         </View>
       </View>
     </>
@@ -167,5 +184,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
+
+  subTitle: {
+    marginLeft: 3.5,
+  },
 });
-export default Login;
+export default ResetPassword;
