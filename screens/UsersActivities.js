@@ -63,8 +63,11 @@ const UserActivities = ({navigation, children}) => {
   };
 
   useEffect(() => {
-    getActivities();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getActivities();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   if (loading) return <LoadingScreen />;
 
