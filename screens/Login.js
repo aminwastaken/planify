@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import GlobalContext from '../GlobalContext';
 
 const Login = ({navigation, ...props}) => {
-  const {token, setToken, userLocation} = useContext(GlobalContext);
+  const {token, setToken, userLocation, setUserId} = useContext(GlobalContext);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -44,7 +44,9 @@ const Login = ({navigation, ...props}) => {
           setErrorMessage('Something went wrong');
         }
       }
+      console.log('login data', data);
       setToken(data.access_token);
+      setUserId(data.id);
     } catch (e) {
       console.log(e);
     }

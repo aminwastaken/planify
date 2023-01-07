@@ -25,6 +25,7 @@ global.apiUrl = 'http://51.15.219.3:5000/';
 
 const App = () => {
   const [token, setToken] = React.useState('');
+  const [userId, setUserId] = React.useState('');
   const [showOnlyLocal, setShowOnlyLocal] = React.useState(false);
 
   const [userLocation, setUserLocation] = React.useState({});
@@ -108,6 +109,8 @@ const App = () => {
       value={{
         token: token,
         setToken: setToken,
+        userId: userId,
+        setUserId: setUserId,
         showOnlyLocal: showOnlyLocal,
         setShowOnlyLocal: setShowOnlyLocal,
         userLocation: userLocation,
