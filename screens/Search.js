@@ -94,7 +94,7 @@ const Search = ({navigation, children, ...rest}) => {
     setSearchSubmitted(true);
   };
 
-  if (loading) return <LoadingScreen />;
+  // if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>
