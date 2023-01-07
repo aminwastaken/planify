@@ -1,112 +1,151 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-import type {Node} from 'react';
+import React, {useEffect, useContext} from 'react';
+import {PermissionsAndroid, useColorScheme, View} from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  HomeScreenStack,
+  ProfileStack,
+  ActivitiesStack,
+  TripsStack,
+  DestinationsStack,
+  UserActivitiesStack,
+} from './stacks';
+import GlobalContext from './GlobalContext';
+import Signup from './screens/Signup';
+import Login from './screens/Login';
+import Logout from './screens/Logout';
+import Geolocation from '@react-native-community/geolocation';
+import ResetPassword from './screens/ResetPassword';
+const Drawer = createDrawerNavigator();
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+global.apiUrl = 'http://51.15.219.3:5000/';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+// user@user.com token is eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidXNlckB1c2VyLmNvbSIsImlhdCI6MTY3MTYzNjk5OH0.YidlFWyAeNS2jixRFGvRotc5LZ7sr9ifnwUCg82q5Ow
+// this token is useless hackers :)
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
+  const [token, setToken] = React.useState('');
+  const [showOnlyLocal, setShowOnlyLocal] = React.useState(false);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const [userLocation, setUserLocation] = React.useState({});
+
+  useEffect(() => {
+    console.log("in the app's useEffect");
+    const requestLocationPermission = async () => {
+      if (Platform.OS === 'ios') {
+        getOneTimeLocation();
+        // subscribeLocationLocation();
+      } else {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Location Access Required',
+              message: 'This App needs to Access your location',
+            },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('Permission Granted');
+            // getOneTimeLocation();
+            Geolocation.getCurrentPosition(
+              info => {
+                // console.log('setting users location to =', {
+                //   longitude: info.coords.longitude,
+                //   latitude: info.coords.latitude,
+                // });
+
+                setUserLocation({
+                  longitude: info.coords.longitude,
+                  latitude: info.coords.latitude,
+                });
+
+                // console.log('info', info);
+              },
+
+              error => console.error(error),
+              {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
+            );
+          } else {
+            console.log('Permission Denied');
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      }
+    };
+    requestLocationPermission();
+    return () => {
+      // Geolocation.clearWatch(watchId);
+    };
+  }, []);
+
+  const getOneTimeLocation = () => {
+    console.log('getting one time location');
+    Geolocation.getCurrentPosition(
+      position => {
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        console.log('longitude', currentLongitude);
+        console.log('latitude', currentLatitude);
+        setUserLocation({
+          longitude: currentLongitude,
+          latitude: currentLatitude,
+        });
+      },
+      error => {
+        console.log(error.message);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 30000,
+        maximumAge: 1000,
+      },
+    );
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <GlobalContext.Provider
+      value={{
+        token: token,
+        setToken: setToken,
+        showOnlyLocal: showOnlyLocal,
+        setShowOnlyLocal: setShowOnlyLocal,
+        userLocation: userLocation,
+      }}>
+      {token && token != '' ? (
+        <NavigationContainer>
+          <Drawer.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Drawer.Screen name="Home" component={HomeScreenStack} />
+            <Drawer.Screen name="Profile" component={ProfileStack} />
+            <Drawer.Screen name="Activities" component={ActivitiesStack} />
+            <Drawer.Screen
+              name="Your Activities"
+              component={UserActivitiesStack}
+            />
+            <Drawer.Screen name="Destinations" component={DestinationsStack} />
+            <Drawer.Screen name="Trips" component={TripsStack} />
+            <Drawer.Screen name="Logout" component={Logout} />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      ) : (
+        <NavigationContainer>
+          <Drawer.Navigator
+            initialRouteName="Login"
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Drawer.Screen name="Login" component={Login} />
+            <Drawer.Screen name="Signup" component={Signup} />
+            <Drawer.Screen name="ResetPassword" component={ResetPassword} />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      )}
+    </GlobalContext.Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
