@@ -207,12 +207,15 @@ const Destination = ({navigation, route, id}) => {
             />
           ))}
 
-          <Text style={styles.title}>Rate this destination</Text>
-          <Text style={styles.smallText}>
-            Tell us what you think about this place
-          </Text>
-          <StarsInput onChange={handleRatingChange} value={rating} />
-          {/* {reviews && reviews.length > 0 && ( */}
+          {!(rating && rating > 0) && (
+            <>
+              <Text style={styles.title}>Rate this destination</Text>
+              <Text style={styles.smallText}>
+                Tell us what you think about this place
+              </Text>
+              <StarsInput onChange={handleRatingChange} value={rating} />
+            </>
+          )}
 
           {reviews && reviews.length > 0 && (
             <>
