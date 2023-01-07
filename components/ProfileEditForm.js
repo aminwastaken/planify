@@ -31,46 +31,6 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
   const {token, setToken} = useContext(GlobalContext);
   const [photo, setPhoto] = React.useState(null);
 
-  const handleChoosePhoto = () => {
-    launchImageLibrary({noData: true}, response => {
-      console.log('photo response', response);
-      if (response && response.assets && response.assets[0]) {
-        fetch(global.apiUrl + 'users/' + userId, {
-          method: 'PUT',
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-          body: createFormData(response.assets[0]),
-        })
-          .then(response => response.json())
-          .then(response => {
-            console.log('photo response', response);
-            navigation.goBack();
-          })
-          .catch(error => {
-            console.log('error', error);
-          });
-      }
-    });
-  };
-
-  const handleUploadPhoto = () => {
-    fetch(global.apiUrl + 'users/' + userId, {
-      method: 'PUT',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-      body: createFormData(photo),
-    })
-      .then(response => response.json())
-      .then(response => {
-        console.log('photo response', response);
-      })
-      .catch(error => {
-        console.log('error', error);
-      });
-  };
-
   useEffect(() => {
     console.log('data from the useEffect: ', data);
     setUserId(data.id);
@@ -79,6 +39,27 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
     setEmail(data.email);
     setPhone(data.phone);
   }, [data]);
+
+  const changePassword = async () => {
+    try {
+      const response = await fetch(
+        global.apiUrl + 'users/' + userId + '/password',
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: newPassword,
+          }),
+        },
+      );
+      navigation.goBack();
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
 
   const updateUserInfo = async (id, data) => {
     console.log('put data', data);
@@ -108,11 +89,7 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
     if (lastName) data.lastName = lastName;
     if (email) data.email = email;
     if (phone) data.phoneNumber = phone;
-
     const response = await updateUserInfo(userId, data);
-    console.log('response from the saveProfile', response);
-    console.log('response error', response.error);
-    console.log('---------------------');
     if (response.error) {
       console.log('this is the error', response.error);
       if (
@@ -178,21 +155,7 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
       <Button style={styles.button} onPress={saveProfile}>
         Save profile
       </Button>
-      {/* <View>
-        {photo && (
-          <>
-            <Image
-              source={{uri: photo.uri}}
-              style={{width: 300, height: 300}}
-            />
-            <Button onPress={handleUploadPhoto}> Upload photo </Button>
-          </>
-        )}
-        <Button style={styles.button} onPress={handleChoosePhoto}>
-          Choose Photo
-        </Button>
-      </View> */}
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         type="password"
         underlineColor="#707070"
@@ -201,11 +164,10 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
         label="Old Password"
         value={oldPassword}
         onChangeText={text => setOldPassword(text)}
-      />
+      /> */}
 
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeText}
         type="password"
         underlineColor="#707070"
         secureTextEntry={true}
@@ -214,7 +176,9 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
         value={newPassword}
         onChangeText={text => setNewPassword(text)}
       />
-      <Button style={styles.button}> Change password </Button>
+      <Button style={styles.button} onPress={changePassword}>
+        Change password
+      </Button>
     </View>
   );
 };

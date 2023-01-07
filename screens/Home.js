@@ -92,13 +92,16 @@ const Home = ({navigation, children, ...rest}) => {
 
   const getActivities = async () => {
     try {
-      const response = await fetch(global.apiUrl + 'activities?limit=800s', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+      const response = await fetch(
+        global.apiUrl + 'activities?page=1&limit=800',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
         },
-      });
+      );
       const activities = await response.json();
       setActivities(
         activities.activities
@@ -153,7 +156,7 @@ const Home = ({navigation, children, ...rest}) => {
           }}
         />
         <View style={styles.subTitleArea}>
-          <Text style={styles.subTitle}>Activities</Text>
+          <Text style={styles.subTitle}>Upcoming activities</Text>
         </View>
         <View>
           <Carousel

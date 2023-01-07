@@ -16,7 +16,7 @@ const ProfileForm = ({style, email, password, setEmail, setPassword}) => {
       />
       <TextInput
         style={styles.input}
-        // secureTextEntry={true}
+        secureTextEntry={true}
         type="password"
         underlineColor="#707070"
         activeUnderlineColor="#707070"

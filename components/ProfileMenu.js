@@ -21,7 +21,7 @@ const ProfileMenu = ({style, navigation}) => {
       id: 'logout',
       icon: 'logout',
       text: 'Logout',
-      screen: '',
+      screen: 'Logout',
     },
   ];
   return (
