@@ -9,7 +9,8 @@ const BottomTabs = ({tabs, style}) => {
         <TouchableOpacity
           onPress={() => {
             console.log('test');
-          }}>
+          }}
+          key={item.id}>
           <Icon name={item.icon} color="#454545" size={27} />
         </TouchableOpacity>
       ))}

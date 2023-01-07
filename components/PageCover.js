@@ -4,12 +4,12 @@ import {View, StyleSheet, Image} from 'react-native';
 import Text from './Text';
 import Rating from './Rating';
 
-const PageCover = ({image, title, price}) => {
+const PageCover = ({image, title, price, subtitle}) => {
   return (
     <View>
       <Image
         source={{
-          uri: image?.imageUrl,
+          uri: image,
         }}
         style={{
           minWidth: '100%',
@@ -24,15 +24,27 @@ const PageCover = ({image, title, price}) => {
           height: '70%',
           bottom: 0,
         }}></LinearGradient>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.priceContainer}>
-        <Text style={styles.priceText}>
-          €{price}
-          <Text style={styles.priceSecondaryText}> /person</Text>
-        </Text>
-      </View>
 
-      <Rating style={styles.ratings} rating="4.5" />
+      {title && title.length > 0 && <Text style={styles.title}>{title}</Text>}
+      {subtitle && subtitle.length > 0 && (
+        <Text style={styles.priceSecondaryText}>{subtitle}</Text>
+      )}
+      {price && (
+        <View style={styles.priceContainer}>
+          <Text style={styles.priceText}>
+            {price !== 'Free' ? (
+              <>
+                €{price}
+                <Text style={styles.priceSecondaryText}> /person</Text>
+              </>
+            ) : (
+              <Text style={styles.priceText}> Free </Text>
+            )}
+          </Text>
+        </View>
+      )}
+
+      {/* <Rating style={styles.ratings} rating="4.5" /> */}
     </View>
   );
 };
@@ -43,7 +55,7 @@ const styles = StyleSheet.create({
     bottom: 60,
     left: 20,
     color: '#FFF',
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: 'bold',
   },
 

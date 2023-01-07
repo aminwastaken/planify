@@ -2,14 +2,15 @@ import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import Text from './Text';
 
-const Tabs = ({data, activeTab, setActiveTab}) => {
+const Tabs = ({tabs, activeTab, setActiveTab}) => {
   return (
     <View style={styles.mainContainer}>
-      {data?.map((item, index) => (
+      {tabs?.map((item, index) => (
         <TouchableOpacity
           onPress={() => {
             setActiveTab(index);
-          }}>
+          }}
+          key={item}>
           <Text style={index === activeTab ? styles.selected : styles.text}>
             {item}
           </Text>
