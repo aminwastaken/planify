@@ -31,9 +31,12 @@ const Activities = ({navigation, children}) => {
 
     //show only upcoming activities
 
-    activities.activities = activities.activities.filter(
-      activity => new Date(activity.date) > new Date(),
-    );
+    activities.activities = activities.activities
+      .filter(activity => new Date(activity.date) > new Date())
+      .sort((a, b) => {
+        if (new Date(a.date) < new Date(b.date)) return -1;
+        else return 1;
+      });
 
     setActivities(
       activities.activities.map(activity => {

@@ -25,37 +25,41 @@ const UserActivities = ({navigation, children}) => {
       },
     });
     const activities = await response.json();
-    console.log(' user activities', JSON.stringify(activities, 0, 2));
 
     const upcoming = [];
     const past = [];
 
-    activities.forEach(activity => {
-      const formattedActivity = {
-        id: activity.id,
-        image:
-          activity.medias && activity.medias.length > 0
-            ? activity.medias[0].url
-            : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
-        title: activity.name,
-        subtitle: activity.date && getFormattedDate(activity.date),
-        subtitle2: activity.date && getFormattedTime(activity.date),
-        footerText: activity.price ? 'Price: ' + activity.price + '€' : 'Free',
-        onPress: () => {
-          navigation.navigate('activity', {
-            id: activity.id,
-          });
-        },
-      };
-      console.log('current activity ', activity.name);
-      console.log('activity date', activity.date);
+    activities
+      .sort((a, b) => {
+        if (new Date(a.date) < new Date(b.date)) return -1;
+        else return 1;
+      })
+      .forEach(activity => {
+        const formattedActivity = {
+          id: activity.id,
+          image:
+            activity.medias && activity.medias.length > 0
+              ? activity.medias[0].url
+              : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+          title: activity.name,
+          subtitle: activity.date && getFormattedDate(activity.date),
+          subtitle2: activity.date && getFormattedTime(activity.date),
+          footerText: activity.price
+            ? 'Price: ' + activity.price + '€'
+            : 'Free',
+          onPress: () => {
+            navigation.navigate('activity', {
+              id: activity.id,
+            });
+          },
+        };
 
-      if (new Date(activity.date) < new Date()) {
-        past.push(formattedActivity);
-      } else {
-        upcoming.push(formattedActivity);
-      }
-    });
+        if (new Date(activity.date) < new Date()) {
+          past.push(formattedActivity);
+        } else {
+          upcoming.push(formattedActivity);
+        }
+      });
 
     setUpcomingActivities(upcoming);
     setPastActivities(past);
