@@ -7,7 +7,7 @@ const RatingCard = ({rating, totalReviews, ratingDetails, ratingAverage}) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.globalRating}>
-        <Text style={styles.globalRatingText}>{ratingAverage}</Text>
+        <Text style={styles.globalRatingText}>{ratingAverage?.toFixed(1)}</Text>
         <StarRating rating={ratingAverage} size={36} />
         <Text> {totalReviews} reviews</Text>
       </View>

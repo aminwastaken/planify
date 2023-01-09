@@ -16,7 +16,7 @@ import LoadingScreen from '../components/LoadingScreen';
 import {getFormattedDate, getFormattedTime} from '../utils/format';
 
 const Destination = ({navigation, route, id}) => {
-  const {token, setToken} = useContext(GlobalContext);
+  const {token, setToken, userId} = useContext(GlobalContext);
   const [image, setImage] = useState();
   const [images, setImages] = useState([]);
   const [destinationType, setDestinationType] = useState();
@@ -31,6 +31,7 @@ const Destination = ({navigation, route, id}) => {
   const [ratingAverage, setRatingAverage] = useState(0);
   const [ratingDetails, setRatingDetails] = useState([]);
   const [totalReviews, setTotalReviews] = useState(0);
+  const [alreadyReviewed, setAlreadyReviewed] = useState(false);
 
   const getDestination = async () => {
     try {
@@ -58,13 +59,19 @@ const Destination = ({navigation, route, id}) => {
 
       const reviews = await reviewsResponse.json();
 
+      console.log('user id', userId);
+      console.log('reviews', reviews);
+
       setReviews(
-        reviews?.reviews.map(review => ({
-          review: review.description,
-          date: review.createdAt,
-          rating: parseFloat(review.rating),
-          username: review.author.firstName + ' ' + review.author.lastName,
-        })),
+        reviews?.reviews.map(review => {
+          if (review.authorId === userId) setAlreadyReviewed(true);
+          return {
+            review: review.description,
+            date: review.createdAt,
+            rating: parseFloat(review.rating),
+            username: review.author.firstName + ' ' + review.author.lastName,
+          };
+        }),
       );
 
       const destination = await response.json();
@@ -207,12 +214,15 @@ const Destination = ({navigation, route, id}) => {
             />
           ))}
 
-          <Text style={styles.title}>Rate this destination</Text>
-          <Text style={styles.smallText}>
-            Tell us what you think about this place
-          </Text>
-          <StarsInput onChange={handleRatingChange} value={rating} />
-          {/* {reviews && reviews.length > 0 && ( */}
+          {!alreadyReviewed && (
+            <>
+              <Text style={styles.title}>Rate this destination</Text>
+              <Text style={styles.smallText}>
+                Tell us what you think about this place
+              </Text>
+              <StarsInput onChange={handleRatingChange} value={rating} />
+            </>
+          )}
 
           {reviews && reviews.length > 0 && (
             <>

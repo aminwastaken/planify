@@ -42,6 +42,12 @@ const Search = ({navigation, children, ...rest}) => {
                 image: destination.medias[0]
                   ? destination.medias[0].url
                   : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+                onPress: () => {
+                  navigation.navigate('destination', {
+                    id: destination.id,
+                    name: destination.name,
+                  });
+                },
               };
             })
           : [],
@@ -77,6 +83,12 @@ const Search = ({navigation, children, ...rest}) => {
                 image: activity.medias[0]
                   ? activity.medias[0].url
                   : 'https://blog.redbubble.com/wp-content/uploads/2017/10/placeholder_image_square.jpg',
+                onPress: () => {
+                  navigation.navigate('activity', {
+                    id: activity.id,
+                    name: activity.name,
+                  });
+                },
               };
             })
           : [],
@@ -94,7 +106,7 @@ const Search = ({navigation, children, ...rest}) => {
     setSearchSubmitted(true);
   };
 
-  if (loading) return <LoadingScreen />;
+  // if (loading) return <LoadingScreen />;
 
   return (
     <View style={styles.mainContainer}>

@@ -33,7 +33,9 @@ const Review = ({navigation, route}) => {
           description: review,
         }),
       });
-      if (response.status === 200) {
+      console.log('response: ', response);
+      console.log('review status', response.status);
+      if (response.status === 200 || response.status === 201) {
         const data = await response.json();
         navigation.navigate('home', {
           id: route.params.id,
