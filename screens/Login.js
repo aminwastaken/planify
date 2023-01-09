@@ -43,10 +43,14 @@ const Login = ({navigation, ...props}) => {
         } else {
           setErrorMessage('Something went wrong');
         }
+      } else if (data?.role?.toUpperCase() !== 'USER') {
+        setErrorMessage(
+          "you can't login to the mobile app as a " + data?.role?.toLowerCase(),
+        );
+      } else {
+        setToken(data.access_token);
+        setUserId(data.id);
       }
-      console.log('login data', data);
-      setToken(data.access_token);
-      setUserId(data.id);
     } catch (e) {
       console.log(e);
     }
