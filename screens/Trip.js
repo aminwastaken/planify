@@ -43,8 +43,10 @@ const Trip = ({navigation, route, id}) => {
         subtitle: data.activities.length + ' activities',
       });
       // console.log('activities', JSON.stringify(data.activities, null, 2));
+
       setActivities(
         data.activities
+          .filter(activity => new Date(activity.date) > new Date())
           .sort((a, b) => {
             if (new Date(a.date) < new Date(b.date)) return -1;
             else return 1;
