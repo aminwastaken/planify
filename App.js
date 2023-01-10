@@ -18,7 +18,7 @@ import Geolocation from '@react-native-community/geolocation';
 import ResetPassword from './screens/ResetPassword';
 const Drawer = createDrawerNavigator();
 
-global.apiUrl = 'http://51.15.219.3:5000/';
+global.apiUrl = 'https://api.plnfy.com/';
 
 // user@user.com token is eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidXNlckB1c2VyLmNvbSIsImlhdCI6MTY3MTYzNjk5OH0.YidlFWyAeNS2jixRFGvRotc5LZ7sr9ifnwUCg82q5Ow
 // this token is useless hackers :)
