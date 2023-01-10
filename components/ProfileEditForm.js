@@ -85,6 +85,19 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
   const saveProfile = async () => {
     console.log('saving the profile');
     const data = {};
+
+    if (
+      firstName == undefined ||
+      firstName == '' ||
+      lastName == undefined ||
+      lastName == '' ||
+      email == undefined ||
+      email == ''
+    ) {
+      setErrorMessage('Please fill all the required fields');
+      return;
+    }
+
     if (firstName) data.firstName = firstName;
     if (lastName) data.lastName = lastName;
     if (email) data.email = email;
@@ -104,8 +117,11 @@ const ProfileEditForm = ({data, navigation, style, setErrorMessage}) => {
       } else {
         setErrorMessage('Something went wrong');
       }
+    } else {
+      console.log('this is the response', response);
+      navigation.goBack();
     }
-    navigation.goBack();
+    console.log('this is the response', response);
   };
 
   return (
